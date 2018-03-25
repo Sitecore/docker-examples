@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  website:
+    build:
+      dockerfile: Dockerfile
+      args:
+        source: obj/Docker/empty
+#    volumes:
+#      - .\storage\Website\:C:\inetpub\${SITENAME}
