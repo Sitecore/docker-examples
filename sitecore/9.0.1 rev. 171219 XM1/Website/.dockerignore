@@ -1,4 +1,4 @@
-obj
-*.cs
-!obj\Docker\publish\*
+*
+!DebugBoot.ps1
+!obj\Docker\publish\
 !obj\Docker\empty\
