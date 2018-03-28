@@ -16,7 +16,7 @@ This demo showcases how to create a VS2017 project for Sitecore with the followi
 
 ## Development Environment Setup
 
-1. Clone [this repository](https://github.com/Ben-m-s/docker-demo) into a folder such as “c:\Docker\Sitecore\docker-demo” (next steps will asume this folder has been used):
+1. Clone [this repository](https://github.com/Sitecore/docker-demo) into a folder such as “c:\Docker\Sitecore\docker-demo” (next steps will asume this folder has been used):
 1. Copy "**license.xml**" into "C:\Docker\Sitecore\docker-demo\sitecore\9.0.1 rev. 171219 XM1\VS2017\Website\\**storage\Data**“
 1. Open VS2017 as Administrator
 1. Open the solution “C:\Docker\Sitecore\docker-demo\sitecore\9.0.1 rev. 171219 XM1\VS2017\Website\\**Website.sln**”
