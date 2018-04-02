@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  sql:
+    image: VSWebsiteRegistry.azurecr.io/sitecore:9.0.171219-sql
+    volumes:
+      - .\storage\Databases:C:\Data
+    environment:
+      sa_password: HASH-epsom-sunset-cost7!
+  solr:
+    image: VSWebsiteRegistry.azurecr.io/sitecore:9.0.171219-solr
+    volumes:
+      - .\storage\Solr:C:\Data
+  tdssample:
+    ports:
+      - "80"
+    volumes:
+      - .\storage\Data:C:\inetpub\sc\Data
+    links: 
+      - sql
+      - solr
+
+networks:
+  default:
+    external:
+      name: nat

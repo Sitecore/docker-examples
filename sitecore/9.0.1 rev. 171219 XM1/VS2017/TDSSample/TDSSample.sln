@@ -1,0 +1,72 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website", "src\Website\Website.csproj", "{34719EA1-8454-4321-ABD0-081F42F43599}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{641F3C47-6043-4B2F-940B-E8E8841532B4}"
+EndProject
+Project("{CAA73BB0-EF22-4D79-A57E-DF67B3BA9C80}") = "TDS.Website.master", "src\TDS.Website.master\TDS.Website.master.scproj", "{71010B89-C96A-4F7A-80FF-14DBB78F1C4C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "storage", "storage", "{84CC3BCB-236A-43AD-8F86-86BA51195D02}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{A903FD7E-9867-4941-BB36-F5999136A35F}"
+	ProjectSection(SolutionItems) = preProject
+		storage\Data\README.md = storage\Data\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Databases", "Databases", "{D726723A-414D-40F2-8D8F-350282E42A34}"
+	ProjectSection(SolutionItems) = preProject
+		storage\Databases\README.md = storage\Databases\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Website", "Website", "{00F409FB-1A81-4B8B-BFCB-88C89AB9C048}"
+	ProjectSection(SolutionItems) = preProject
+		storage\Website\README.md = storage\Website\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solr", "Solr", "{2030B0C4-6B7F-4D7A-A28A-1EC3F55B842F}"
+	ProjectSection(SolutionItems) = preProject
+		storage\Solr\README.md = storage\Solr\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0D796469-768A-4BB3-85CF-0C624DA47C98}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{34719EA1-8454-4321-ABD0-081F42F43599}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34719EA1-8454-4321-ABD0-081F42F43599}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34719EA1-8454-4321-ABD0-081F42F43599}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34719EA1-8454-4321-ABD0-081F42F43599}.Release|Any CPU.Build.0 = Release|Any CPU
+		{641F3C47-6043-4B2F-940B-E8E8841532B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{641F3C47-6043-4B2F-940B-E8E8841532B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{641F3C47-6043-4B2F-940B-E8E8841532B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{641F3C47-6043-4B2F-940B-E8E8841532B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71010B89-C96A-4F7A-80FF-14DBB78F1C4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71010B89-C96A-4F7A-80FF-14DBB78F1C4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71010B89-C96A-4F7A-80FF-14DBB78F1C4C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{71010B89-C96A-4F7A-80FF-14DBB78F1C4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71010B89-C96A-4F7A-80FF-14DBB78F1C4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71010B89-C96A-4F7A-80FF-14DBB78F1C4C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A903FD7E-9867-4941-BB36-F5999136A35F} = {84CC3BCB-236A-43AD-8F86-86BA51195D02}
+		{D726723A-414D-40F2-8D8F-350282E42A34} = {84CC3BCB-236A-43AD-8F86-86BA51195D02}
+		{00F409FB-1A81-4B8B-BFCB-88C89AB9C048} = {84CC3BCB-236A-43AD-8F86-86BA51195D02}
+		{2030B0C4-6B7F-4D7A-A28A-1EC3F55B842F} = {84CC3BCB-236A-43AD-8F86-86BA51195D02}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8309B5F1-3493-409E-A76F-8E270D564EE2}
+	EndGlobalSection
+EndGlobal
