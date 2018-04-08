@@ -25,7 +25,7 @@ This demo showcases how to create a VS2017 project for Sitecore with the followi
 1. Make sure the project “**docker-compose**” is set as StartUp project
 1. Build the solution. The three projects in the solution should compile.
 1. Review the files "C:\Docker\Sitecore\docker-demo\sitecore\9.0.1 rev. 171219 XM1\VS2017\TDSSample\\**Website\Dockerfile**" and "C:\Docker\Sitecore\docker-demo\sitecore\9.0.1 rev. 171219 XM1\VS2017\TDSSample\\**Website\build.Dockerfile**" and update the `FROM` clause with the name used to build the base images.
-1. Build the solution with “**Debug**” configuration ("F5").
+1. Run the solution with “**Debug**” configuration ("F5").
    >The first time the containers run, the base images will detect that the required assets (databases, indexes and site files) are missing in their respected VOLUMEs (pointing to the development environment) and will take some time to create them. VS will build the containers and will try to attach to the IIS's process running in website's container, however it will fail (TODO: fix this known issue). In the meantime, the file transfer from the images to the Development environment will keep progresing. Please be patient.
 1. Copy the website's container’s IP from the VS' "Output" panel (make sure it is the "Docker" output) and paste the IP on a browser's address bar. Please notice that Sitecore needs some time to warm-up, therefore the initial start may take a bit (up to 1-2 min).
 1. The browser will display the OOTB Sitecore’s home page.
