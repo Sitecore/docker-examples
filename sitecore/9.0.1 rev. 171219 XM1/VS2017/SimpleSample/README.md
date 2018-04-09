@@ -1,4 +1,6 @@
-# docker-demo for Sitecore 9.0.1 rev. 171219 XM1
+# SimpleSample Demo
+
+## Demo Introduction
 
 This demo showcases how to create a VS2017 project for Sitecore with the following features:
 
@@ -16,7 +18,7 @@ This demo showcases how to create a VS2017 project for Sitecore with the followi
 
 ## Development Environment Setup
 
-1. Clone [this repository](https://github.com/Sitecore/docker-demo) into a folder such as “c:\Docker\Sitecore\docker-demo” (next steps will asume this folder has been used):
+1. Clone [this repository](https://github.com/Sitecore/docker-demo) into a folder such as “c:\Docker\Sitecore\docker-demo” (next steps will assume this folder has been used):
 1. Copy "**license.xml**" into "C:\Docker\Sitecore\docker-demo\sitecore\9.0.1 rev. 171219 XM1\VS2017\SimpleSample\\**storage\Data**“
 1. Open VS2017 as Administrator
 1. Open the solution “C:\Docker\Sitecore\docker-demo\sitecore\9.0.1 rev. 171219 XM1\VS2017\SimpleSample\\**SimpleSample.sln**”
@@ -24,7 +26,7 @@ This demo showcases how to create a VS2017 project for Sitecore with the followi
 1. Build the solution. The two projects in the solution should compile.
 1. Review the files "C:\Docker\Sitecore\docker-demo\sitecore\9.0.1 rev. 171219 XM1\VS2017\SimpleSample\\**Website\Dockerfile**" and "C:\Docker\Sitecore\docker-demo\sitecore\9.0.1 rev. 171219 XM1\VS2017\SimpleSample\\**Website\build.Dockerfile**" and update the `FROM` clause with the name used to build the base images.
 1. Build the solution with “**Debug**” configuration ("F5").
-   >The first time the containers run, the base images will detect that the required assets (databases, indexes and site files) are missing in their respected VOLUMEs (pointing to the development environment) and will take some time to create them. VS will build the containers and will try to attach to the IIS's process running in website's container, however it will fail (TODO: fix this known issue). In the meantime, the file transfer from the images to the Development environment will keep progresing. Please be patient.
+   >The first time the containers run, the base images will detect that the required assets (databases, indexes and site files) are missing in their respected VOLUMEs (pointing to the development environment) and will take some time to create them. VS will build the containers and will try to attach to the IIS's process running in website's container, however it will fail (TODO: fix this known issue). In the meantime, the file transfer from the images to the Development environment will keep progressing. Please be patient.
 1. Copy the website's container’s IP from the VS' "Output" panel (make sure it is the "Docker" output) and paste the IP on a browser's address bar. Please notice that Sitecore needs some time to warm-up, therefore the initial start may take a bit (up to 1-2 min).
 1. The browser will display the OOTB Sitecore’s home page.
 1. Any change made to the following folder will be automatically detected by sitecore 
@@ -32,7 +34,7 @@ This demo showcases how to create a VS2017 project for Sitecore with the followi
 
 ## Development Process
 
-Sitecore supports multiple sites and also multiple URL for each site. It may be necessary to access the site with a specific URL (other than the IP). In these cases, it is necessary to update the development environment's host file every time the container is run (instantiated), which happens the first time VS runs the project.
+Sitecore supports multiple sites and multiple URL for each site. It may be necessary to access the site with a specific URL (other than the IP). In these cases, it is necessary to update the development environment's host file every time the container is run (instantiated), which happens the first time VS runs the project.
 
 Following the initial container run, the container can remain running meanwhile changes are done to the website and published to the following folder through the standard VS publishing feature (as if the container was an IIS instance running locally).
     "C:\Docker\Sitecore\docker-demo\sitecore\9.0.1 rev. 171219 XM1\VS2017\SimpleSample\\**storage\Website**“
@@ -43,7 +45,7 @@ Following the initial container run, the container can remain running meanwhile 
 
 The following steps describes how to attach VS2017 to the IIS process where Sitecore is running within its container.
 
-1. Make sure Sitecore is running by browising to its IP which can be obtained with either of the following procedures:
+1. Make sure Sitecore is running by browsing to its IP which can be obtained with either of the following procedures:
    1. Through VS2017
       1. When VS2017 runs a docker project (it must be selected as StartUp project) the website container's IP is displayed in the "Output" panel ("Docker" output). There should be as below example:
          ```text
@@ -58,7 +60,7 @@ The following steps describes how to attach VS2017 to the IIS process where Site
          ```text
          docker inspect --format="{{range .NetworkSettings.Networks}}{{.IPAddress}} {{end}}" ac58646e9013
          ```
-          * Finally the last line is the container's IP which also changes every time the container is run.
+          * Finally, the last line is the container's IP which also changes every time the container is run.
    1. Through a console
       1. Get the container's ID: 
          ```text
@@ -72,7 +74,7 @@ The following steps describes how to attach VS2017 to the IIS process where Site
           Notice in the table above the container named "**\*_website_1**", with image named "website:dev". This is the website container which IP is needed.
       1. Make sure the container status is "Up" by checking the "STATUS" column.
       1. Copy the container id value.
-      4. Run the following command to the the container's IP.
+      4. Run the following command to get the container's IP.
          ```text
          PS C:\> docker inspect --format="{{range .NetworkSettings.Networks}}{{.IPAddress}} {{end}}" ac58646e9013
          172.22.99.92
@@ -81,7 +83,7 @@ The following steps describes how to attach VS2017 to the IIS process where Site
 
 ### Sitecore logs
 
-Sitecore logs can be found in the follwing location:
+Sitecore logs can be found in the following location:
    "C:\Docker\Sitecore\docker-demo\sitecore\9.0.1 rev. 171219 XM1\VS2017\SimpleSample\\**storage\Data**“
 
 ### Sitecore site files
@@ -98,5 +100,3 @@ If the solution is switched to the "Release" configuration re-run, the container
 ## Known issues
 
 1. Visual Studio fails when trying to attach just after starting debugging session. VS can attach to the running process in container afterwards, though. See section "Attaching VS2017 to Sitecore" for a workaround
-
-
