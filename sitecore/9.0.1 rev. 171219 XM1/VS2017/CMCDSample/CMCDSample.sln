@@ -1,0 +1,92 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2003
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website", "Website\Website.csproj", "{7367EAB4-3347-41A7-AAD1-B009F11E3524}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{56AC5280-F5C2-4DA1-BAB5-EB2EB62A12E6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "storage", "storage", "{EA97936F-7321-4724-A737-FBA45D56AD1B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{FD614E60-DD5E-46B6-8276-A2DFEA2FE027}"
+	ProjectSection(SolutionItems) = preProject
+		storage\CM\Data\README.md = storage\CM\Data\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Databases", "Databases", "{F2791FFD-C06B-4069-A265-8132459BFEA6}"
+	ProjectSection(SolutionItems) = preProject
+		storage\Databases\README.md = storage\Databases\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Website", "Website", "{33310E94-497F-4735-B717-341389FBA289}"
+	ProjectSection(SolutionItems) = preProject
+		storage\CM\Website\README.md = storage\CM\Website\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solr", "Solr", "{2F0ADF11-65B5-4D37-B086-0AFB113B5A4A}"
+	ProjectSection(SolutionItems) = preProject
+		storage\Solr\README.md = storage\Solr\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9C53DE37-B8A0-439D-9DDF-82E65AD2B019}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CM", "CM", "{2DA64B9E-9A9B-4026-852F-957543DB6F10}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CD", "CD", "{F6ED1FFA-E63D-4BE9-8491-4242DD71CF63}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{86466201-440D-4D22-A9CF-88D98CED5D52}"
+	ProjectSection(SolutionItems) = preProject
+		storage\CD\Data\README.md = storage\CD\Data\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Website", "Website", "{F8166999-5C53-4202-82EF-EDE21806C7DC}"
+	ProjectSection(SolutionItems) = preProject
+		storage\CD\Website\README.md = storage\CD\Website\README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		DebugCD|Any CPU = DebugCD|Any CPU
+		DebugCM|Any CPU = DebugCM|Any CPU
+		ReleaseCD|Any CPU = ReleaseCD|Any CPU
+		ReleaseCM|Any CPU = ReleaseCM|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7367EAB4-3347-41A7-AAD1-B009F11E3524}.DebugCD|Any CPU.ActiveCfg = DebugCD|Any CPU
+		{7367EAB4-3347-41A7-AAD1-B009F11E3524}.DebugCD|Any CPU.Build.0 = DebugCD|Any CPU
+		{7367EAB4-3347-41A7-AAD1-B009F11E3524}.DebugCM|Any CPU.ActiveCfg = DebugCM|Any CPU
+		{7367EAB4-3347-41A7-AAD1-B009F11E3524}.DebugCM|Any CPU.Build.0 = DebugCM|Any CPU
+		{7367EAB4-3347-41A7-AAD1-B009F11E3524}.ReleaseCD|Any CPU.ActiveCfg = ReleaseCD|Any CPU
+		{7367EAB4-3347-41A7-AAD1-B009F11E3524}.ReleaseCD|Any CPU.Build.0 = ReleaseCD|Any CPU
+		{7367EAB4-3347-41A7-AAD1-B009F11E3524}.ReleaseCM|Any CPU.ActiveCfg = ReleaseCM|Any CPU
+		{7367EAB4-3347-41A7-AAD1-B009F11E3524}.ReleaseCM|Any CPU.Build.0 = ReleaseCM|Any CPU
+		{56AC5280-F5C2-4DA1-BAB5-EB2EB62A12E6}.DebugCD|Any CPU.ActiveCfg = DebugCD|Any CPU
+		{56AC5280-F5C2-4DA1-BAB5-EB2EB62A12E6}.DebugCD|Any CPU.Build.0 = DebugCD|Any CPU
+		{56AC5280-F5C2-4DA1-BAB5-EB2EB62A12E6}.DebugCM|Any CPU.ActiveCfg = DebugCM|Any CPU
+		{56AC5280-F5C2-4DA1-BAB5-EB2EB62A12E6}.DebugCM|Any CPU.Build.0 = DebugCM|Any CPU
+		{56AC5280-F5C2-4DA1-BAB5-EB2EB62A12E6}.ReleaseCD|Any CPU.ActiveCfg = ReleaseCD|Any CPU
+		{56AC5280-F5C2-4DA1-BAB5-EB2EB62A12E6}.ReleaseCD|Any CPU.Build.0 = ReleaseCD|Any CPU
+		{56AC5280-F5C2-4DA1-BAB5-EB2EB62A12E6}.ReleaseCM|Any CPU.ActiveCfg = ReleaseCM|Any CPU
+		{56AC5280-F5C2-4DA1-BAB5-EB2EB62A12E6}.ReleaseCM|Any CPU.Build.0 = ReleaseCM|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FD614E60-DD5E-46B6-8276-A2DFEA2FE027} = {2DA64B9E-9A9B-4026-852F-957543DB6F10}
+		{F2791FFD-C06B-4069-A265-8132459BFEA6} = {EA97936F-7321-4724-A737-FBA45D56AD1B}
+		{33310E94-497F-4735-B717-341389FBA289} = {2DA64B9E-9A9B-4026-852F-957543DB6F10}
+		{2F0ADF11-65B5-4D37-B086-0AFB113B5A4A} = {EA97936F-7321-4724-A737-FBA45D56AD1B}
+		{2DA64B9E-9A9B-4026-852F-957543DB6F10} = {EA97936F-7321-4724-A737-FBA45D56AD1B}
+		{F6ED1FFA-E63D-4BE9-8491-4242DD71CF63} = {EA97936F-7321-4724-A737-FBA45D56AD1B}
+		{86466201-440D-4D22-A9CF-88D98CED5D52} = {F6ED1FFA-E63D-4BE9-8491-4242DD71CF63}
+		{F8166999-5C53-4202-82EF-EDE21806C7DC} = {F6ED1FFA-E63D-4BE9-8491-4242DD71CF63}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {037D1B7E-3B5D-4C0F-AC05-7404CDF69A9E}
+	EndGlobalSection
+EndGlobal
