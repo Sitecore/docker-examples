@@ -99,4 +99,4 @@ If the solution is switched to the "Release" configuration re-run, the container
 
 ## Known issues
 
-1. Visual Studio fails when trying to attach just after starting debugging session. VS can attach to the running process in container afterwards, though. See section "Attaching VS2017 to Sitecore" for a workaround
+1. First time container is run, when copying in sitecore files, the debug operation times out, afterwards it should be working running with F5
