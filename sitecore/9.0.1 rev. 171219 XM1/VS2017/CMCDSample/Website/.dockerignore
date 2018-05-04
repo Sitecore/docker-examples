@@ -1,0 +1,4 @@
+*
+!DebugBoot.ps1
+!obj\Docker\publish\
+!obj\Docker\empty\
