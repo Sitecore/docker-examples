@@ -18,9 +18,15 @@ if ((Test-Path 'env:\DEFAULTWEBSITEPATH') -And (Test-Path 'env:\SITEPATH')){
 		Write-Host "### Sitecore files not found in '$WebsitePath', seeding clean Website ..."
 
 		Copy-Item -Path $DefaultWebsitePath -Destination $WebsitePath -Force -Recurse
+		$webConfig = Join-Path $WebsitePath "Web.config"
+		$doc = new-object System.Xml.XmlDocument
+		$doc.Load($webConfig)
+		$doc.get_DocumentElement()."system.web".compilation.debug = "true"
+		$doc.Save($webConfig)
 	}
 	else
 	{
 		Write-Host "### Existing Sitecore files found in '$WebsitePath'..."
 	}
+	
 }
