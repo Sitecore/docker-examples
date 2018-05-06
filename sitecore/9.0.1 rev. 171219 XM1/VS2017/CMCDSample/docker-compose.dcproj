@@ -26,6 +26,12 @@
     <DockerServiceUrl>http://{ServiceIPAddress}</DockerServiceUrl>
     <DockerServiceName>cm</DockerServiceName>
   </PropertyGroup>
+  <PropertyGroup Label="Custom">
+    <DockerDevelopmentMode Condition=" '$(Configuration)' == 'DebugCD' ">Fast</DockerDevelopmentMode>
+    <DockerDevelopmentMode Condition=" '$(Configuration)' == 'DebugCM' ">Fast</DockerDevelopmentMode>
+    <DockerDevelopmentMode Condition=" '$(Configuration)' == 'ReleaseCD' ">Regular</DockerDevelopmentMode>
+    <DockerDevelopmentMode Condition=" '$(Configuration)' == 'ReleaseCM' ">Regular</DockerDevelopmentMode>
+  </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.vs.debug.yml">
       <DependentUpon>docker-compose.yml</DependentUpon>
