@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  cd:
+    build:
+      context: .\Website
+      dockerfile: Dockerfile
+      args:
+        BASE_IMAGE: VSWebsiteRegistry.azurecr.io/sitecore:9.0.171219-xm1-cd
+  cm:
+    build:
+      context: .\Website
+      dockerfile: Dockerfile
+      args:
+        BASE_IMAGE: VSWebsiteRegistry.azurecr.io/sitecore:9.0.171219-xm1-cm

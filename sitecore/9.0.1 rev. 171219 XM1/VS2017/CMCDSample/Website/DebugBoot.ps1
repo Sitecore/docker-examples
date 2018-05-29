@@ -28,5 +28,4 @@ if ((Test-Path 'env:\DEFAULTWEBSITEPATH') -And (Test-Path 'env:\SITEPATH')){
 	{
 		Write-Host "### Existing Sitecore files found in '$WebsitePath'..."
 	}
-	
 }

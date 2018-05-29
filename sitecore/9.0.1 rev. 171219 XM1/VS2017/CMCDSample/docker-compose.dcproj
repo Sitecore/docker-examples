@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" Sdk="Microsoft.Docker.Sdk">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="DebugCD|AnyCPU">
+      <Configuration>DebugCD</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DebugCM|AnyCPU">
+      <Configuration>DebugCM</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseCD|AnyCPU">
+      <Configuration>ReleaseCD</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseCM|AnyCPU">
+      <Configuration>ReleaseCM</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectVersion>2.0</ProjectVersion>
+    <DockerTargetOS>Windows</DockerTargetOS>
+    <ProjectGuid>56AC5280-F5C2-4DA1-BAB5-EB2EB62A12E6</ProjectGuid>
+    <DockerLaunchBrowser>True</DockerLaunchBrowser>
+    <DockerServiceUrl>http://{ServiceIPAddress}</DockerServiceUrl>
+    <DockerServiceName>cm</DockerServiceName>
+  </PropertyGroup>
+  <PropertyGroup Label="Custom">
+    <DockerDevelopmentMode Condition=" '$(Configuration)' == 'DebugCD' ">Fast</DockerDevelopmentMode>
+    <DockerDevelopmentMode Condition=" '$(Configuration)' == 'DebugCM' ">Fast</DockerDevelopmentMode>
+    <DockerDevelopmentMode Condition=" '$(Configuration)' == 'ReleaseCD' ">Regular</DockerDevelopmentMode>
+    <DockerDevelopmentMode Condition=" '$(Configuration)' == 'ReleaseCM' ">Regular</DockerDevelopmentMode>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="docker-compose.vs.debug.yml">
+      <DependentUpon>docker-compose.yml</DependentUpon>
+    </None>
+    <None Include="docker-compose.vs.release.yml">
+      <DependentUpon>docker-compose.yml</DependentUpon>
+    </None>
+    <None Include="docker-compose.override.yml">
+      <DependentUpon>docker-compose.yml</DependentUpon>
+    </None>
+    <None Include="docker-compose.yml" />
+  </ItemGroup>
+</Project>
