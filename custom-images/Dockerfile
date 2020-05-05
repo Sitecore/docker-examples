@@ -16,10 +16,6 @@ FROM ${BUILD_IMAGE} AS builder
 ARG Nuget_SitecorePreview_Username
 ARG Nuget_SitecorePreview_Password
 
-# TDS licensing via environment variables: https://hedgehogdevelopment.github.io/tds/chapter5.html#sitecore-tds-builds-using-cloud-servers
-ARG TDS_Owner
-ARG TDS_Key
-
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 # Create an empty working directory
@@ -32,18 +28,12 @@ RUN nuget restore
 # Copy remaining source code
 COPY src/ ./src/
 
-# Build using release configuration
-RUN msbuild /p:Configuration=Release
+# Build with file publish
+RUN msbuild /p:Configuration=Release /p:DeployOnBuild=True /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:PublishUrl=C:\out\files
 
 FROM ${BASE_IMAGE}
 
 WORKDIR /artifacts
 
-# Build output will land at the location specified in TDS projects (the "Build Output Path"), relative to our builder's WORKDIR
-# As configured, this means our build output will be:
-#	/build/TdsGeneratedPackages/Release -> files
-#	/build/TdsGeneratedPackages/WebDeploy_Release -> WDP item packages
-
-# Copy build artifacts
-COPY --from=builder /build/TdsGeneratedPackages/Release ./files/
-COPY --from=builder /build/TdsGeneratedPackages/WebDeploy_Release ./packages/
+# Copy final build artifacts
+COPY --from=builder C:\out\files ./files/

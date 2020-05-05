@@ -9,8 +9,6 @@ services:
       args:
         BASE_IMAGE: ${SOLUTION_BASE_IMAGE}
         BUILD_IMAGE: ${SOLUTION_BUILD_IMAGE}
-        TDS_Owner: ${TDS_OWNER}
-        TDS_Key: ${TDS_KEY}
     scale: 0
 
   redis:
