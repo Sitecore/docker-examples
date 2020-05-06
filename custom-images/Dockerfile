@@ -12,10 +12,6 @@ RUN Invoke-Expression 'robocopy C:/temp C:/nuget/src /s /ndl /njh /njs *.csproj 
 
 FROM ${BUILD_IMAGE} AS builder
 
-# NuGet credentials (for SitecorePreview) via environment variables: https://github.com/dotnet/dotnet-docker/blob/master/samples/snippets/nuget-credentials.md
-ARG Nuget_SitecorePreview_Username
-ARG Nuget_SitecorePreview_Password
-
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 # Create an empty working directory
