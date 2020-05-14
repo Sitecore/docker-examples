@@ -12,13 +12,14 @@ SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPref
 
 WORKDIR C:\inetpub\wwwroot
 
-# Copy built website files
+# Copy solution files
 COPY --from=solution /artifacts/files/ ./
+
+# Copy solution transforms
+COPY --from=solution /artifacts/transforms/ /transforms/solution/
 
 # Copy tools
 COPY --from=tooling /tools/ /tools/
 
-# Find transform files and do transformation
-RUN $xdts = Get-ChildItem -Path '.\\*.xdt' -Recurse; `
-    $xdts | ForEach-Object { & 'C:\\tools\\scripts\\Invoke-XdtTransform.ps1' -Path $_.FullName.Replace('.xdt', '') -XdtPath $_.FullName; }; `
-    $xdts | ForEach-Object { Remove-Item -Path $_.FullName; };
+# Perform solution transforms
+RUN C:\tools\scripts\Invoke-XdtTransform.ps1 -Path .\ -XdtPath C:\transforms\solution\website

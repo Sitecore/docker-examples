@@ -24,7 +24,10 @@ RUN nuget restore
 # Copy remaining source code
 COPY src/ ./src/
 
-# Build with file publish
+# First copy transforms, retaining directory structure
+RUN Invoke-Expression 'robocopy C:/build/src C:/out/transforms /s /ndl /njh /njs *.xdt'
+
+# Finally, build with file publish
 RUN msbuild /p:Configuration=Release /p:DeployOnBuild=True /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:PublishUrl=C:\out\files
 
 FROM ${BASE_IMAGE}
@@ -33,3 +36,4 @@ WORKDIR /artifacts
 
 # Copy final build artifacts
 COPY --from=builder C:\out\files ./files/
+COPY --from=builder C:\out\transforms ./transforms/

@@ -48,7 +48,9 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Web.config.xdt" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="images\docker-logo.png" />
     <Content Include="layouts\Sample Inner Sublayout.ascx" />
