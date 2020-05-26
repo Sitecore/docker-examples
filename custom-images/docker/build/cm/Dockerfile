@@ -25,7 +25,7 @@ COPY ./transforms/ /transforms/role/
 COPY --from=tooling /tools/ /tools/
 
 # Perform solution transforms
-RUN C:\tools\scripts\Invoke-XdtTransform.ps1 -Path .\ -XdtPath C:\transforms\solution\website
+RUN C:\tools\scripts\Invoke-XdtTransform.ps1 -Path .\ -XdtPath C:\transforms\solution\DockerDemo.Website
 
 # Perform role transforms
 RUN C:\tools\scripts\Invoke-XdtTransform.ps1 -Path .\ -XdtPath C:\transforms\role
