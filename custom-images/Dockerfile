@@ -1,0 +1,39 @@
+﻿# escape=`
+
+ARG BASE_IMAGE
+ARG BUILD_IMAGE
+
+FROM ${BUILD_IMAGE} AS prep
+
+# Gather only artifacts necessary for NuGet restore, retaining directory structure
+COPY *.sln nuget.config /nuget/
+COPY src/ /temp/
+RUN Invoke-Expression 'robocopy C:/temp C:/nuget/src /s /ndl /njh /njs *.csproj *.scproj packages.config'
+
+FROM ${BUILD_IMAGE} AS builder
+
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+
+# Create an empty working directory
+WORKDIR /build
+
+# Copy prepped NuGet artifacts, and restore as distinct layer to take better advantage of caching
+COPY --from=prep ./nuget ./
+RUN nuget restore
+
+# Copy remaining source code
+COPY src/ ./src/
+
+# First copy transforms, retaining directory structure
+RUN Invoke-Expression 'robocopy C:/build/src C:/out/transforms /s /ndl /njh /njs *.xdt'
+
+# Finally, build with file publish
+RUN msbuild /p:Configuration=Release /p:DeployOnBuild=True /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:PublishUrl=C:\out\files
+
+FROM ${BASE_IMAGE}
+
+WORKDIR /artifacts
+
+# Copy final build artifacts
+COPY --from=builder C:\out\files ./files/
+COPY --from=builder C:\out\transforms ./transforms/
