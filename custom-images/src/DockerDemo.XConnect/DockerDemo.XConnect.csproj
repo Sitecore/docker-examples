@@ -1,5 +1,4 @@
 ﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -47,21 +46,18 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Config\Include\DockerDemo.XConnect.config" />
-    <None Include="Web.config" />
+    <Content Include="App_Data\Config\Sitecore\MarketingAutomation\sc.DockerDemo.DemoModel.xml" />
+    <Content Include="App_Data\Models\DockerDemo.XConnect.Model.DemoModel, 1.0.json" />
+    <None Include="Properties\PublishProfiles\DockerDeploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\DemoFacet.cs" />
-    <Compile Include="Model\DemoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Sitecore.XConnect">
-      <Version>10.0.0-r003840</Version>
-    </PackageReference>
-    <PackageReference Include="Sitecore.XConnect.Collection.Model">
-      <Version>10.0.0-r003840</Version>
-    </PackageReference>
+    <ProjectReference Include="..\DockerDemo.XConnect.Model\DockerDemo.XConnect.Model.csproj">
+      <Project>{16dc2062-e853-44bb-a006-bc1f4cd5bbcf}</Project>
+      <Name>DockerDemo.XConnect.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

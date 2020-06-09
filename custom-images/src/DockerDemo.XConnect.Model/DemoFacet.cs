@@ -9,6 +9,6 @@ namespace DockerDemo.XConnect.Model
     {
         public const string DefaultFacetKey = "DemoFacet";
 
-        public string Region { get; set; }
+        public string FavoriteAnimal { get; set; }
     }
 }

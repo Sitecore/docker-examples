@@ -4,29 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C6144D27-3F34-4761-B040-CB9E8C56955E}</ProjectGuid>
+    <ProjectGuid>{2FF4ECD0-C43F-4BE2-A261-C386EFFD335E}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Build.XConnect.ModelBuilder</RootNamespace>
-    <AssemblyName>Build.XConnect.ModelBuilder</AssemblyName>
+    <RootNamespace>App.XConnect.Demo</RootNamespace>
+    <AssemblyName>App.XConnect.Demo</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -65,27 +50,21 @@
     <PackageReference Include="Sitecore.XConnect">
       <Version>10.0.0-r003840</Version>
     </PackageReference>
+    <PackageReference Include="Sitecore.XConnect.Client">
+      <Version>10.0.0-r003840</Version>
+    </PackageReference>
+    <PackageReference Include="Sitecore.XConnect.Collection.Model">
+      <Version>10.0.0-r003840</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DockerDemo.XConnect\DockerDemo.XConnect.csproj">
-      <Project>{5a9ab6cc-9800-4725-9967-16a58123d394}</Project>
-      <Name>DockerDemo.XConnect</Name>
+    <ProjectReference Include="..\DockerDemo.XConnect.Model\DockerDemo.XConnect.Model.csproj">
+      <Project>{16dc2062-e853-44bb-a006-bc1f4cd5bbcf}</Project>
+      <Name>DockerDemo.XConnect.Model</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.8">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.8 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

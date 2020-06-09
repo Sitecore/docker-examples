@@ -9,21 +9,16 @@ services:
       args:
         BASE_IMAGE: ${SOLUTION_BASE_IMAGE}
         BUILD_IMAGE: ${SOLUTION_BUILD_IMAGE}
+        Nuget_SitecorePreview_Username: ${NUGET_SITECOREPREVIEW_USERNAME}
+        Nuget_SitecorePreview_Password: ${NUGET_SITECOREPREVIEW_PASSWORD}
     scale: 0
-
-  redis:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-redis:${VERSION:-latest}
-    build:
-      context: ./docker/build/redis
-      args:
-        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-redis:${SITECORE_VERSION}
 
   mssql:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-mssql:${VERSION:-latest}
     build:
       context: ./docker/build/mssql
       args:
-        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-mssql:${SITECORE_VERSION}
+        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp0-mssql:${SITECORE_VERSION}
     mem_limit: 2GB
   
   solr:
@@ -31,7 +26,7 @@ services:
     build:
       context: ./docker/build/solr
       args:
-        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-solr:${SITECORE_VERSION}
+        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp0-solr:${SITECORE_VERSION}
     mem_limit: 1GB
 
   id:
@@ -41,132 +36,41 @@ services:
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-id:${SITECORE_VERSION}
 
-  cd:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-cd:${VERSION:-latest}
-    build:
-      context: ./docker/build/cd
-      args:
-        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-cd:${SITECORE_VERSION}
-        TOOLING_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-tooling:${SITECORE_VERSION}
-        SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
-    depends_on:
-      - solution
-    volumes:
-      - ${LOCAL_DEPLOY_PATH}:C:\src
-      - ${LOCAL_DATA_PATH}\cd:C:\inetpub\wwwroot\App_Data\logs
-    entrypoint: powershell.exe -Command "& C:\\tools\\entrypoints\\iis\\Development.ps1"
-
   cm:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-cm:${VERSION:-latest}
     build:
       context: ./docker/build/cm
       args:
-        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-cm:${SITECORE_VERSION}
-        TOOLING_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-tooling:${SITECORE_VERSION}
+        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp0-cm:${SITECORE_VERSION}
+        TOOLING_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-docker-tools:${SITECORE_TOOLS_VERSION}
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
     depends_on:
       - solution
     volumes:
-      - ${LOCAL_DEPLOY_PATH}:C:\src
+      - ${LOCAL_DEPLOY_PATH}\website:C:\deploy
       - ${LOCAL_DATA_PATH}\cm:C:\inetpub\wwwroot\App_Data\logs
-    entrypoint: powershell.exe -Command "& C:\\tools\\entrypoints\\iis\\Development.ps1"
+    entrypoint: powershell -Command "& C:\tools\entrypoints\iis\Development.ps1"
 
-  prc:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-prc:${VERSION:-latest}
+  xconnect:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xconnect:${VERSION:-latest}
     build:
-      context: ./docker/build/prc
+      context: ./docker/build/xconnect
       args:
-        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-prc:${SITECORE_VERSION}
+        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp0-xconnect:${SITECORE_VERSION}
+        TOOLING_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-docker-tools:${SITECORE_TOOLS_VERSION}
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
     depends_on:
       - solution
-
-  rep:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-rep:${VERSION:-latest}
-    build:
-      context: ./docker/build/rep
-      args:
-        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-rep:${SITECORE_VERSION}
-        SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
-    depends_on:
-      - solution
-
-  xdbcollection:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xdbcollection:${VERSION:-latest}
-    build:
-      context: ./docker/build/xdbcollection
-      args:
-        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-xdbcollection:${SITECORE_VERSION}
-        SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
-    depends_on:
-      - solution
-
-  xdbsearch:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xdbsearch:${VERSION:-latest}
-    build:
-      context: ./docker/build/xdbsearch
-      args:
-        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-xdbsearch:${SITECORE_VERSION}
-        SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
-    depends_on:
-      - solution
-
-  xdbautomation:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xdbautomation:${VERSION:-latest}
-    build:
-      context: ./docker/build/xdbautomation
-      args:
-        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-xdbautomation:${SITECORE_VERSION}
-        SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
-    depends_on:
-      - solution
-
-  xdbautomationrpt:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xdbautomationrpt:${VERSION:-latest}
-    build:
-      context: ./docker/build/xdbautomationrpt
-      args:
-        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-xdbautomationrpt:${SITECORE_VERSION}
-        SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
-    depends_on:
-      - solution
-
-  cortexprocessing:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-cortexprocessing:${VERSION:-latest}
-    build:
-      context: ./docker/build/cortexprocessing
-      args:
-        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-cortexprocessing:${SITECORE_VERSION}
-        SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
-    depends_on:
-      - solution
-
-  cortexreporting:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-cortexreporting:${VERSION:-latest}
-    build:
-      context: ./docker/build/cortexreporting
-      args:
-        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-cortexreporting:${SITECORE_VERSION}
-        SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
-    depends_on:
-      - solution
-
-  xdbrefdata:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xdbrefdata:${VERSION:-latest}
-    build:
-      context: ./docker/build/xdbrefdata
-      args:
-        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-xdbrefdata:${SITECORE_VERSION}
-        SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
-    depends_on:
-      - solution
+    volumes:
+      - ${LOCAL_DEPLOY_PATH}\xconnect:C:\deploy
+    entrypoint: powershell -Command "& C:\tools\entrypoints\iis\Development.ps1"
 
   xdbsearchworker:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xdbsearchworker:${VERSION:-latest}
     build:
       context: ./docker/build/xdbsearchworker
       args:
-        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-xdbsearchworker:${SITECORE_VERSION}
+        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp0-xdbsearchworker:${SITECORE_VERSION}
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
     depends_on:
       - solution
@@ -176,7 +80,7 @@ services:
     build:
       context: ./docker/build/xdbautomationworker
       args:
-        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-xdbautomationworker:${SITECORE_VERSION}
+        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp0-xdbautomationworker:${SITECORE_VERSION}
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
     depends_on:
       - solution
@@ -186,7 +90,7 @@ services:
     build:
       context: ./docker/build/cortexprocessingworker
       args:
-        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-cortexprocessingworker:${SITECORE_VERSION}
+        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp0-cortexprocessingworker:${SITECORE_VERSION}
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
     depends_on:
       - solution

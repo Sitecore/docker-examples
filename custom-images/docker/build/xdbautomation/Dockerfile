@@ -10,12 +10,11 @@ SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPref
 
 WORKDIR C:\inetpub\wwwroot
 
-# Copy XConnect model assemblies
+# Copy solution XConnect model assemblies
 COPY --from=solution /artifacts/xconnect/bin/ ./bin/
-COPY --from=solution /artifacts/xconnect/bin/ ./App_Data/jobs/continuous/AutomationEngine/
 
-# Copy XConnect model JSON files
-COPY --from=solution /artifacts/xconnect/models/ ./App_Data/Models/
+# Copy solution XConnect model JSON
+COPY --from=solution /artifacts/xconnect/App_Data/Models/ ./App_Data/Models/
 
-# Copy XConnect model config for Automation Engine
-COPY configs/sc.DockerDemo.CustomModel.xml ./App_Data/jobs/continuous/AutomationEngine/App_Data/Config/sitecore/
+# Copy solution XConnect model config
+COPY --from=solution /artifacts/xconnect/App_Data/Config/Sitecore/MarketingAutomation/ ./App_Data/Config/Sitecore/MarketingAutomation/

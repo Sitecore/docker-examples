@@ -10,5 +10,5 @@ SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPref
 
 WORKDIR C:\inetpub\wwwroot
 
-# Copy solution files
-COPY --from=solution /artifacts/files/ ./
+# Copy solution website files
+COPY --from=solution /artifacts/website/ ./

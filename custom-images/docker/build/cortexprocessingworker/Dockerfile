@@ -10,5 +10,8 @@ SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPref
 
 WORKDIR C:\service
 
-# Copy XConnect model JSON files
-COPY --from=solution /artifacts/xconnect/models/ ./App_Data/Models/
+# Copy solution XConnect model assemblies
+COPY --from=solution /artifacts/xconnect/bin/ ./
+
+# Copy solution XConnect model JSON
+COPY --from=solution /artifacts/xconnect/App_Data/Models/ ./App_Data/Models/

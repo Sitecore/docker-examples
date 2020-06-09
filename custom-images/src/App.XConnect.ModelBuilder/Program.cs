@@ -3,13 +3,15 @@ using System.IO;
 using DockerDemo.XConnect.Model;
 using Sitecore.XConnect.Schema;
 
-namespace Build.XConnect.ModelBuilder
+namespace App.XConnect.ModelBuilder
 {
     class Program
     {
         static void Main(string[] args)
         {
             var path = GetOutputPath(args);
+
+            // Call SerializeModel for each custom model here
             SerializeModel(path, DemoModel.Model);
         }
 

@@ -6,7 +6,7 @@
           <Options>
             <Models>
               <DemoModel>
-                <TypeName>DockerDemo.XConnect.Model.DemoModel, DockerDemo.XConnect</TypeName>
+                <TypeName>DockerDemo.XConnect.Model.DemoModel, DockerDemo.XConnect.Model</TypeName>
               </DemoModel>
             </Models>
           </Options>
