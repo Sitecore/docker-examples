@@ -21,7 +21,7 @@ services:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-redis:${SITECORE_VERSION}
 
   mssql:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-mssql:${VERSION:-latest}
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-mssql:${VERSION:-latest}
     build:
       context: ./docker/build/mssql
       args:
@@ -29,7 +29,7 @@ services:
     mem_limit: 2GB
   
   solr:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solr:${VERSION:-latest}
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-solr:${VERSION:-latest}
     build:
       context: ./docker/build/solr
       args:
@@ -44,7 +44,7 @@ services:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-id:${SITECORE_VERSION}
 
   cd:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-cd:${VERSION:-latest}
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-cd:${VERSION:-latest}
     build:
       context: ./docker/build/cd
       args:
@@ -59,7 +59,7 @@ services:
     entrypoint: powershell -Command "& C:\tools\entrypoints\iis\Development.ps1"
 
   cm:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-cm:${VERSION:-latest}
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-cm:${VERSION:-latest}
     build:
       context: ./docker/build/cm
       args:
@@ -74,7 +74,7 @@ services:
     entrypoint: powershell -Command "& C:\tools\entrypoints\iis\Development.ps1"
 
   prc:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-prc:${VERSION:-latest}
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-prc:${VERSION:-latest}
     build:
       context: ./docker/build/prc
       args:
@@ -84,7 +84,7 @@ services:
       - solution
 
   rep:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-rep:${VERSION:-latest}
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-rep:${VERSION:-latest}
     build:
       context: ./docker/build/rep
       args:
@@ -94,7 +94,7 @@ services:
       - solution
 
   xdbcollection:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xdbcollection:${VERSION:-latest}
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-xdbcollection:${VERSION:-latest}
     build:
       context: ./docker/build/xdbcollection
       args:
@@ -104,7 +104,7 @@ services:
       - solution
 
   xdbsearch:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xdbsearch:${VERSION:-latest}
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-xdbsearch:${VERSION:-latest}
     build:
       context: ./docker/build/xdbsearch
       args:
@@ -114,7 +114,7 @@ services:
       - solution
 
   xdbautomation:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xdbautomation:${VERSION:-latest}
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-xdbautomation:${VERSION:-latest}
     build:
       context: ./docker/build/xdbautomation
       args:
@@ -124,35 +124,35 @@ services:
       - solution
 
   xdbautomationrpt:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xdbautomationrpt:${VERSION:-latest}
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-xdbautomationrpt:${VERSION:-latest}
     build:
       context: ./docker/build/xdbautomationrpt
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-xdbautomationrpt:${SITECORE_VERSION}
 
   cortexprocessing:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-cortexprocessing:${VERSION:-latest}
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-cortexprocessing:${VERSION:-latest}
     build:
       context: ./docker/build/cortexprocessing
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-cortexprocessing:${SITECORE_VERSION}
 
   cortexreporting:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-cortexreporting:${VERSION:-latest}
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-cortexreporting:${VERSION:-latest}
     build:
       context: ./docker/build/cortexreporting
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-cortexreporting:${SITECORE_VERSION}
 
   xdbrefdata:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xdbrefdata:${VERSION:-latest}
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-xdbrefdata:${VERSION:-latest}
     build:
       context: ./docker/build/xdbrefdata
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-xdbrefdata:${SITECORE_VERSION}
 
   xdbsearchworker:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xdbsearchworker:${VERSION:-latest}
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-xdbsearchworker:${VERSION:-latest}
     build:
       context: ./docker/build/xdbsearchworker
       args:
@@ -162,7 +162,7 @@ services:
       - solution
 
   xdbautomationworker:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xdbautomationworker:${VERSION:-latest}
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-xdbautomationworker:${VERSION:-latest}
     build:
       context: ./docker/build/xdbautomationworker
       args:
@@ -172,7 +172,7 @@ services:
       - solution
 
   cortexprocessingworker:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-cortexprocessingworker:${VERSION:-latest}
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-cortexprocessingworker:${VERSION:-latest}
     build:
       context: ./docker/build/cortexprocessingworker
       args:

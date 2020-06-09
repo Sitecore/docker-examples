@@ -14,7 +14,7 @@ services:
     scale: 0
 
   mssql:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-mssql:${VERSION:-latest}
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp0-mssql:${VERSION:-latest}
     build:
       context: ./docker/build/mssql
       args:
@@ -22,7 +22,7 @@ services:
     mem_limit: 2GB
   
   solr:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solr:${VERSION:-latest}
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp0-solr:${VERSION:-latest}
     build:
       context: ./docker/build/solr
       args:
@@ -37,7 +37,7 @@ services:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-id:${SITECORE_VERSION}
 
   cm:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-cm:${VERSION:-latest}
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp0-cm:${VERSION:-latest}
     build:
       context: ./docker/build/cm
       args:
@@ -52,7 +52,7 @@ services:
     entrypoint: powershell -Command "& C:\tools\entrypoints\iis\Development.ps1"
 
   xconnect:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xconnect:${VERSION:-latest}
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp0-xconnect:${VERSION:-latest}
     build:
       context: ./docker/build/xconnect
       args:
@@ -66,7 +66,7 @@ services:
     entrypoint: powershell -Command "& C:\tools\entrypoints\iis\Development.ps1"
 
   xdbsearchworker:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xdbsearchworker:${VERSION:-latest}
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp0-xdbsearchworker:${VERSION:-latest}
     build:
       context: ./docker/build/xdbsearchworker
       args:
@@ -76,7 +76,7 @@ services:
       - solution
 
   xdbautomationworker:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xdbautomationworker:${VERSION:-latest}
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp0-xdbautomationworker:${VERSION:-latest}
     build:
       context: ./docker/build/xdbautomationworker
       args:
@@ -86,7 +86,7 @@ services:
       - solution
 
   cortexprocessingworker:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-cortexprocessingworker:${VERSION:-latest}
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp0-cortexprocessingworker:${VERSION:-latest}
     build:
       context: ./docker/build/cortexprocessingworker
       args:
