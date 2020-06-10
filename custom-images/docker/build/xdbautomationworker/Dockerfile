@@ -11,7 +11,7 @@ SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPref
 WORKDIR C:\service
 
 # Copy solution XConnect model assemblies
-COPY --from=solution /artifacts/xconnect/bin/ ./
+COPY --from=solution \artifacts\xconnect\bin\ .\
 
 # Copy solution XConnect model config
-COPY --from=solution /artifacts/xconnect/App_Data/Config/Sitecore/MarketingAutomation/ ./App_Data/Config/Sitecore/MarketingAutomation/
+COPY --from=solution \artifacts\xconnect\App_Data\Config\Sitecore\MarketingAutomation\ .\App_Data\Config\Sitecore\MarketingAutomation\

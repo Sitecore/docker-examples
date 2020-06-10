@@ -10,10 +10,10 @@ FROM ${BASE_IMAGE}
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
+# Copy tools
+COPY --from=tooling \tools\ \tools\
+
 WORKDIR C:\inetpub\wwwroot
 
-# Copy tools
-COPY --from=tooling /tools/ /tools/
-
 # Copy solution XConnect files
-COPY --from=solution /artifacts/xconnect/ ./
+COPY --from=solution \artifacts\xconnect\ .\
