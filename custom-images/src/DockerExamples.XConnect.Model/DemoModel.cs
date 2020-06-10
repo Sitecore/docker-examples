@@ -1,7 +1,7 @@
 ﻿using Sitecore.XConnect;
 using Sitecore.XConnect.Schema;
 
-namespace DockerDemo.XConnect.Model
+namespace DockerExamples.XConnect.Model
 {
     public class DemoModel
     {

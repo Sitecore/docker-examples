@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DockerDemo.XConnect.ModelBuilderApp")]
+[assembly: AssemblyTitle("DockerExamples.XConnect.ModelBuilderApp")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("DockerDemo.XConnect.ModelBuilderApp")]
+[assembly: AssemblyProduct("DockerExamples.XConnect.ModelBuilderApp")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

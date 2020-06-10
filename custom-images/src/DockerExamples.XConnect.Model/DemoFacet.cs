@@ -1,7 +1,7 @@
 ﻿using System;
 using Sitecore.XConnect;
 
-namespace DockerDemo.XConnect.Model
+namespace DockerExamples.XConnect.Model
 {
     [Serializable]
     [FacetKey(DefaultFacetKey)]

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using DockerDemo.XConnect.Model;
+using DockerExamples.XConnect.Model;
 using Sitecore.XConnect.Schema;
 
 namespace App.XConnect.ModelBuilder

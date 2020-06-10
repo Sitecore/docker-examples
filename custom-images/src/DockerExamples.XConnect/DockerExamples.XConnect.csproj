@@ -6,12 +6,12 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B062D0AC-C7AB-448A-AB55-0791E7AC974A}</ProjectGuid>
+    <ProjectGuid>{5A9AB6CC-9800-4725-9967-16A58123D394}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DockerDemo.Website</RootNamespace>
-    <AssemblyName>DockerDemo.Website</AssemblyName>
+    <RootNamespace>DockerExamples.XConnect</RootNamespace>
+    <AssemblyName>DockerExamples.XConnect</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
@@ -46,21 +46,17 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Config\Sitecore\MarketingAutomation\sc.DockerExamples.DemoModel.xml" />
+    <Content Include="App_Data\Models\DockerExamples.XConnect.Model.DemoModel, 1.0.json" />
+    <None Include="Properties\PublishProfiles\DockerDeploy.pubxml" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Config\Include\DockerDemo.XConnect.config" />
-    <None Include="Properties\PublishProfiles\DockerDeploy.pubxml" />
-    <None Include="Web.config.xdt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="images\docker-logo.png" />
-    <Content Include="layouts\Sample Inner Sublayout.ascx" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DockerDemo.XConnect.Model\DockerDemo.XConnect.Model.csproj">
+    <ProjectReference Include="..\DockerExamples.XConnect.Model\DockerExamples.XConnect.Model.csproj">
       <Project>{16dc2062-e853-44bb-a006-bc1f4cd5bbcf}</Project>
-      <Name>DockerDemo.XConnect.Model</Name>
+      <Name>DockerExamples.XConnect.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
@@ -76,9 +72,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>62762</DevelopmentServerPort>
+          <DevelopmentServerPort>56307</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:62762/</IISUrl>
+          <IISUrl>http://localhost:56307/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

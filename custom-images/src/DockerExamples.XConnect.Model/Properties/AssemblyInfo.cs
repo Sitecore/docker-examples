@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DockerDemo.XConnect")]
+[assembly: AssemblyTitle("DockerExamples.XConnectExtensions")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("DockerDemo.XConnect")]
+[assembly: AssemblyProduct("DockerExamples.XConnectExtensions")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("5a9ab6cc-9800-4725-9967-16a58123d394")]
+[assembly: Guid("16dc2062-e853-44bb-a006-bc1f4cd5bbcf")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -6,12 +6,12 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{16DC2062-E853-44BB-A006-BC1F4CD5BBCF}</ProjectGuid>
+    <ProjectGuid>{B062D0AC-C7AB-448A-AB55-0791E7AC974A}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DockerDemo.XConnect.Model</RootNamespace>
-    <AssemblyName>DockerDemo.XConnect.Model</AssemblyName>
+    <RootNamespace>DockerExamples.Website</RootNamespace>
+    <AssemblyName>DockerExamples.Website</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
@@ -43,40 +43,26 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Web.DynamicData" />
-    <Reference Include="System.Web.Entity" />
-    <Reference Include="System.Web.ApplicationServices" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Web.Services" />
-    <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Sitecore.XConnect">
-      <Version>10.0.0-r003840</Version>
-    </PackageReference>
-    <PackageReference Include="Sitecore.XConnect.Collection.Model">
-      <Version>10.0.0-r003840</Version>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="DemoFacet.cs" />
-    <Compile Include="DemoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="App_Config\Include\DockerExamples.XConnect.config" />
+    <None Include="Properties\PublishProfiles\DockerDeploy.pubxml" />
+    <None Include="Web.config.xdt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="images\docker-logo.png" />
+    <Content Include="layouts\Sample Inner Sublayout.ascx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DockerExamples.XConnect.Model\DockerExamples.XConnect.Model.csproj">
+      <Project>{16dc2062-e853-44bb-a006-bc1f4cd5bbcf}</Project>
+      <Name>DockerExamples.XConnect.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -90,9 +76,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>52239</DevelopmentServerPort>
+          <DevelopmentServerPort>62762</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:52239/</IISUrl>
+          <IISUrl>http://localhost:62762/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

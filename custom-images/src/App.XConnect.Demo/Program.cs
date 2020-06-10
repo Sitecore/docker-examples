@@ -1,5 +1,5 @@
 ﻿using System;
-using DockerDemo.XConnect.Model;
+using DockerExamples.XConnect.Model;
 using Sitecore.XConnect;
 using Sitecore.XConnect.Client;
 using Sitecore.XConnect.Collection.Model;
@@ -18,9 +18,9 @@ namespace App.XConnect.Demo
         {
             using (var client = GetClient())
             {
-                var contact = new Contact(new ContactIdentifier("twitter", "dockerdemositecore", ContactIdentifierType.Known));
+                var contact = new Contact(new ContactIdentifier("twitter", "dockerexamplessitecore", ContactIdentifierType.Known));
 
-                var emailFacet = new EmailAddressList(new EmailAddress("docker.demo@sitecore.com", true), "domain");
+                var emailFacet = new EmailAddressList(new EmailAddress("docker.examples@sitecore.com", true), "domain");
                 client.SetFacet(contact, EmailAddressList.DefaultFacetKey, emailFacet);
 
                 // Add our custom facet

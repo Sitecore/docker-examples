@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DockerDemo.Website", "src\DockerDemo.Website\DockerDemo.Website.csproj", "{B062D0AC-C7AB-448A-AB55-0791E7AC974A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DockerExamples.Website", "src\DockerExamples.Website\DockerExamples.Website.csproj", "{B062D0AC-C7AB-448A-AB55-0791E7AC974A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DockerDemo.XConnect", "src\DockerDemo.XConnect\DockerDemo.XConnect.csproj", "{5A9AB6CC-9800-4725-9967-16A58123D394}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DockerExamples.XConnect", "src\DockerExamples.XConnect\DockerExamples.XConnect.csproj", "{5A9AB6CC-9800-4725-9967-16A58123D394}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DockerDemo.XConnect.Model", "src\DockerDemo.XConnect.Model\DockerDemo.XConnect.Model.csproj", "{16DC2062-E853-44BB-A006-BC1F4CD5BBCF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DockerExamples.XConnect.Model", "src\DockerExamples.XConnect.Model\DockerExamples.XConnect.Model.csproj", "{16DC2062-E853-44BB-A006-BC1F4CD5BBCF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.XConnect.ModelBuilder", "src\App.XConnect.ModelBuilder\App.XConnect.ModelBuilder.csproj", "{C6144D27-3F34-4761-B040-CB9E8C56955E}"
 EndProject

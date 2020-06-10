@@ -61,9 +61,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DockerDemo.XConnect.Model\DockerDemo.XConnect.Model.csproj">
+    <ProjectReference Include="..\DockerExamples.XConnect.Model\DockerExamples.XConnect.Model.csproj">
       <Project>{16dc2062-e853-44bb-a006-bc1f4cd5bbcf}</Project>
-      <Name>DockerDemo.XConnect.Model</Name>
+      <Name>DockerExamples.XConnect.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

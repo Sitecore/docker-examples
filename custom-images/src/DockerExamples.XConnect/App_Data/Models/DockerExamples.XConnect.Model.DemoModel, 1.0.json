@@ -1,5 +1,5 @@
 {
-  "Name": "DockerDemo.XConnect.Model.DemoModel",
+  "Name": "DockerExamples.XConnect.Model.DemoModel",
   "Version": "1.0",
   "References": [
     {
@@ -12,10 +12,10 @@
     }
   ],
   "Types": {
-    "DockerDemo.XConnect.Model.DemoFacet": {
+    "DockerExamples.XConnect.Model.DemoFacet": {
       "Type": "Facet",
       "BaseType": "Sitecore.XConnect.Facet",
-      "ClrType": "DockerDemo.XConnect.Model.DemoFacet, DockerDemo.XConnect.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+      "ClrType": "DockerExamples.XConnect.Model.DemoFacet, DockerExamples.XConnect.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
       "Properties": {
         "FavoriteAnimal": {
           "Type": "String"
@@ -27,7 +27,7 @@
     {
       "Target": "Contact",
       "Name": "DemoFacet",
-      "Type": "DockerDemo.XConnect.Model.DemoFacet"
+      "Type": "DockerExamples.XConnect.Model.DemoFacet"
     }
   ]
 }

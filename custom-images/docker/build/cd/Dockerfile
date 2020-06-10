@@ -22,4 +22,4 @@ COPY --from=solution /artifacts/website/ ./
 COPY --from=solution /artifacts/transforms/ /transforms/solution/
 
 # Perform solution transforms
-RUN C:\tools\scripts\Invoke-XdtTransform.ps1 -Path .\ -XdtPath C:\transforms\solution\DockerDemo.Website
+RUN C:\tools\scripts\Invoke-XdtTransform.ps1 -Path .\ -XdtPath C:\transforms\solution\DockerExamples.Website
