@@ -3,7 +3,7 @@
   <system.webServer>
     <httpProtocol>
       <customHeaders>
-        <add name="Docker-Demo" xdt:Locator="Match(name)" value="Role transform" xdt:Transform="SetAttributes(value)" />
+        <add name="Docker-Examples" xdt:Locator="Match(name)" value="Role transform" xdt:Transform="SetAttributes(value)" />
       </customHeaders>
     </httpProtocol>
   </system.webServer>

@@ -3,7 +3,7 @@
   <system.webServer>
     <httpProtocol>
       <customHeaders>
-        <add name="Docker-Demo" xdt:Locator="Match(name)" value="Solution transform" xdt:Transform="InsertIfMissing" />
+        <add name="Docker-Examples" xdt:Locator="Match(name)" value="Solution transform" xdt:Transform="InsertIfMissing" />
       </customHeaders>
     </httpProtocol>
   </system.webServer>
