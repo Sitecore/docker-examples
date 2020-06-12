@@ -18,7 +18,14 @@ namespace App.XConnect.Demo
         {
             using (var client = GetClient())
             {
-                var contact = new Contact(new ContactIdentifier("twitter", "dockerexamplessitecore", ContactIdentifierType.Known));
+                var contact = new Contact(new ContactIdentifier("domain", "docker.examples", ContactIdentifierType.Known));
+
+                var personalInfo = new PersonalInformation
+                {
+                    FirstName = "Docker",
+                    LastName = "Examples"
+                };
+                client.SetFacet(contact, PersonalInformation.DefaultFacetKey, personalInfo);
 
                 var emailFacet = new EmailAddressList(new EmailAddress("docker.examples@sitecore.com", true), "domain");
                 client.SetFacet(contact, EmailAddressList.DefaultFacetKey, emailFacet);
