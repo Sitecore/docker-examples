@@ -1,0 +1,74 @@
+version: "2.4"
+
+services:
+
+  solution:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
+    build:
+      context: .
+      args:
+        BASE_IMAGE: ${SOLUTION_BASE_IMAGE}
+        BUILD_IMAGE: ${SOLUTION_BUILD_IMAGE}
+        Nuget_SitecorePreview_Username: ${NUGET_SITECOREPREVIEW_USERNAME}
+        Nuget_SitecorePreview_Password: ${NUGET_SITECOREPREVIEW_PASSWORD}
+    scale: 0
+
+  redis:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-redis:${VERSION:-latest}
+    build:
+      context: ./docker/build/redis
+      args:
+        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-redis:${SITECORE_VERSION}
+
+  mssql:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xm1-mssql:${VERSION:-latest}
+    build:
+      context: ./docker/build/mssql
+      args:
+        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xm1-mssql:${SITECORE_VERSION}
+    mem_limit: 2GB
+  
+  solr:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xm1-solr:${VERSION:-latest}
+    build:
+      context: ./docker/build/solr
+      args:
+        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xm1-solr:${SITECORE_VERSION}
+    mem_limit: 1GB
+
+  id:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-id:${VERSION:-latest}
+    build:
+      context: ./docker/build/id
+      args:
+        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-id:${SITECORE_VERSION}
+
+  cm:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xm1-cm:${VERSION:-latest}
+    build:
+      context: ./docker/build/cm
+      args:
+        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xm1-cm:${SITECORE_VERSION}
+        TOOLING_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-docker-tools:${SITECORE_TOOLS_VERSION}
+        SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
+    depends_on:
+      - solution
+    volumes:
+      - ${LOCAL_DEPLOY_PATH}\website:C:\deploy
+      - ${LOCAL_DATA_PATH}\cm:C:\inetpub\wwwroot\App_Data\logs
+    entrypoint: powershell -Command "& C:\tools\entrypoints\iis\Development.ps1"
+
+  cd:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xm1-cd:${VERSION:-latest}
+    build:
+      context: ./docker/build/cd
+      args:
+        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xm1-cd:${SITECORE_VERSION}
+        TOOLING_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-docker-tools:${SITECORE_TOOLS_VERSION}
+        SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
+    depends_on:
+      - solution
+    volumes:
+      - ${LOCAL_DEPLOY_PATH}\website:C:\deploy
+      - ${LOCAL_DATA_PATH}\cd:C:\inetpub\wwwroot\App_Data\logs
+    entrypoint: powershell -Command "& C:\tools\entrypoints\iis\Development.ps1"

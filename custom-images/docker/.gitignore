@@ -7,5 +7,7 @@
 /data/solr/*
 !/data/solr/.gitkeep
 
-/deploy/*
-!/deploy/.gitkeep
+/deploy/website/*
+!/deploy/website/.gitkeep
+/deploy/xconnect/*
+!/deploy/xconnect/.gitkeep

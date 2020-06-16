@@ -10,22 +10,22 @@ FROM ${BASE_IMAGE}
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
+# Copy tools
+COPY --from=tooling \tools\ \tools\
+
 WORKDIR C:\inetpub\wwwroot
 
-# Copy solution files
-COPY --from=solution /artifacts/files/ ./
+# Copy solution website files
+COPY --from=solution \artifacts\website\ .\
 
 # Copy solution transforms
-COPY --from=solution /artifacts/transforms/ /transforms/solution/
+COPY --from=solution \artifacts\transforms\ \transforms\solution\
 
 # Copy role transforms
-COPY ./transforms/ /transforms/role/
-
-# Copy tools
-COPY --from=tooling /tools/ /tools/
+COPY .\transforms\ \transforms\role\
 
 # Perform solution transforms
-RUN C:\tools\scripts\Invoke-XdtTransform.ps1 -Path .\ -XdtPath C:\transforms\solution\website
+RUN C:\tools\scripts\Invoke-XdtTransform.ps1 -Path .\ -XdtPath C:\transforms\solution\DockerExamples.Website
 
 # Perform role transforms
 RUN C:\tools\scripts\Invoke-XdtTransform.ps1 -Path .\ -XdtPath C:\transforms\role
