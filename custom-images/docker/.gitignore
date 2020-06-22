@@ -11,3 +11,6 @@
 !/deploy/website/.gitkeep
 /deploy/xconnect/*
 !/deploy/xconnect/.gitkeep
+
+/traefik/certs/*
+!/traefik/certs/.gitkeep
