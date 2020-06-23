@@ -11,20 +11,6 @@ Param (
 
 $ErrorActionPreference = "Stop";
 
-# Register sc-powershell PSRepository if necessary
-Import-Module PowerShellGet
-if (!(Get-PSRepository -Name "sc-powershell" -ErrorAction SilentlyContinue)) 
-{
-    Register-PSRepository -Name "sc-powershell" -SourceLocation "https://sitecore.myget.org/F/sc-powershell/api/v2"
-}
-# Install SitecoreDockerTools if necessary
-if (!(Get-Module SitecoreDockerTools -ErrorAction SilentlyContinue)) 
-{
-    Install-Module SitecoreDockerTools
-}
-
-Import-Module SitecoreDockerTools
-
 if (-not (Test-Path $LicenseXmlPath))
 {
     throw "Did not find $LicenseXmlPath"
@@ -34,17 +20,37 @@ if (-not (Test-Path $LicenseXmlPath -PathType Leaf))
     throw "$LicenseXmlPath is not a file"
 }
 
+# Register Sitecore Gallery if necessary
+Import-Module PowerShellGet
+$SitecoreGallery = Get-PSRepository | Where-Object { $_.SourceLocation -eq "https://sitecore.myget.org/F/sc-powershell/api/v2" }
+if (-not $SitecoreGallery) {
+    Write-Host "Adding Sitecore PowerShell Gallery..." -ForegroundColor Green 
+    Register-PSRepository -Name SitecoreGallery -SourceLocation https://sitecore.myget.org/F/sc-powershell/api/v2 -InstallationPolicy Trusted
+    $SitecoreGallery = Get-PSRepository -Name SitecoreGallery
+}
+# Install SitecoreDockerTools if necessary
+if (!(Get-Module SitecoreDockerTools -ErrorAction SilentlyContinue))
+{
+    Write-Host "Installing SitecoreDockerTools..." -ForegroundColor Green
+    Install-Module SitecoreDockerTools -Repository $SitecoreGallery.Name
+}
+
+Import-Module SitecoreDockerTools
+
+###############################
+# Populate the environment file
+###############################
+
+Write-Host "Populating required .env file variables..." -ForegroundColor Green
+
 # CD_HOST
 Set-DockerComposeEnvFileVariable "CD_HOST" -Value "cd.$($HostName).localhost"
-Add-HostsEntry "cd.$($HostName).localhost"
 
 # CM_HOST
 Set-DockerComposeEnvFileVariable "CM_HOST" -Value "cm.$($HostName).localhost"
-Add-HostsEntry "cm.$($HostName).localhost"
 
 # ID_HOST
 Set-DockerComposeEnvFileVariable "ID_HOST" -Value "id.$($HostName).localhost"
-Add-HostsEntry "id.$($HostName).localhost"
 
 # REPORTING_API_KEY = random 64-128 chars
 Set-DockerComposeEnvFileVariable "REPORTING_API_KEY" -Value (Get-SitecoreRandomString 64 -AlphanumericOnly)
@@ -64,3 +70,29 @@ Set-DockerComposeEnvFileVariable "SITECORE_ID_CERTIFICATE_PASSWORD" -Value $idCe
 
 # SITECORE_LICENSE
 Set-DockerComposeEnvFileVariable "SITECORE_LICENSE" -Value (ConvertTo-CompressedBase64String -Path $LicenseXmlPath)
+
+##################################
+# Configure TLS/HTTPS certificates
+##################################
+
+Push-Location docker\traefik\certs
+if (!(Test-Path mkcert.exe)) {
+    Write-Host "Downloading and installing mkcert certificate tool..." -ForegroundColor Green 
+    Invoke-WebRequest https://github.com/FiloSottile/mkcert/releases/download/v1.4.1/mkcert-v1.4.1-windows-amd64.exe -UseBasicParsing -OutFile mkcert.exe
+    .\mkcert.exe -install
+}
+Write-Host "Generating Traefik TLS certificate..." -ForegroundColor Green
+.\mkcert.exe "*.$($HostName).localhost"
+Pop-Location
+
+################################
+# Add Windows hosts file entries
+################################
+
+Write-Host "Adding Windows hosts file entries..." -ForegroundColor Green
+
+Add-HostsEntry "cd.$($HostName).localhost"
+Add-HostsEntry "cm.$($HostName).localhost"
+Add-HostsEntry "id.$($HostName).localhost"
+
+Write-Host "Done!" -ForegroundColor Green
