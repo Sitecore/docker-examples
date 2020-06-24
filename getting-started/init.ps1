@@ -65,7 +65,7 @@ try {
         Invoke-WebRequest https://github.com/FiloSottile/mkcert/releases/download/v1.4.1/mkcert-v1.4.1-windows-amd64.exe -UseBasicParsing -OutFile mkcert.exe
         if ((Get-FileHash mkcert.exe).Hash -ne "1BE92F598145F61CA67DD9F5C687DFEC17953548D013715FF54067B34D7C3246") {
             Remove-Item mkcert.exe -Force
-            throw "mkcert.exe hash mismatch"
+            throw "Invalid mkcert.exe file"
         }
         .\mkcert.exe -install
     }
