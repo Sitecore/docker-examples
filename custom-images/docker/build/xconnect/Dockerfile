@@ -10,7 +10,7 @@ FROM ${BASE_IMAGE}
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
-# Copy tools
+# Copy development tools
 COPY --from=tooling \tools\ \tools\
 
 WORKDIR C:\inetpub\wwwroot

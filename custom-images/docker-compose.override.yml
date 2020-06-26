@@ -23,6 +23,8 @@ services:
       context: ./docker/build/mssql
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp0-mssql:${SITECORE_VERSION}
+        SPE_IMAGE: ${SITECORE_DOCKER_REGISTRY}spe:${SITECORE_SPE_VERSION}
+        SXA_IMAGE: ${SITECORE_DOCKER_REGISTRY}sxa-xp1:${SITECORE_SXA_VERSION}
     mem_limit: 2GB
     volumes:
       - ${LOCAL_DATA_PATH}\mssql:c:\data
@@ -33,6 +35,7 @@ services:
       context: ./docker/build/solr
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp0-solr:${SITECORE_VERSION}
+        SXA_IMAGE: ${SITECORE_DOCKER_REGISTRY}sxa-xp1:${SITECORE_SXA_VERSION}
     mem_limit: 1GB
     volumes:
       - ${LOCAL_DATA_PATH}\solr:c:\data
@@ -50,6 +53,8 @@ services:
       context: ./docker/build/cm
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp0-cm:${SITECORE_VERSION}
+        SPE_IMAGE: ${SITECORE_DOCKER_REGISTRY}spe:${SITECORE_SPE_VERSION}
+        SXA_IMAGE: ${SITECORE_DOCKER_REGISTRY}sxa-xp1:${SITECORE_SXA_VERSION}
         TOOLING_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-docker-tools:${SITECORE_TOOLS_VERSION}
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
     depends_on:
