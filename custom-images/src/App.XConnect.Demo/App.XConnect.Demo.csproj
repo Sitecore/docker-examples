@@ -48,13 +48,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Sitecore.XConnect">
-      <Version>10.0.0-r003840</Version>
+      <Version>10.0.0-r004174</Version>
     </PackageReference>
     <PackageReference Include="Sitecore.XConnect.Client">
-      <Version>10.0.0-r003840</Version>
+      <Version>10.0.0-r004174</Version>
     </PackageReference>
     <PackageReference Include="Sitecore.XConnect.Collection.Model">
-      <Version>10.0.0-r003840</Version>
+      <Version>10.0.0-r004174</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

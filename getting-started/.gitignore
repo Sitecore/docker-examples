@@ -1,0 +1,7 @@
+/mssql-data/*
+!/mssql-data/.gitkeep
+/solr-data/*
+!/solr-data/.gitkeep
+
+/traefik/certs/*
+!/traefik/certs/.gitkeep

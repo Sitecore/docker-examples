@@ -13,6 +13,10 @@ services:
         Nuget_SitecorePreview_Password: ${NUGET_SITECOREPREVIEW_PASSWORD}
     scale: 0
 
+  traefik:
+    volumes:
+      - ./docker/traefik:C:/etc/traefik
+  
   redis:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-redis:${VERSION:-latest}
     build:
@@ -27,6 +31,8 @@ services:
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xm1-mssql:${SITECORE_VERSION}
     mem_limit: 2GB
+    volumes:
+      - ${LOCAL_DATA_PATH}\mssql:c:\data
   
   solr:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xm1-solr:${VERSION:-latest}
@@ -35,6 +41,8 @@ services:
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xm1-solr:${SITECORE_VERSION}
     mem_limit: 1GB
+    volumes:
+      - ${LOCAL_DATA_PATH}\solr:c:\data
 
   id:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-id:${VERSION:-latest}
