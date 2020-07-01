@@ -9,6 +9,7 @@ services:
       args:
         BASE_IMAGE: ${SOLUTION_BASE_IMAGE}
         BUILD_IMAGE: ${SOLUTION_BUILD_IMAGE}
+        BUILD_CONFIGURATION: ${BUILD_CONFIGURATION}
         Nuget_SitecorePreview_Username: ${NUGET_SITECOREPREVIEW_USERNAME}
         Nuget_SitecorePreview_Password: ${NUGET_SITECOREPREVIEW_PASSWORD}
     scale: 0
