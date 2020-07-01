@@ -6,7 +6,17 @@ Param (
     $LicenseXmlPath,
 
     [string]
-    $HostName = "dockerexamples"
+    $HostName = "dockerexamples",
+    
+    # We do not need to use [SecureString] here since the value will be stored unencrypted in .env,
+    # and used only for transient local example environment.
+    [string]
+    $SitecoreAdminPassword = "Password12345",
+    
+    # We do not need to use [SecureString] here since the value will be stored unencrypted in .env,
+    # and used only for transient local example environment.
+    [string]
+    $SqlSaPassword = "Password12345"
 )
 
 $ErrorActionPreference = "Stop";
@@ -40,6 +50,12 @@ Import-Module SitecoreDockerTools
 ###############################
 
 Write-Host "Populating required .env file variables..." -ForegroundColor Green
+
+# SITECORE_ADMIN_PASSWORD
+Set-DockerComposeEnvFileVariable "SITECORE_ADMIN_PASSWORD" -Value $SitecoreAdminPassword
+
+# SQL_SA_PASSWORD
+Set-DockerComposeEnvFileVariable "SQL_SA_PASSWORD" -Value $SqlSaPassword
 
 # CD_HOST
 Set-DockerComposeEnvFileVariable "CD_HOST" -Value "cd.$($HostName).localhost"
