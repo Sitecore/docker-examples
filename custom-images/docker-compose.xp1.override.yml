@@ -30,6 +30,8 @@ services:
       context: ./docker/build/mssql
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-mssql:${SITECORE_VERSION}
+        SPE_IMAGE: ${SITECORE_MODULE_REGISTRY}spe:${SPE_VERSION}
+        SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}sxa-xp1:${SXA_VERSION}
     mem_limit: 2GB
     volumes:
       - ${LOCAL_DATA_PATH}\mssql:c:\data
@@ -40,6 +42,7 @@ services:
       context: ./docker/build/solr
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-solr:${SITECORE_VERSION}
+        SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}sxa-xp1:${SXA_VERSION}
     mem_limit: 1GB
     volumes:
       - ${LOCAL_DATA_PATH}\solr:c:\data
@@ -57,7 +60,8 @@ services:
       context: ./docker/build/cd
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-cd:${SITECORE_VERSION}
-        TOOLING_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-docker-tools:${SITECORE_TOOLS_VERSION}
+        SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}sxa-xp1:${SXA_VERSION}
+        TOOLING_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-docker-tools:${TOOLS_VERSION}
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
     depends_on:
       - solution
@@ -72,7 +76,9 @@ services:
       context: ./docker/build/cm
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-cm:${SITECORE_VERSION}
-        TOOLING_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-docker-tools:${SITECORE_TOOLS_VERSION}
+        SPE_IMAGE: ${SITECORE_MODULE_REGISTRY}spe:${SPE_VERSION}
+        SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}sxa-xp1:${SXA_VERSION}
+        TOOLING_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-docker-tools:${TOOLS_VERSION}
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
     depends_on:
       - solution
