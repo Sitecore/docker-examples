@@ -28,13 +28,13 @@ if (-not (Test-Path $LicenseXmlPath -PathType Leaf)) {
 # Register Sitecore Gallery if necessary
 Import-Module PowerShellGet
 $SitecoreGallery = Get-PSRepository | Where-Object { $_.SourceLocation -eq "https://sitecore.myget.org/F/sc-powershell/api/v2" }
-if (!$SitecoreGallery) {
+if (-not $SitecoreGallery) {
     Write-Host "Adding Sitecore PowerShell Gallery..." -ForegroundColor Green 
     Register-PSRepository -Name SitecoreGallery -SourceLocation https://sitecore.myget.org/F/sc-powershell/api/v2 -InstallationPolicy Trusted
     $SitecoreGallery = Get-PSRepository -Name SitecoreGallery
 }
 # Install SitecoreDockerTools if necessary
-if (!(Get-Module SitecoreDockerTools -ErrorAction SilentlyContinue))
+if (-not (Get-Module SitecoreDockerTools -ListAvailable -ErrorAction SilentlyContinue))
 {
     Write-Host "Installing SitecoreDockerTools..." -ForegroundColor Green
     Install-Module SitecoreDockerTools -Repository $SitecoreGallery.Name

@@ -37,7 +37,7 @@ if (-not $SitecoreGallery) {
     $SitecoreGallery = Get-PSRepository -Name SitecoreGallery
 }
 # Install SitecoreDockerTools if necessary
-if (!(Get-Module SitecoreDockerTools -ErrorAction SilentlyContinue))
+if (-not (Get-Module SitecoreDockerTools -ListAvailable -ErrorAction SilentlyContinue))
 {
     Write-Host "Installing SitecoreDockerTools..." -ForegroundColor Green
     Install-Module SitecoreDockerTools -Repository $SitecoreGallery.Name
