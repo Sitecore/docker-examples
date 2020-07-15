@@ -56,7 +56,7 @@ services:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp0-cm:${SITECORE_VERSION}
         SPE_IMAGE: ${SITECORE_MODULE_REGISTRY}spe:${SPE_VERSION}
         SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}sxa-xp1:${SXA_VERSION}
-        TOOLING_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-docker-tools:${TOOLS_VERSION}
+        TOOLING_IMAGE: ${SITECORE_TOOLS_REGISTRY}sitecore-docker-tools-assets:${TOOLS_VERSION}
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
     depends_on:
       - solution
@@ -71,7 +71,7 @@ services:
       context: ./docker/build/xconnect
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp0-xconnect:${SITECORE_VERSION}
-        TOOLING_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-docker-tools:${TOOLS_VERSION}
+        TOOLING_IMAGE: ${SITECORE_TOOLS_REGISTRY}sitecore-docker-tools-assets:${TOOLS_VERSION}
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
     depends_on:
       - solution

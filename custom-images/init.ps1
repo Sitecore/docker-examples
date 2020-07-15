@@ -28,7 +28,7 @@ if (-not (Test-Path $LicenseXmlPath -PathType Leaf)) {
     throw "$LicenseXmlPath is not a file"
 }
 
-# Register Sitecore Gallery if necessary
+# Check for Sitecore Gallery
 Import-Module PowerShellGet
 $SitecoreGallery = Get-PSRepository | Where-Object { $_.SourceLocation -eq "https://sitecore.myget.org/F/sc-powershell/api/v2" }
 if (-not $SitecoreGallery) {
@@ -36,14 +36,15 @@ if (-not $SitecoreGallery) {
     Register-PSRepository -Name SitecoreGallery -SourceLocation https://sitecore.myget.org/F/sc-powershell/api/v2 -InstallationPolicy Trusted
     $SitecoreGallery = Get-PSRepository -Name SitecoreGallery
 }
-# Install SitecoreDockerTools if necessary
-if (-not (Get-Module SitecoreDockerTools -ListAvailable -ErrorAction SilentlyContinue))
-{
+# Install and Import SitecoreDockerTools 
+$dockerToolsVersion = "10.0.5"
+Remove-Module SitecoreDockerTools -ErrorAction SilentlyContinue
+if (-not (Get-InstalledModule -Name SitecoreDockerTools -RequiredVersion $dockerToolsVersion -AllowPrerelease -ErrorAction SilentlyContinue)) {
     Write-Host "Installing SitecoreDockerTools..." -ForegroundColor Green
-    Install-Module SitecoreDockerTools -Repository $SitecoreGallery.Name
+    Install-Module SitecoreDockerTools -RequiredVersion $dockerToolsVersion -AllowPrerelease -Scope CurrentUser -Repository $SitecoreGallery.Name
 }
-
-Import-Module SitecoreDockerTools
+Write-Host "Importing SitecoreDockerTools..." -ForegroundColor Green
+Import-Module SitecoreDockerTools -RequiredVersion $dockerToolsVersion
 
 ###############################
 # Populate the environment file
@@ -67,16 +68,16 @@ Set-DockerComposeEnvFileVariable "CM_HOST" -Value "cm.$($HostName).localhost"
 Set-DockerComposeEnvFileVariable "ID_HOST" -Value "id.$($HostName).localhost"
 
 # REPORTING_API_KEY = random 64-128 chars
-Set-DockerComposeEnvFileVariable "REPORTING_API_KEY" -Value (Get-SitecoreRandomString 64 -AlphanumericOnly)
+Set-DockerComposeEnvFileVariable "REPORTING_API_KEY" -Value (Get-SitecoreRandomString 64 -DisallowSpecial)
 
 # TELERIK_ENCRYPTION_KEY = random 64-128 chars
 Set-DockerComposeEnvFileVariable "TELERIK_ENCRYPTION_KEY" -Value (Get-SitecoreRandomString 128)
 
 # SITECORE_IDSECRET = random 64 chars
-Set-DockerComposeEnvFileVariable "SITECORE_IDSECRET" -Value (Get-SitecoreRandomString 64 -AlphanumericOnly)
+Set-DockerComposeEnvFileVariable "SITECORE_IDSECRET" -Value (Get-SitecoreRandomString 64 -DisallowSpecial)
 
 # SITECORE_ID_CERTIFICATE
-$idCertPassword = Get-SitecoreRandomString 12 -AlphanumericOnly
+$idCertPassword = Get-SitecoreRandomString 12 -DisallowSpecial
 Set-DockerComposeEnvFileVariable "SITECORE_ID_CERTIFICATE" -Value (Get-SitecoreCertificateAsBase64String -DnsName "localhost" -Password (ConvertTo-SecureString -String $idCertPassword -Force -AsPlainText))
 
 # SITECORE_ID_CERTIFICATE_PASSWORD
