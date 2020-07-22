@@ -162,10 +162,8 @@ services:
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp0-xdbautomationworker:${SITECORE_VERSION}
     depends_on:
-      mssql:
-        condition: service_healthy
       xconnect:
-        condition: service_started
+        condition: service_healthy
     restart: unless-stopped
     environment:
       Sitecore_ConnectionStrings_XConnect.Collection: http://xconnect
@@ -180,10 +178,8 @@ services:
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp0-cortexprocessingworker:${SITECORE_VERSION}
     depends_on:
-      mssql:
-        condition: service_healthy
       xconnect:
-        condition: service_started
+        condition: service_healthy
     restart: unless-stopped
     environment:
       Sitecore_ConnectionStrings_Processing.Engine.Storage: Data Source=mssql;Initial Catalog=Sitecore.Processing.Engine.Storage;User ID=sa;Password=${SQL_SA_PASSWORD}

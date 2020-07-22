@@ -10,8 +10,6 @@ services:
         BASE_IMAGE: ${SOLUTION_BASE_IMAGE}
         BUILD_IMAGE: ${SOLUTION_BUILD_IMAGE}
         BUILD_CONFIGURATION: ${BUILD_CONFIGURATION}
-        Nuget_SitecorePreview_Username: ${NUGET_SITECOREPREVIEW_USERNAME}
-        Nuget_SitecorePreview_Password: ${NUGET_SITECOREPREVIEW_PASSWORD}
     scale: 0
 
   traefik:
@@ -31,8 +29,8 @@ services:
       context: ./docker/build/mssql
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xm1-mssql:${SITECORE_VERSION}
-        SPE_IMAGE: ${SITECORE_MODULE_REGISTRY}spe:${SPE_VERSION}
-        SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}sxa-xm1:${SXA_VERSION}
+        SPE_IMAGE: ${SITECORE_MODULE_REGISTRY}spe-assets:${SPE_VERSION}
+        SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}sxa-xm1-assets:${SXA_VERSION}
     mem_limit: 2GB
     volumes:
       - ${LOCAL_DATA_PATH}\mssql:c:\data
@@ -43,7 +41,7 @@ services:
       context: ./docker/build/solr
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xm1-solr:${SITECORE_VERSION}
-        SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}sxa-xm1:${SXA_VERSION}
+        SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}sxa-xm1-assets:${SXA_VERSION}
     mem_limit: 1GB
     volumes:
       - ${LOCAL_DATA_PATH}\solr:c:\data
@@ -61,7 +59,7 @@ services:
       context: ./docker/build/cd
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xm1-cd:${SITECORE_VERSION}
-        SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}sxa-xm1:${SXA_VERSION}
+        SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}sxa-xm1-assets:${SXA_VERSION}
         TOOLING_IMAGE: ${SITECORE_TOOLS_REGISTRY}sitecore-docker-tools-assets:${TOOLS_VERSION}
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
     depends_on:
@@ -77,8 +75,8 @@ services:
       context: ./docker/build/cm
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xm1-cm:${SITECORE_VERSION}
-        SPE_IMAGE: ${SITECORE_MODULE_REGISTRY}spe:${SPE_VERSION}
-        SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}sxa-xm1:${SXA_VERSION}
+        SPE_IMAGE: ${SITECORE_MODULE_REGISTRY}spe-assets:${SPE_VERSION}
+        SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}sxa-xm1-assets:${SXA_VERSION}
         TOOLING_IMAGE: ${SITECORE_TOOLS_REGISTRY}sitecore-docker-tools-assets:${TOOLS_VERSION}
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
     depends_on:

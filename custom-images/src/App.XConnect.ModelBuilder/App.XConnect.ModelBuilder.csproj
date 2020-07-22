@@ -62,9 +62,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Sitecore.XConnect">
-      <Version>10.0.0-r004174</Version>
-    </PackageReference>
+    <PackageReference Include="Sitecore.XConnect" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

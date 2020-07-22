@@ -236,7 +236,7 @@ services:
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-xdbsearch:${SITECORE_VERSION}
     depends_on:
-      mssql:
+      xdbcollection:
         condition: service_healthy
       solr:
         condition: service_started
@@ -325,7 +325,7 @@ services:
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-xdbsearchworker:${SITECORE_VERSION}
     depends_on:
-      xdbcollection:
+      xdbsearch:
         condition: service_healthy
     restart: unless-stopped
     environment:
@@ -342,12 +342,10 @@ services:
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-xdbautomationworker:${SITECORE_VERSION}
     depends_on:
-      mssql:
-        condition: service_healthy
       xdbcollection:
-        condition: service_started
+        condition: service_healthy
       xdbsearch:
-        condition: service_started
+        condition: service_healthy
     restart: unless-stopped
     environment:
       Sitecore_ConnectionStrings_XConnect.Collection: http://xdbcollection
@@ -363,14 +361,12 @@ services:
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-cortexprocessingworker:${SITECORE_VERSION}
     depends_on:
-      mssql:
-        condition: service_healthy
       cortexprocessing:
-        condition: service_started
+        condition: service_healthy
       xdbcollection:
-        condition: service_started
+        condition: service_healthy
       xdbsearch:
-        condition: service_started
+        condition: service_healthy
     restart: unless-stopped
     environment:
       Sitecore_ConnectionStrings_Processing.Engine.Storage: Data Source=mssql;Initial Catalog=Sitecore.Processing.Engine.Storage;User ID=sa;Password=${SQL_SA_PASSWORD}

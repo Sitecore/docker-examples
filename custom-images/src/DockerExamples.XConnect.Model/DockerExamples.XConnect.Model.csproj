@@ -46,12 +46,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Sitecore.XConnect">
-      <Version>10.0.0-r004174</Version>
-    </PackageReference>
-    <PackageReference Include="Sitecore.XConnect.Collection.Model">
-      <Version>10.0.0-r004174</Version>
-    </PackageReference>
+    <PackageReference Include="Sitecore.XConnect" />
+    <PackageReference Include="Sitecore.XConnect.Collection.Model" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Web.config" />

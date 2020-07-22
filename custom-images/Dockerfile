@@ -13,8 +13,6 @@ RUN Invoke-Expression 'robocopy C:\temp C:\nuget\src /s /ndl /njh /njs *.csproj 
 FROM ${BUILD_IMAGE} AS builder
 
 ARG BUILD_CONFIGURATION
-ARG Nuget_SitecorePreview_Username
-ARG Nuget_SitecorePreview_Password
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
