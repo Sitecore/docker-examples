@@ -1,0 +1,17 @@
+﻿<Settings>
+  <Sitecore>
+    <XConnect>
+      <Services>
+        <XConnect.Client.Configuration>
+          <Options>
+            <Models>
+              <DemoModel>
+                <TypeName>DockerExamples.XConnect.Model.DemoModel, DockerExamples.XConnect.Model</TypeName>
+              </DemoModel>
+            </Models>
+          </Options>
+        </XConnect.Client.Configuration>
+      </Services>
+    </XConnect>
+  </Sitecore>
+</Settings>

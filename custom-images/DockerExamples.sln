@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30002.166
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DockerExamples.Website", "src\DockerExamples.Website\DockerExamples.Website.csproj", "{B062D0AC-C7AB-448A-AB55-0791E7AC974A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DockerExamples.XConnect", "src\DockerExamples.XConnect\DockerExamples.XConnect.csproj", "{5A9AB6CC-9800-4725-9967-16A58123D394}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DockerExamples.XConnect.Model", "src\DockerExamples.XConnect.Model\DockerExamples.XConnect.Model.csproj", "{16DC2062-E853-44BB-A006-BC1F4CD5BBCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.XConnect.ModelBuilder", "src\App.XConnect.ModelBuilder\App.XConnect.ModelBuilder.csproj", "{C6144D27-3F34-4761-B040-CB9E8C56955E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".app", ".app", "{D9AF16A6-F9A5-4E42-A37B-A440E8CEACC5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.XConnect.Demo", "src\App.XConnect.Demo\App.XConnect.Demo.csproj", "{2FF4ECD0-C43F-4BE2-A261-C386EFFD335E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B062D0AC-C7AB-448A-AB55-0791E7AC974A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B062D0AC-C7AB-448A-AB55-0791E7AC974A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B062D0AC-C7AB-448A-AB55-0791E7AC974A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B062D0AC-C7AB-448A-AB55-0791E7AC974A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A9AB6CC-9800-4725-9967-16A58123D394}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A9AB6CC-9800-4725-9967-16A58123D394}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A9AB6CC-9800-4725-9967-16A58123D394}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A9AB6CC-9800-4725-9967-16A58123D394}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16DC2062-E853-44BB-A006-BC1F4CD5BBCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16DC2062-E853-44BB-A006-BC1F4CD5BBCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16DC2062-E853-44BB-A006-BC1F4CD5BBCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16DC2062-E853-44BB-A006-BC1F4CD5BBCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6144D27-3F34-4761-B040-CB9E8C56955E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6144D27-3F34-4761-B040-CB9E8C56955E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6144D27-3F34-4761-B040-CB9E8C56955E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6144D27-3F34-4761-B040-CB9E8C56955E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FF4ECD0-C43F-4BE2-A261-C386EFFD335E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FF4ECD0-C43F-4BE2-A261-C386EFFD335E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FF4ECD0-C43F-4BE2-A261-C386EFFD335E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FF4ECD0-C43F-4BE2-A261-C386EFFD335E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C6144D27-3F34-4761-B040-CB9E8C56955E} = {D9AF16A6-F9A5-4E42-A37B-A440E8CEACC5}
+		{2FF4ECD0-C43F-4BE2-A261-C386EFFD335E} = {D9AF16A6-F9A5-4E42-A37B-A440E8CEACC5}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {44094B79-5407-4492-B8D1-B0EA37325E6E}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,33 @@
+{
+  "Name": "DockerExamples.XConnect.Model.DemoModel",
+  "Version": "1.0",
+  "References": [
+    {
+      "Name": "XConnect",
+      "Version": "1.0"
+    },
+    {
+      "Name": "Sitecore.XConnect.Collection.Model",
+      "Version": "10.0"
+    }
+  ],
+  "Types": {
+    "DockerExamples.XConnect.Model.DemoFacet": {
+      "Type": "Facet",
+      "BaseType": "Sitecore.XConnect.Facet",
+      "ClrType": "DockerExamples.XConnect.Model.DemoFacet, DockerExamples.XConnect.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+      "Properties": {
+        "FavoriteAnimal": {
+          "Type": "String"
+        }
+      }
+    }
+  },
+  "Facets": [
+    {
+      "Target": "Contact",
+      "Name": "DemoFacet",
+      "Type": "DockerExamples.XConnect.Model.DemoFacet"
+    }
+  ]
+}
