@@ -106,7 +106,7 @@ try {
     }
     Write-Host "Generating Traefik TLS certificate..." -ForegroundColor Green
     & $mkcert -install
-    & $mkcert "*.$($HostName).localhost"
+    & $mkcert -key-file key.pem -cert-file cert.pem "*.$($HostName).localhost"
 }
 catch {
     Write-Host "An error occurred while attempting to generate TLS certificate: $_" -ForegroundColor Red
