@@ -39,9 +39,9 @@ if (-not $SitecoreGallery) {
 # Install and Import SitecoreDockerTools 
 $dockerToolsVersion = "10.0.5"
 Remove-Module SitecoreDockerTools -ErrorAction SilentlyContinue
-if (-not (Get-InstalledModule -Name SitecoreDockerTools -RequiredVersion $dockerToolsVersion -AllowPrerelease -ErrorAction SilentlyContinue)) {
+if (-not (Get-InstalledModule -Name SitecoreDockerTools -RequiredVersion $dockerToolsVersion -ErrorAction SilentlyContinue)) {
     Write-Host "Installing SitecoreDockerTools..." -ForegroundColor Green
-    Install-Module SitecoreDockerTools -RequiredVersion $dockerToolsVersion -AllowPrerelease -Scope CurrentUser -Repository $SitecoreGallery.Name
+    Install-Module SitecoreDockerTools -RequiredVersion $dockerToolsVersion -Scope CurrentUser -Repository $SitecoreGallery.Name
 }
 Write-Host "Importing SitecoreDockerTools..." -ForegroundColor Green
 Import-Module SitecoreDockerTools -RequiredVersion $dockerToolsVersion
@@ -106,7 +106,7 @@ try {
     }
     Write-Host "Generating Traefik TLS certificate..." -ForegroundColor Green
     & $mkcert -install
-    & $mkcert "*.$($HostName).localhost"
+    & $mkcert -key-file key.pem -cert-file cert.pem "*.$($HostName).localhost"
 }
 catch {
     Write-Host "An error occurred while attempting to generate TLS certificate: $_" -ForegroundColor Red
