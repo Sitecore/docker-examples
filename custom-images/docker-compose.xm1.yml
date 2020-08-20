@@ -1,6 +1,7 @@
 version: "2.4"
 services:
   traefik:
+    hostname: traefik
     isolation: ${TRAEFIK_ISOLATION}
     image: ${TRAEFIK_IMAGE}
     command:
@@ -30,9 +31,11 @@ services:
       cm:
         condition: service_healthy
   redis:
+    hostname: redis
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-redis:${SITECORE_VERSION}
   mssql:
+    hostname: mssql
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xm1-mssql:${SITECORE_VERSION}
     environment:
@@ -46,6 +49,7 @@ services:
         source: .\mssql-data
         target: c:\data
   solr:
+    hostname: solr
     isolation: ${ISOLATION}
     ports:
       - "8984:8983"
@@ -55,6 +59,7 @@ services:
         source: .\solr-data
         target: c:\data
   id:
+    hostname: id
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-id:${SITECORE_VERSION}
     environment:
@@ -78,6 +83,7 @@ services:
       - "traefik.http.routers.id-secure.rule=Host(`${ID_HOST}`)"
       - "traefik.http.routers.id-secure.tls=true"
   cd:
+    hostname: cd
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xm1-cd:${SITECORE_VERSION}
     depends_on:
@@ -103,6 +109,7 @@ services:
       - "traefik.http.routers.cd.entrypoints=web"
       - "traefik.http.routers.cd.rule=Host(`${CD_HOST}`)"
   cm:
+    hostname: cm
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xm1-cm:${SITECORE_VERSION}
     depends_on:

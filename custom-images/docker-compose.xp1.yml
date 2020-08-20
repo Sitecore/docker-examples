@@ -1,6 +1,7 @@
 version: "2.4"
 services:
   traefik:
+    hostname: traefik
     isolation: ${TRAEFIK_ISOLATION}
     image: ${TRAEFIK_IMAGE}
     command:
@@ -30,9 +31,11 @@ services:
       cm:
         condition: service_healthy
   redis:
+    hostname: redis
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-redis:${SITECORE_VERSION}
   mssql:
+    hostname: mssql
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-mssql:${SITECORE_VERSION}
     environment:
@@ -47,6 +50,7 @@ services:
         source: .\mssql-data
         target: c:\data
   solr:
+    hostname: solr
     isolation: ${ISOLATION}
     ports:
       - "8984:8983"
@@ -56,6 +60,7 @@ services:
         source: .\solr-data
         target: c:\data
   id:
+    hostname: id
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-id:${SITECORE_VERSION}
     environment:
@@ -79,6 +84,7 @@ services:
       - "traefik.http.routers.id-secure.rule=Host(`${ID_HOST}`)"
       - "traefik.http.routers.id-secure.tls=true"
   cd:
+    hostname: cd
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-cd:${SITECORE_VERSION}
     depends_on:
@@ -118,6 +124,7 @@ services:
       - "traefik.http.routers.cd.entrypoints=web"
       - "traefik.http.routers.cd.rule=Host(`${CD_HOST}`)"      
   cm:
+    hostname: cm
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-cm:${SITECORE_VERSION}
     depends_on:
@@ -178,6 +185,7 @@ services:
       - "traefik.http.routers.cm-secure.tls=true"
       - "traefik.http.routers.cm-secure.middlewares=force-STS-Header"
   prc:
+    hostname: prc
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-prc:${SITECORE_VERSION}
     depends_on:
@@ -201,6 +209,7 @@ services:
       test: ["CMD", "powershell", "-command", "C:/Healthchecks/Healthcheck.ps1"]
       timeout: 300s
   rep:
+    hostname: rep
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-rep:${SITECORE_VERSION}
     depends_on:
@@ -218,6 +227,7 @@ services:
       test: ["CMD", "powershell", "-command", "C:/Healthchecks/Healthcheck.ps1"]
       timeout: 300s
   xdbcollection:
+    hostname: xdbcollection
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-xdbcollection:${SITECORE_VERSION}
     depends_on:
@@ -233,6 +243,7 @@ services:
       test: ["CMD", "powershell", "-command", "C:/Healthchecks/Healthcheck.ps1"]
       timeout: 300s
   xdbsearch:
+    hostname: xdbsearch
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-xdbsearch:${SITECORE_VERSION}
     depends_on:
@@ -253,6 +264,7 @@ services:
       test: ["CMD", "powershell", "-command", "C:/Healthchecks/Healthcheck.ps1"]
       timeout: 300s
   xdbautomation:
+    hostname: xdbautomation
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-xdbautomation:${SITECORE_VERSION}
     depends_on:
@@ -273,6 +285,7 @@ services:
       test: ["CMD", "powershell", "-command", "C:/Healthchecks/Healthcheck.ps1"]
       timeout: 300s
   xdbautomationrpt:
+    hostname: xdbautomationrpt
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-xdbautomationrpt:${SITECORE_VERSION}
     depends_on:
@@ -286,6 +299,7 @@ services:
       test: ["CMD", "powershell", "-command", "C:/Healthchecks/Healthcheck.ps1"]
       timeout: 300s
   cortexprocessing:
+    hostname: cortexprocessing
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-cortexprocessing:${SITECORE_VERSION}
     depends_on:
@@ -298,6 +312,7 @@ services:
       test: ["CMD", "powershell", "-command", "C:/Healthchecks/Healthcheck.ps1"]
       timeout: 300s
   cortexreporting:
+    hostname: cortexreporting
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-cortexreporting:${SITECORE_VERSION}
     depends_on:
@@ -310,6 +325,7 @@ services:
       test: ["CMD", "powershell", "-command", "C:/Healthchecks/Healthcheck.ps1"]
       timeout: 300s
   xdbrefdata:
+    hostname: xdbrefdata
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-xdbrefdata:${SITECORE_VERSION}
     depends_on:
@@ -322,6 +338,7 @@ services:
       test: ["CMD", "powershell", "-command", "C:/Healthchecks/Healthcheck.ps1"]
       timeout: 300s
   xdbsearchworker:
+    hostname: xdbsearchworker
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-xdbsearchworker:${SITECORE_VERSION}
     depends_on:
@@ -339,6 +356,7 @@ services:
       test: ["CMD", "powershell", "-command", "C:/Healthchecks/Healthcheck.ps1 -Port 8080"]
       timeout: 300s
   xdbautomationworker:
+    hostname: xdbautomationworker
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-xdbautomationworker:${SITECORE_VERSION}
     depends_on:
@@ -358,6 +376,7 @@ services:
       test: ["CMD", "powershell", "-command", "C:/Healthchecks/Healthcheck.ps1 -Port 8080"]
       timeout: 300s
   cortexprocessingworker:
+    hostname: cortexprocessingworker
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-cortexprocessingworker:${SITECORE_VERSION}
     depends_on:
