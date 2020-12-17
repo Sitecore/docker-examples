@@ -68,9 +68,6 @@ services:
       - ${LOCAL_DEPLOY_PATH}\website:C:\deploy
       - ${LOCAL_DATA_PATH}\cd:C:\inetpub\wwwroot\App_Data\logs
     entrypoint: powershell -Command "& C:\tools\entrypoints\iis\Development.ps1"
-    labels:
-      - "traefik.http.routers.cd.entrypoints=websecure"
-      - "traefik.http.routers.cd.tls=true"
 
   cm:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xm1-cm:${VERSION:-latest}

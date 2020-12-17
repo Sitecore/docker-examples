@@ -103,6 +103,7 @@ services:
       Sitecore_Identity_Server_InternalAuthority: http://id
       Sitecore_Identity_Server_CallbackAuthority: https://${CM_HOST}
       Sitecore_Identity_Server_Require_Https: "false"
+      SOLR_CORE_PREFIX_NAME: ${SOLR_CORE_PREFIX_NAME}
     healthcheck:
       test: ["CMD", "powershell", "-command", "C:/Healthchecks/Healthcheck.ps1"]
       timeout: 300s
