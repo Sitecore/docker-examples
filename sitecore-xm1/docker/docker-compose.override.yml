@@ -1,0 +1,76 @@
+version: "2.4"
+
+services:
+
+  traefik:
+    command:
+      - "--ping"
+      - "--api.insecure=true"
+      - "--providers.docker.endpoint=npipe:////./pipe/docker_engine"
+      - "--providers.docker.exposedByDefault=false"
+      - "--providers.file.directory=C:/etc/traefik/config/dynamic"
+      - "--entryPoints.websecure.address=:443"
+      - "--entryPoints.web.address=:80"
+    ports:
+      - "8080:80"
+    volumes:
+      - ./traefik:C:/etc/traefik
+  
+  redis:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-redis:${VERSION:-latest}
+    build:
+      context: ./build/redis
+      args:
+        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-redis:${SITECORE_VERSION}
+
+  mssql:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xm1-mssql:${VERSION:-latest}
+    build:
+      context: ./build/mssql
+      args:
+        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xm1-mssql:${SITECORE_VERSION}
+        SPE_IMAGE: ${SITECORE_MODULE_REGISTRY}spe-assets:${SPE_VERSION}
+    volumes:
+      - .\data\mssql:c:\data
+    mem_limit: ${MEM_LIMIT_SQL:-2GB}
+    restart: always
+  
+  solr:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xm1-solr:${VERSION:-latest}
+    build:
+      context: ./build/solr
+      args:
+        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xm1-solr:${SITECORE_VERSION}
+    volumes:
+      - .\data\solr:c:\data
+    mem_limit: ${MEM_LIMIT_SOLR:-1GB}
+    restart: always
+
+  id:
+    scale: 0
+
+  cd:
+    scale: 0
+
+  cm:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xm1-cm:${VERSION:-latest}
+    build:
+      context: ./build/cm
+      args:
+        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xm1-cm:${SITECORE_VERSION}
+        SPE_IMAGE: ${SITECORE_MODULE_REGISTRY}spe-assets:${SPE_VERSION}
+        TOOLING_IMAGE: ${SITECORE_TOOLS_REGISTRY}sitecore-docker-tools-assets:${TOOLS_VERSION}
+    environment: 
+      SITECORE_LICENSE_LOCATION: C:\license\license.xml
+    volumes:
+      - .\data\cm\website:C:\deploy
+      - .\data\cm\logs:C:\inetpub\wwwroot\App_Data\logs
+      - ${LICENSE_PATH}:C:\license
+    entrypoint: powershell -Command "& C:\tools\entrypoints\iis\Development.ps1"
+    mem_limit: ${MEM_LIMIT_CM:-4GB}
+    restart: always
+    labels:
+      - "traefik.http.middlewares.redirect-to-https.redirectScheme.scheme=https"
+      - "traefik.http.routers.cm.entrypoints=web"
+      - "traefik.http.routers.cm.rule=Host(`${CM_HOST}`)"
+      - "traefik.http.routers.cm.middlewares=redirect-to-https"

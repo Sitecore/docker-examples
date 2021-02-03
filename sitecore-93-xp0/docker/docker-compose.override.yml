@@ -1,0 +1,94 @@
+version: "2.4"
+
+services:
+
+  traefik:
+    isolation: ${TRAEFIK_ISOLATION}
+    image: ${TRAEFIK_IMAGE}
+    command:
+      - "--ping"
+      - "--api.insecure=true"
+      - "--providers.docker.endpoint=npipe:////./pipe/docker_engine"
+      - "--providers.docker.exposedByDefault=false"
+      - "--providers.file.directory=C:/etc/traefik/config/dynamic"
+      - "--entryPoints.websecure.address=:443"
+      - "--entryPoints.web.address=:80"
+    ports:
+      - "8080:80"
+      - "443:443"
+      - "8079:8080"
+    healthcheck:
+      test: ["CMD", "traefik", "healthcheck", "--ping"]
+    volumes:
+      - source: \\.\pipe\docker_engine
+        target: \\.\pipe\docker_engine
+        type: npipe
+      - ./traefik:C:/etc/traefik
+    depends_on:
+      cm:
+        condition: service_healthy
+  
+  sql:
+    volumes:
+      - .\data\mssql:c:\data
+    mem_limit: ${MEM_LIMIT_SQL:-2GB}
+    restart: always
+  
+  solr:
+    mem_limit: ${MEM_LIMIT_SOLR:-1GB}
+    restart: always
+
+  cd:
+    scale: 0
+
+  cm:
+    environment: 
+      SITECORE_LICENSE_LOCATION: C:\license\license.xml
+    volumes:
+      - .\data\cm\website:C:\deploy
+      - .\data\cm\logs:C:\inetpub\wwwroot\App_Data\logs
+      - .\startup:C:\Healthchecks
+      - ${LICENSE_PATH}:C:\license
+    mem_limit: ${MEM_LIMIT_CM:-4GB}
+    restart: always
+    healthcheck: 
+      test: ["CMD", "powershell", "-command", "C:/Healthchecks/Healthcheck.ps1"]
+      timeout: 300s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.middlewares.redirect-to-https.redirectScheme.scheme=https"
+      - "traefik.http.routers.cm.entrypoints=web"
+      - "traefik.http.routers.cm.rule=Host(`${CM_HOST}`)"
+      - "traefik.http.routers.cm.middlewares=redirect-to-https"
+      - "traefik.http.middlewares.force-STS-Header.headers.forceSTSHeader=true"
+      - "traefik.http.middlewares.force-STS-Header.headers.stsSeconds=31536000"
+      - "traefik.http.routers.cm-secure.entrypoints=websecure"
+      - "traefik.http.routers.cm-secure.rule=Host(`${CM_HOST}`)"
+      - "traefik.http.routers.cm-secure.tls=true"
+      - "traefik.http.routers.cm-secure.middlewares=force-STS-Header"
+
+  xconnect:
+    environment: 
+      SITECORE_LICENSE_LOCATION: C:\license
+    volumes:
+      - .\data\xconnect:C:\deploy
+      - ${LICENSE_PATH}:C:\license
+    entrypoint: powershell -Command "& C:\tools\entrypoints\iis\Development.ps1"
+
+  xconnect-automationengine:
+    environment: 
+      SITECORE_LICENSE_LOCATION: C:\license
+    volumes:
+      - ${LICENSE_PATH}:C:\license
+
+  xconnect-indexworker:
+    environment: 
+      SITECORE_LICENSE_LOCATION: C:\license
+    volumes:
+      - ${LICENSE_PATH}:C:\license
+
+  xconnect-processingengine:
+    environment: 
+      SITECORE_LICENSE_LOCATION: C:\license
+    volumes:
+      - ${LICENSE_PATH}:C:\license
