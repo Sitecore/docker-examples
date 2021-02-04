@@ -1,0 +1,8 @@
+data/**/*
+!data/**/*/
+!data/**/*/.gitkeep
+
+traefik/certs/*
+!traefik/certs/.gitkeep
+
+license/license.xml
