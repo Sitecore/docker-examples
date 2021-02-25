@@ -46,13 +46,24 @@ services:
         target: c:\data
   solr:
     isolation: ${ISOLATION}
+    image: ${SITECORE_DOCKER_REGISTRY}nonproduction/solr:8.4.0-${SITECORE_VERSION}
     ports:
       - "8984:8983"
-    image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-solr:${SITECORE_VERSION}
     volumes:
       - type: bind
         source: .\solr-data
         target: c:\data
+    environment:
+      SOLR_MODE: solrcloud
+  solr-init:
+    isolation: ${ISOLATION}
+    image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-solr-init:${SITECORE_VERSION}
+    environment:
+      SITECORE_SOLR_CONNECTION_STRING: http://solr:8983/solr
+      SOLR_CORE_PREFIX_NAME: ${SOLR_CORE_PREFIX_NAME}
+    depends_on:
+      solr:
+        condition: service_healthy
   id:
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-id:${SITECORE_VERSION}
@@ -82,8 +93,6 @@ services:
     depends_on:
       mssql:
         condition: service_healthy
-      solr:
-        condition: service_started
       redis:
         condition: service_started
       xdbcollection:
@@ -101,7 +110,7 @@ services:
       Sitecore_ConnectionStrings_Messaging: Data Source=mssql;Initial Catalog=Sitecore.Messaging;User ID=sa;Password=${SQL_SA_PASSWORD}
       Sitecore_ConnectionStrings_ExperienceForms: Data Source=mssql;Initial Catalog=Sitecore.ExperienceForms;User ID=sa;Password=${SQL_SA_PASSWORD}
       Sitecore_ConnectionStrings_Exm.Master: Data Source=mssql;Initial Catalog=Sitecore.Exm.master;User ID=sa;Password=${SQL_SA_PASSWORD}
-      Sitecore_ConnectionStrings_Solr.Search: http://solr:8983/solr
+      Sitecore_ConnectionStrings_Solr.Search: http://solr:8983/solr;solrCloud=true
       Sitecore_ConnectionStrings_XConnect.Collection: http://xdbcollection
       Sitecore_ConnectionStrings_Xdb.MarketingAutomation.Operations.Client: http://xdbautomation
       Sitecore_ConnectionStrings_Xdb.MarketingAutomation.Reporting.Client: http://xdbautomationrpt
@@ -109,6 +118,7 @@ services:
       Sitecore_ConnectionStrings_Redis.Sessions: redis:6379,ssl=False,abortConnect=False
       Sitecore_License: ${SITECORE_LICENSE}
       SOLR_CORE_PREFIX_NAME: ${SOLR_CORE_PREFIX_NAME}
+      MEDIA_REQUEST_PROTECTION_SHARED_SECRET: ${MEDIA_REQUEST_PROTECTION_SHARED_SECRET}
     healthcheck:
       test: ["CMD", "powershell", "-command", "C:/Healthchecks/Healthcheck.ps1"]
       timeout: 300s
@@ -148,15 +158,13 @@ services:
       Sitecore_ConnectionStrings_Exm.Master: Data Source=mssql;Initial Catalog=Sitecore.Exm.master;User ID=sa;Password=${SQL_SA_PASSWORD}
       Sitecore_ConnectionStrings_Reporting: Data Source=mssql;Initial Catalog=Sitecore.Reporting;User ID=sa;Password=${SQL_SA_PASSWORD}
       Sitecore_ConnectionStrings_Sitecore.Reporting.Client: http://cortexreporting
-      Sitecore_ConnectionStrings_Solr.Search: http://solr:8983/solr
+      Sitecore_ConnectionStrings_Solr.Search: http://solr:8983/solr;solrCloud=true
       Sitecore_ConnectionStrings_XConnect.Collection: http://xdbcollection
       Sitecore_ConnectionStrings_XConnect.Search: http://xdbsearch
       Sitecore_ConnectionStrings_Xdb.MarketingAutomation.Operations.Client: http://xdbautomation
       Sitecore_ConnectionStrings_Xdb.MarketingAutomation.Reporting.Client: http://xdbautomationrpt
       Sitecore_ConnectionStrings_Xdb.ReferenceData.Client: http://xdbrefdata
-      Sitecore_Reporting_Service_Url: http://rep
       Sitecore_Processing_Service_Url: http://prc
-      Sitecore_Reporting_Service_Require_Https: 'false'
       Sitecore_Processing_Service_Require_Https: 'false'
       Sitecore_AppSettings_Telerik.AsyncUpload.ConfigurationEncryptionKey: ${TELERIK_ENCRYPTION_KEY}
       Sitecore_AppSettings_Telerik.Upload.ConfigurationHashKey: ${TELERIK_ENCRYPTION_KEY}
@@ -167,6 +175,7 @@ services:
       Sitecore_Identity_Server_CallbackAuthority: https://${CM_HOST}
       Sitecore_Identity_Server_Require_Https: "false"
       SOLR_CORE_PREFIX_NAME: ${SOLR_CORE_PREFIX_NAME}
+      MEDIA_REQUEST_PROTECTION_SHARED_SECRET: ${MEDIA_REQUEST_PROTECTION_SHARED_SECRET}
     healthcheck:
       test: ["CMD", "powershell", "-command", "C:/Healthchecks/Healthcheck.ps1"]
       timeout: 300s
@@ -198,23 +207,7 @@ services:
       Sitecore_ConnectionStrings_Reporting: Data Source=mssql;Initial Catalog=Sitecore.Reporting;User ID=sa;Password=${SQL_SA_PASSWORD}
       Sitecore_ConnectionStrings_XConnect.Collection: http://xdbcollection
       Sitecore_License: ${SITECORE_LICENSE}
-    healthcheck:
-      test: ["CMD", "powershell", "-command", "C:/Healthchecks/Healthcheck.ps1"]
-      timeout: 300s
-  rep:
-    isolation: ${ISOLATION}
-    image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-rep:${SITECORE_VERSION}
-    depends_on:
-      mssql:
-        condition: service_healthy
-    environment:
-      Sitecore_AppSettings_instanceNameMode:define: default
-      Sitecore_ConnectionStrings_Core: Data Source=mssql;Initial Catalog=Sitecore.Core;User ID=sa;Password=${SQL_SA_PASSWORD}
-      Sitecore_ConnectionStrings_Security: Data Source=mssql;Initial Catalog=Sitecore.Core;User ID=sa;Password=${SQL_SA_PASSWORD}
-      Sitecore_ConnectionStrings_Master: Data Source=mssql;Initial Catalog=Sitecore.Master;User ID=sa;Password=${SQL_SA_PASSWORD}
-      Sitecore_ConnectionStrings_Reporting.ApiKey: ${REPORTING_API_KEY}
-      Sitecore_ConnectionStrings_Reporting: Data Source=mssql;Initial Catalog=Sitecore.Reporting;User ID=sa;Password=${SQL_SA_PASSWORD}
-      Sitecore_License: ${SITECORE_LICENSE}
+      MEDIA_REQUEST_PROTECTION_SHARED_SECRET: ${MEDIA_REQUEST_PROTECTION_SHARED_SECRET}
     healthcheck:
       test: ["CMD", "powershell", "-command", "C:/Healthchecks/Healthcheck.ps1"]
       timeout: 300s
@@ -229,6 +222,7 @@ services:
       Sitecore_ConnectionStrings_Xdb.Marketingautomation: Data Source=mssql;Initial Catalog=Sitecore.Marketingautomation;User ID=sa;Password=${SQL_SA_PASSWORD}
       Sitecore_ConnectionStrings_Xdb.Processing.Pools: Data Source=mssql;Initial Catalog=Sitecore.Processing.pools;User ID=sa;Password=${SQL_SA_PASSWORD}
       Sitecore_ConnectionStrings_Collection: Data Source=mssql;Initial Catalog=Sitecore.Xdb.Collection.ShardMapManager;User ID=sa;Password=${SQL_SA_PASSWORD}
+      Sitecore_ConnectionStrings_Xdb.Referencedata: Data Source=mssql;Initial Catalog=Sitecore.Referencedata;User ID=sa;Password=${SQL_SA_PASSWORD}
       Sitecore_License: ${SITECORE_LICENSE}
     healthcheck:
       test: ["CMD", "powershell", "-command", "C:/Healthchecks/Healthcheck.ps1"]
@@ -239,14 +233,15 @@ services:
     depends_on:
       xdbcollection:
         condition: service_healthy
-      solr:
+      solr-init:
         condition: service_started
     environment:
       Sitecore_ConnectionStrings_Messaging: Data Source=mssql;Initial Catalog=Sitecore.Messaging;User ID=sa;Password=${SQL_SA_PASSWORD}
       Sitecore_ConnectionStrings_Xdb.Marketingautomation: Data Source=mssql;Initial Catalog=Sitecore.Marketingautomation;User ID=sa;Password=${SQL_SA_PASSWORD}
       Sitecore_ConnectionStrings_Xdb.Processing.Pools: Data Source=mssql;Initial Catalog=Sitecore.Processing.pools;User ID=sa;Password=${SQL_SA_PASSWORD}
       Sitecore_ConnectionStrings_Collection: Data Source=mssql;Initial Catalog=Sitecore.Xdb.Collection.ShardMapManager;User ID=sa;Password=${SQL_SA_PASSWORD}
-      Sitecore_ConnectionStrings_SolrCore: http://solr:8983/solr/${SOLR_CORE_PREFIX_NAME}_xdb
+      Sitecore_ConnectionStrings_SolrCore: http://solr:8983/solr/${SOLR_CORE_PREFIX_NAME}_xdb;solrCloud=true
+      Sitecore_ConnectionStrings_Xdb.Referencedata: Data Source=mssql;Initial Catalog=Sitecore.Referencedata;User ID=sa;Password=${SQL_SA_PASSWORD}
       Sitecore_License: ${SITECORE_LICENSE}
       Sitecore_Sitecore:XConnect:CollectionSearch:Services:Solr.SolrReaderSettings:Options:RequireHttps: 'false'
       Sitecore_Sitecore:XConnect:CollectionSearch:Services:XConnectSolrHealthCheckServicesConfiguration:Options:RequireHttps: 'false'
@@ -331,7 +326,7 @@ services:
     restart: unless-stopped
     environment:
       Sitecore_ConnectionStrings_Collection: Data Source=mssql;Initial Catalog=Sitecore.Xdb.Collection.ShardMapManager;User ID=sa;Password=${SQL_SA_PASSWORD}
-      Sitecore_ConnectionStrings_SolrCore: http://solr:8983/solr/${SOLR_CORE_PREFIX_NAME}_xdb
+      Sitecore_ConnectionStrings_SolrCore: http://solr:8983/solr/${SOLR_CORE_PREFIX_NAME}_xdb;solrCloud=true
       Sitecore_License: ${SITECORE_LICENSE}
       Sitecore_Sitecore:XConnect:SearchIndexer:Services:Solr.SolrReaderSettings:Options:RequireHttps: 'false'
       Sitecore_Sitecore:XConnect:SearchIndexer:Services:Solr.SolrWriterSettings:Options:RequireHttps: 'false'
@@ -372,8 +367,6 @@ services:
     environment:
       Sitecore_ConnectionStrings_Processing.Engine.Storage: Data Source=mssql;Initial Catalog=Sitecore.Processing.Engine.Storage;User ID=sa;Password=${SQL_SA_PASSWORD}
       Sitecore_ConnectionStrings_Processing.Engine.Tasks: Data Source=mssql;Initial Catalog=Sitecore.Processing.Engine.Tasks;User ID=sa;Password=${SQL_SA_PASSWORD}
-      Sitecore_ConnectionStrings_Processing.Webapi.Blob: http://cortexprocessing
-      Sitecore_ConnectionStrings_Processing.Webapi.Table: http://cortexprocessing
       Sitecore_ConnectionStrings_XConnect.Collection: http://xdbcollection
       Sitecore_ConnectionStrings_XConnect.Configuration: http://xdbcollection
       Sitecore_ConnectionStrings_XConnect.Search: http://xdbsearch
