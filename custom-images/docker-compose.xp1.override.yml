@@ -35,16 +35,19 @@ services:
     volumes:
       - ${LOCAL_DATA_PATH}\mssql:c:\data
   
+  # Mount our Solr data folder
   solr:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-solr:${VERSION:-latest}
-    build:
-      context: ./docker/build/solr
-      args:
-        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-solr:${SITECORE_VERSION}
-        SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}sxa-xp1-assets:${SXA_VERSION}
-    mem_limit: 1GB
     volumes:
       - ${LOCAL_DATA_PATH}\solr:c:\data
+
+  # Some modules (like SXA) also require additions to the Solr image.
+  solr-init:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-solr-init:${VERSION:-latest}
+    build:
+      context: ./docker/build/solr-init
+      args:
+        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-solr-init:${SITECORE_VERSION}
+        SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}sxa-xp1-assets:${SXA_VERSION}
 
   id:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-id:${VERSION:-latest}
@@ -67,6 +70,8 @@ services:
     volumes:
       - ${LOCAL_DEPLOY_PATH}\website:C:\deploy
       - ${LOCAL_DATA_PATH}\cd:C:\inetpub\wwwroot\App_Data\logs
+    environment:
+      SITECORE_DEVELOPMENT_PATCHES: CustomErrorsOff
     entrypoint: powershell -Command "& C:\tools\entrypoints\iis\Development.ps1"
 
   cm:
@@ -84,6 +89,8 @@ services:
     volumes:
       - ${LOCAL_DEPLOY_PATH}\website:C:\deploy
       - ${LOCAL_DATA_PATH}\cm:C:\inetpub\wwwroot\App_Data\logs
+    environment:
+      SITECORE_DEVELOPMENT_PATCHES: CustomErrorsOff
     entrypoint: powershell -Command "& C:\tools\entrypoints\iis\Development.ps1"
 
   prc:
@@ -92,16 +99,6 @@ services:
       context: ./docker/build/prc
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-prc:${SITECORE_VERSION}
-        SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
-    depends_on:
-      - solution
-
-  rep:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-rep:${VERSION:-latest}
-    build:
-      context: ./docker/build/rep
-      args:
-        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-rep:${SITECORE_VERSION}
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
     depends_on:
       - solution

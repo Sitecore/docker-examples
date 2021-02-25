@@ -34,7 +34,7 @@ if (-not $SitecoreGallery) {
     $SitecoreGallery = Get-PSRepository -Name SitecoreGallery
 }
 # Install and Import SitecoreDockerTools 
-$dockerToolsVersion = "10.0.5"
+$dockerToolsVersion = "10.1.4"
 Remove-Module SitecoreDockerTools -ErrorAction SilentlyContinue
 if (-not (Get-InstalledModule -Name SitecoreDockerTools -RequiredVersion $dockerToolsVersion -ErrorAction SilentlyContinue)) {
     Write-Host "Installing SitecoreDockerTools..." -ForegroundColor Green
@@ -42,6 +42,7 @@ if (-not (Get-InstalledModule -Name SitecoreDockerTools -RequiredVersion $docker
 }
 Write-Host "Importing SitecoreDockerTools..." -ForegroundColor Green
 Import-Module SitecoreDockerTools -RequiredVersion $dockerToolsVersion
+Write-SitecoreDockerWelcome
 
 ###############################
 # Populate the environment file
@@ -50,26 +51,29 @@ Import-Module SitecoreDockerTools -RequiredVersion $dockerToolsVersion
 Write-Host "Populating required .env file variables..." -ForegroundColor Green
 
 # SITECORE_ADMIN_PASSWORD
-Set-DockerComposeEnvFileVariable "SITECORE_ADMIN_PASSWORD" -Value $SitecoreAdminPassword
+Set-EnvFileVariable "SITECORE_ADMIN_PASSWORD" -Value $SitecoreAdminPassword
 
 # SQL_SA_PASSWORD
-Set-DockerComposeEnvFileVariable "SQL_SA_PASSWORD" -Value $SqlSaPassword
+Set-EnvFileVariable "SQL_SA_PASSWORD" -Value $SqlSaPassword
 
 # TELERIK_ENCRYPTION_KEY = random 64-128 chars
-Set-DockerComposeEnvFileVariable "TELERIK_ENCRYPTION_KEY" -Value (Get-SitecoreRandomString 128)
+Set-EnvFileVariable "TELERIK_ENCRYPTION_KEY" -Value (Get-SitecoreRandomString 128)
+
+# MEDIA_REQUEST_PROTECTION_SHARED_SECRET
+Set-EnvFileVariable "MEDIA_REQUEST_PROTECTION_SHARED_SECRET" -Value (Get-SitecoreRandomString 64)
 
 # SITECORE_IDSECRET = random 64 chars
-Set-DockerComposeEnvFileVariable "SITECORE_IDSECRET" -Value (Get-SitecoreRandomString 64 -DisallowSpecial)
+Set-EnvFileVariable "SITECORE_IDSECRET" -Value (Get-SitecoreRandomString 64 -DisallowSpecial)
 
 # SITECORE_ID_CERTIFICATE
 $idCertPassword = Get-SitecoreRandomString 12 -DisallowSpecial
-Set-DockerComposeEnvFileVariable "SITECORE_ID_CERTIFICATE" -Value (Get-SitecoreCertificateAsBase64String -DnsName "localhost" -Password (ConvertTo-SecureString -String $idCertPassword -Force -AsPlainText))
+Set-EnvFileVariable "SITECORE_ID_CERTIFICATE" -Value (Get-SitecoreCertificateAsBase64String -DnsName "localhost" -Password (ConvertTo-SecureString -String $idCertPassword -Force -AsPlainText))
 
 # SITECORE_ID_CERTIFICATE_PASSWORD
-Set-DockerComposeEnvFileVariable "SITECORE_ID_CERTIFICATE_PASSWORD" -Value $idCertPassword
+Set-EnvFileVariable "SITECORE_ID_CERTIFICATE_PASSWORD" -Value $idCertPassword
 
 # SITECORE_LICENSE
-Set-DockerComposeEnvFileVariable "SITECORE_LICENSE" -Value (ConvertTo-CompressedBase64String -Path $LicenseXmlPath)
+Set-EnvFileVariable "SITECORE_LICENSE" -Value (ConvertTo-CompressedBase64String -Path $LicenseXmlPath)
 
 ##################################
 # Configure TLS/HTTPS certificates
