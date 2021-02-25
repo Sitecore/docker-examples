@@ -4,5 +4,5 @@ data/**/*
 
 traefik/certs/*
 !traefik/certs/.gitkeep
-
-license/license.xml
+license/*
+!license/.gitkeep

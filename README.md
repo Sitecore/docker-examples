@@ -1,6 +1,6 @@
 # Konabos Docker Examples
 
-This repository contains example compose files and associated configuration that we use internally at [Konbabos Consulting](https://www.konabos.com). It is loosely based off the orignal [Docker Examples repo](https://github.com/Sitecore/docker-examples) - be sure to look through that repo and read the documentation provided there.
+This repository contains example compose files and associated configuration that we use internally at [Konbabos Consulting](https://www.konabos.com). It is loosely based off the original [Docker Examples repo](https://github.com/Sitecore/docker-examples) - be sure to look through that repo and read the documentation provided there.
 
 The examples contained in this repo were designed to allow us to quickly get up and running on a project or just for personal hacking and intended for local development purposes.
 
@@ -17,9 +17,9 @@ Each topology is designed to work in isolation. To start using a topology on a p
 
 ## Getting Started
 
-1. Copy your `license.xml` file to the `./docker/license` folder of topologyu of your choice
+1. Copy your `license.xml` file to the `./docker/license` folder of topology of your choice
 2. Run `start.ps1`
-3. First time you may be prompted a root certication authority (CA) cetificate. This is required by mkcert to allow local SSL certs to be used without warnings and errors. Click yes to install the certificate.
+3. First time you may be prompted to install a root certificate authority (CA) certificate. This is required by mkcert to allow local SSL certs to be used without warnings and errors. Click yes to install the certificate.
 
 ## Custom Settings
 
@@ -38,13 +38,13 @@ We default a bunch of settings and environment variables. For hacking purposes y
 
 We default the host suffix to localho.st, which provides a local loopback to 127.0.0.1 and means that no modifications are required to your hosts files, either manually or using additional containers. 
 
-Modification of the `hosts` files can also be in issue in certain organisations which prevent due to group policy or mandatory use of certain virus scanners such as Symantec Endpoint Security which prevent modificaiton for security reasons.
+Modification of the `hosts` files can also be in issue in certain organisations which prevent due to group policy or mandatory use of certain virus scanners such as Symantec Endpoint Security which prevent modification for security reasons.
 
 ## Local deployment
 
 The set up is for simplicity. Deploy your files to `./docker/data/cm/website` folder.
 
-This is verysimilar to how the Sitecore 9.3 Community Repository was configured. We do not have volume mounts for XConnect, feel free to add them if you them.
+This is very similar to how the Sitecore 9.3 Community Repository was configured. We do not have volume mounts for XConnect, feel free to add them if you them.
 
 ## Removing local files
 
