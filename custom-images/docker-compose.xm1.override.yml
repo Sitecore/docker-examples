@@ -35,12 +35,10 @@ services:
     volumes:
       - ${LOCAL_DATA_PATH}\mssql:c:\data
   
-  # Mount our Solr data folder and use our retagged Solr image.
+  # Mount our Solr data folder
   solr:
     volumes:
-      - type: bind
-        source: .\docker\data\solr
-        target: c:\data
+      - ${LOCAL_DATA_PATH}\solr:c:\data
 
   # Some modules (like SXA) also require additions to the Solr image.
   solr-init:
