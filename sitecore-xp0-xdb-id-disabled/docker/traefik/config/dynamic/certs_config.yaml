@@ -1,4 +1,0 @@
-tls:
-  certificates:
-    - certFile: C:\etc\traefik\certs\cert.pem
-      keyFile: C:\etc\traefik\certs\key.pem
