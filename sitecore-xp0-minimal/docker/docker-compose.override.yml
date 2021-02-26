@@ -1,0 +1,108 @@
+version: "2.4"
+
+services:
+
+  traefik:
+    command:
+      - "--ping"
+      - "--api.insecure=true"
+      - "--providers.docker.endpoint=npipe:////./pipe/docker_engine"
+      - "--providers.docker.exposedByDefault=false"
+      - "--providers.file.directory=C:/etc/traefik/config/dynamic"
+      - "--entryPoints.websecure.address=:443"
+      - "--entryPoints.web.address=:80"
+    ports:
+      - "8080:80"
+    volumes:
+      - ./traefik:C:/etc/traefik
+    depends_on:
+      cm:
+        condition: service_started
+  
+  mssql:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp0-mssql:${VERSION:-latest}
+    build:
+      context: ./build/mssql
+      args:
+        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp0-mssql:${SITECORE_VERSION}
+        SPE_IMAGE: ${SITECORE_MODULE_REGISTRY}spe-assets:${SPE_VERSION}
+    volumes:
+      - .\data\mssql:c:\data
+    mem_limit: ${MEM_LIMIT_SQL:-2GB}
+    restart: always
+  
+  solr:
+    volumes:
+      - .\data\solr:c:\data
+    mem_limit: ${MEM_LIMIT_SOLR:-1GB}
+    restart: always
+
+  cm:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp0-cm:${VERSION:-latest}
+    build:
+      context: ./build/cm
+      args:
+        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp0-cm:${SITECORE_VERSION}
+        SPE_IMAGE: ${SITECORE_MODULE_REGISTRY}spe-assets:${SPE_VERSION}
+        TOOLING_IMAGE: ${SITECORE_TOOLS_REGISTRY}sitecore-docker-tools-assets:${TOOLS_VERSION}
+    environment: 
+      SITECORE_LICENSE_LOCATION: C:\license\license.xml
+      SITECORE_DEVELOPMENT_PATCHES: DevEnvOn,CustomErrorsOff,DebugOn,DiagnosticsOff,InitMessagesOff,RobotDetectionOff,XdbOff
+      Sitecore_AppSettings_exmEnabled:define: "no"
+    volumes:
+      - .\data\cm\website:C:\deploy
+      - .\data\cm\logs:C:\inetpub\wwwroot\App_Data\logs
+      - ${LICENSE_PATH}:C:\license
+    entrypoint: powershell -Command "& C:\tools\entrypoints\iis\Development.ps1"
+    mem_limit: ${MEM_LIMIT_CM:-4GB}
+    restart: always
+    healthcheck:
+      test: ["CMD", "powershell", "-command", "exit 0"]
+    labels:
+      - "traefik.http.middlewares.redirect-to-https.redirectScheme.scheme=https"
+      - "traefik.http.routers.cm.entrypoints=web"
+      - "traefik.http.routers.cm.rule=Host(`${CM_HOST}`)"
+      - "traefik.http.routers.cm.middlewares=redirect-to-https"
+
+  id:
+    scale: 0
+    environment: 
+      SITECORE_LICENSE_LOCATION: C:\license\license.xml
+    volumes:
+      - ${LICENSE_PATH}:C:\license
+
+  xconnect:
+    scale: 0
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp0-xconnect:${VERSION:-latest}
+    build:
+      context: ./build/xconnect
+      args:
+        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp0-xconnect:${SITECORE_VERSION}
+        TOOLING_IMAGE: ${SITECORE_TOOLS_REGISTRY}sitecore-docker-tools-assets:${TOOLS_VERSION}
+    environment: 
+      SITECORE_LICENSE_LOCATION: C:\license
+    volumes:
+      - .\data\xconnect:C:\deploy
+      - ${LICENSE_PATH}:C:\license
+    entrypoint: powershell -Command "& C:\tools\entrypoints\iis\Development.ps1"
+
+  xdbsearchworker:
+    scale: 0
+    environment: 
+      SITECORE_LICENSE_LOCATION: C:\license
+    volumes:
+      - ${LICENSE_PATH}:C:\license
+
+  xdbautomationworker:
+    scale: 0
+    environment: 
+      SITECORE_LICENSE_LOCATION: C:\license
+    volumes:
+      - ${LICENSE_PATH}:C:\license
+
+  cortexprocessingworker:
+    scale: 0
+    environment: 
+      SITECORE_LICENSE_LOCATION: C:\license
+    volumes:
+      - ${LICENSE_PATH}:C:\license

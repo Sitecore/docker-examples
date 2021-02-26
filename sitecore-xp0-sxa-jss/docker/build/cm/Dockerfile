@@ -3,13 +3,13 @@
 ARG BASE_IMAGE
 ARG SXA_IMAGE
 ARG SPE_IMAGE
-ARG JSS_IMAGE
+ARG HEADLESS_IMAGE
 ARG TOOLING_IMAGE
 
 FROM ${TOOLING_IMAGE} as tooling
 FROM ${SPE_IMAGE} as spe
 FROM ${SXA_IMAGE} as sxa
-FROM ${JSS_IMAGE} as jss
+FROM ${HEADLESS_IMAGE} as headless
 FROM ${BASE_IMAGE}
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
@@ -38,11 +38,14 @@ COPY --from=sxa \module\tools \module\tools
 RUN C:\module\tools\Initialize-Content.ps1 -TargetPath .\; `
     Remove-Item -Path C:\module -Recurse -Force;
 
-# Add JSS module
-COPY --from=jss \module\cm\content .\
-COPY --from=jss \module\tools \module\tools
+# Add Headless Services module
+COPY --from=headless \module\cm\content .\
+COPY --from=headless \module\tools \module\tools
 RUN C:\module\tools\Initialize-Content.ps1 -TargetPath .\; `
     Remove-Item -Path C:\module -Recurse -Force;
+
+# Allow configurable JSS Import User
+COPY .\config .\App_Config\Include\
 
 # Disable Identity Server
 # RUN Copy-Item -Path 'C:\\inetpub\\wwwroot\\App_Config\\Include\\Examples\\Sitecore.Owin.Authentication.IdentityServer.Disabler.config.example' `

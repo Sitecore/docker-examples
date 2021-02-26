@@ -43,4 +43,5 @@ Read-UserEnvFile
 #----------------------------------------------------------
 
 docker-compose up -d
+Write-Host "`nDone... opening https://$($url)" -ForegroundColor DarkGray
 start "https://$url"

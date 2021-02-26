@@ -15,13 +15,6 @@ services:
       - "8080:80"
     volumes:
       - ./traefik:C:/etc/traefik
-  
-  redis:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-redis:${VERSION:-latest}
-    build:
-      context: ./build/redis
-      args:
-        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-redis:${SITECORE_VERSION}
 
   mssql:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xm1-mssql:${VERSION:-latest}
@@ -36,11 +29,6 @@ services:
     restart: always
   
   solr:
-    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xm1-solr:${VERSION:-latest}
-    build:
-      context: ./build/solr
-      args:
-        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xm1-solr:${SITECORE_VERSION}
     volumes:
       - .\data\solr:c:\data
     mem_limit: ${MEM_LIMIT_SOLR:-1GB}
@@ -62,6 +50,7 @@ services:
         TOOLING_IMAGE: ${SITECORE_TOOLS_REGISTRY}sitecore-docker-tools-assets:${TOOLS_VERSION}
     environment: 
       SITECORE_LICENSE_LOCATION: C:\license\license.xml
+      SITECORE_DEVELOPMENT_PATCHES: DevEnvOn,CustomErrorsOff,DebugOn,DiagnosticsOff,InitMessagesOff,RobotDetectionOff
     volumes:
       - .\data\cm\website:C:\deploy
       - .\data\cm\logs:C:\inetpub\wwwroot\App_Data\logs

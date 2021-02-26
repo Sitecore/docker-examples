@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <PlatformVersion>10.0.1</PlatformVersion>
+    <PlatformVersion>10.1.0</PlatformVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Update="Sitecore.XConnect" Version="$(PlatformVersion)" />
     <PackageReference Update="Sitecore.XConnect.Client" Version="$(PlatformVersion)" />
     <PackageReference Update="Sitecore.XConnect.Collection.Model" Version="$(PlatformVersion)" />
+    <PackageReference Update="Sitecore.Assemblies.Platform" Version="$(PlatformVersion)" />
     <PackageReference Update="Sitecore.Assemblies.XConnect.Web" Version="$(PlatformVersion)" />
   </ItemGroup>
 </Project>
