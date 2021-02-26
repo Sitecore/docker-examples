@@ -36,7 +36,7 @@ COPY --from=headless \module\tools \module\tools
 RUN C:\module\tools\Initialize-Content.ps1 -TargetPath .\; `
     Remove-Item -Path C:\module -Recurse -Force;
 
-# Override JSS Import User
+# Allow configurable JSS Import User
 COPY .\config .\App_Config\Include\
 
 # Disable Identity Server

@@ -48,6 +48,7 @@ services:
     environment: 
       SITECORE_LICENSE_LOCATION: C:\license\license.xml
       SITECORE_DEVELOPMENT_PATCHES: DevEnvOn,CustomErrorsOff,DebugOn,DiagnosticsOff,InitMessagesOff,RobotDetectionOff
+      Sitecore_JSS_ImportUser: ${JSS_IMPORT_USER:-sitecore\admin}
     volumes:
       - .\data\cm\website:C:\deploy
       - .\data\cm\logs:C:\inetpub\wwwroot\App_Data\logs
