@@ -68,6 +68,9 @@ Set-EnvFileVariable "CM_HOST" -Value "cm.$($HostName).localhost"
 # ID_HOST
 Set-EnvFileVariable "ID_HOST" -Value "id.$($HostName).localhost"
 
+# AH_HOST
+Set-EnvFileVariable "AH_HOST" -Value "ah.$($HostName).localhost"
+
 # REPORTING_API_KEY = random 64-128 chars
 Set-EnvFileVariable "REPORTING_API_KEY" -Value (Get-SitecoreRandomString 64 -DisallowSpecial)
 
@@ -128,5 +131,6 @@ Write-Host "Adding Windows hosts file entries..." -ForegroundColor Green
 Add-HostsEntry "cd.$($HostName).localhost"
 Add-HostsEntry "cm.$($HostName).localhost"
 Add-HostsEntry "id.$($HostName).localhost"
+Add-HostsEntry "ah.$($HostName).localhost"
 
 Write-Host "Done!" -ForegroundColor Green

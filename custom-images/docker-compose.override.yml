@@ -24,6 +24,7 @@ services:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp0-mssql:${SITECORE_VERSION}
         SPE_IMAGE: ${SITECORE_MODULE_REGISTRY}spe-assets:${SPE_VERSION}
         SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}sxa-xp1-assets:${SXA_VERSION}
+        HORIZON_RESOURCES_IMAGE: ${SITECORE_MODULE_REGISTRY}horizon-integration-xp0-assets:${HORIZON_ASSET_VERSION}
     mem_limit: 2GB
     volumes:
       - ${LOCAL_DATA_PATH}\mssql:c:\data
@@ -48,7 +49,8 @@ services:
       context: ./docker/build/id
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-id:${SITECORE_VERSION}
-
+    environment: 
+      Sitecore_Sitecore__IdentityServer__Clients__DefaultClient__AllowedCorsOrigins__AllowedCorsOriginsGroup2: https://${AH_HOST}
   cm:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp0-cm:${VERSION:-latest}
     build:
@@ -59,6 +61,7 @@ services:
         SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}sxa-xp1-assets:${SXA_VERSION}
         TOOLING_IMAGE: ${SITECORE_TOOLS_REGISTRY}sitecore-docker-tools-assets:${TOOLS_VERSION}
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
+        HORIZON_RESOURCES_IMAGE: ${SITECORE_MODULE_REGISTRY}horizon-integration-xp0-assets:${HORIZON_ASSET_VERSION}
     depends_on:
       - solution
     volumes:
@@ -66,6 +69,7 @@ services:
       - ${LOCAL_DATA_PATH}\cm:C:\inetpub\wwwroot\App_Data\logs
     environment:
       SITECORE_DEVELOPMENT_PATCHES: CustomErrorsOff
+      Sitecore_Horizon_ClientHost: https://${AH_HOST}
     entrypoint: powershell -Command "& C:\tools\entrypoints\iis\Development.ps1"
 
   xconnect:
@@ -111,3 +115,37 @@ services:
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
     depends_on:
       - solution
+  hrz:
+    image: ${SITECORE_MODULE_REGISTRY}sitecore-horizon:${HORIZON_VERSION}
+    isolation: ${ISOLATION}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/healthz/live"]
+      timeout: 300s
+    environment:
+      Sitecore_License: ${SITECORE_LICENSE}
+      Sitecore_FederatedUI__HostBaseUrl: http://hrz
+      Sitecore_SitecorePlatform__ContentManagementUrl: https://${CM_HOST}
+      Sitecore_SitecorePlatform__ContentManagementInternalUrl: http://cm
+      Sitecore_Sitecore__Authentication__OpenIdConnectOptions__RequireHttpsMetadata: 'false'
+      Sitecore_Sitecore__Authentication__OpenIdConnectOptions__Authority: https://${ID_HOST}
+      Sitecore_Sitecore__Authentication__OpenIdConnectOptions__CallbackAuthority: https://${AH_HOST}
+      Sitecore_Sitecore__Authentication__OpenIdConnectOptions__InternalAuthority: http://id
+      Sitecore_Sitecore__Authentication__BearerAuthenticationOptions__Authority: https://${ID_HOST}
+      Sitecore_Sitecore__Authentication__BearerAuthenticationOptions__InternalAuthority: http://id
+      Sitecore_Sitecore__Authentication__BearerAuthenticationOptions__RequireHttpsMetadata: 'false'
+      Sitecore_Plugins__Filters__ExperienceAccelerator: +SXA
+      Sitecore_Plugins__Filters__ContentHub: +ContentHub
+    depends_on:
+      id:
+        condition: service_started
+      cm:
+        condition: service_started
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.middlewares.force-STS-Header.headers.forceSTSHeader=true"
+      - "traefik.http.middlewares.force-STS-Header.headers.stsSeconds=31536000"
+      - "traefik.http.routers.sh-secure.entrypoints=websecure"
+      - "traefik.http.routers.sh-secure.rule=Host(`${AH_HOST}`)"
+      - "traefik.http.routers.sh-secure.tls=true"
+      - "traefik.http.routers.sh-secure.middlewares=force-STS-Header"
+      - "traefik.http.services.sh.loadbalancer.server.port=80"

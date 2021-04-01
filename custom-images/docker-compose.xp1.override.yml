@@ -31,6 +31,7 @@ services:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-mssql:${SITECORE_VERSION}
         SPE_IMAGE: ${SITECORE_MODULE_REGISTRY}spe-assets:${SPE_VERSION}
         SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}sxa-xp1-assets:${SXA_VERSION}
+        HORIZON_RESOURCES_IMAGE: ${SITECORE_MODULE_REGISTRY}horizon-integration-xp1-assets:${HORIZON_ASSET_VERSION}
     mem_limit: 2GB
     volumes:
       - ${LOCAL_DATA_PATH}\mssql:c:\data
@@ -84,6 +85,7 @@ services:
         SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}sxa-xp1-assets:${SXA_VERSION}
         TOOLING_IMAGE: ${SITECORE_TOOLS_REGISTRY}sitecore-docker-tools-assets:${TOOLS_VERSION}
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
+        HORIZON_RESOURCES_IMAGE: ${SITECORE_MODULE_REGISTRY}horizon-integration-xp1-assets:${HORIZON_ASSET_VERSION}
     depends_on:
       - solution
     volumes:
