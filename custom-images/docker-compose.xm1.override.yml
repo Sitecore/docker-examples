@@ -114,7 +114,6 @@ services:
       Sitecore_Sitecore__Authentication__BearerAuthenticationOptions__InternalAuthority: http://id
       Sitecore_Sitecore__Authentication__BearerAuthenticationOptions__RequireHttpsMetadata: 'false'
       Sitecore_Plugins__Filters__ExperienceAccelerator: +SXA
-      Sitecore_Plugins__Filters__ContentHub: +ContentHub
     depends_on:
       id:
         condition: service_started
