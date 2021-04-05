@@ -15,6 +15,9 @@ services:
   traefik:
     volumes:
       - ./docker/traefik:C:/etc/traefik
+    depends_on:
+      hrz:
+        condition: service_healthy
   
   mssql:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp0-mssql:${VERSION:-latest}
