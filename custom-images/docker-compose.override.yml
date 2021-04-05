@@ -50,7 +50,7 @@ services:
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-id:${SITECORE_VERSION}
     environment: 
-      Sitecore_Sitecore__IdentityServer__Clients__DefaultClient__AllowedCorsOrigins__AllowedCorsOriginsGroup2: https://${AH_HOST}
+      Sitecore_Sitecore__IdentityServer__Clients__DefaultClient__AllowedCorsOrigins__AllowedCorsOriginsGroup2: https://${HRZ_HOST}
   cm:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp0-cm:${VERSION:-latest}
     build:
@@ -69,7 +69,7 @@ services:
       - ${LOCAL_DATA_PATH}\cm:C:\inetpub\wwwroot\App_Data\logs
     environment:
       SITECORE_DEVELOPMENT_PATCHES: CustomErrorsOff
-      Sitecore_Horizon_ClientHost: https://${AH_HOST}
+      Sitecore_Horizon_ClientHost: https://${HRZ_HOST}
     entrypoint: powershell -Command "& C:\tools\entrypoints\iis\Development.ps1"
 
   xconnect:
@@ -128,7 +128,7 @@ services:
       Sitecore_SitecorePlatform__ContentManagementInternalUrl: http://cm
       Sitecore_Sitecore__Authentication__OpenIdConnectOptions__RequireHttpsMetadata: 'false'
       Sitecore_Sitecore__Authentication__OpenIdConnectOptions__Authority: https://${ID_HOST}
-      Sitecore_Sitecore__Authentication__OpenIdConnectOptions__CallbackAuthority: https://${AH_HOST}
+      Sitecore_Sitecore__Authentication__OpenIdConnectOptions__CallbackAuthority: https://${HRZ_HOST}
       Sitecore_Sitecore__Authentication__OpenIdConnectOptions__InternalAuthority: http://id
       Sitecore_Sitecore__Authentication__BearerAuthenticationOptions__Authority: https://${ID_HOST}
       Sitecore_Sitecore__Authentication__BearerAuthenticationOptions__InternalAuthority: http://id
@@ -144,7 +144,7 @@ services:
       - "traefik.http.middlewares.force-STS-Header.headers.forceSTSHeader=true"
       - "traefik.http.middlewares.force-STS-Header.headers.stsSeconds=31536000"
       - "traefik.http.routers.sh-secure.entrypoints=websecure"
-      - "traefik.http.routers.sh-secure.rule=Host(`${AH_HOST}`)"
+      - "traefik.http.routers.sh-secure.rule=Host(`${HRZ_HOST}`)"
       - "traefik.http.routers.sh-secure.tls=true"
       - "traefik.http.routers.sh-secure.middlewares=force-STS-Header"
       - "traefik.http.services.sh.loadbalancer.server.port=80"
