@@ -37,6 +37,7 @@ services:
       context: ./docker/build/mssql-init
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xm1-mssql-init:${SITECORE_VERSION}
+        SPE_IMAGE: ${SITECORE_MODULE_REGISTRY}sitecore-spe-assets:${SPE_VERSION}
   
   # Mount our Solr data folder
   solr:
