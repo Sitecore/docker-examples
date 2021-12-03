@@ -18,7 +18,7 @@ services:
     depends_on:
       hrz:
         condition: service_healthy
-  
+
   mssql:
     mem_limit: 2GB
     volumes:

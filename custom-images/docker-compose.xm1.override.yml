@@ -30,7 +30,7 @@ services:
     mem_limit: 2GB
     volumes:
       - ${LOCAL_DATA_PATH}\mssql:c:\data
-      
+
   mssql-init:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xm1-mssql-init:${VERSION:-latest}
     build:
