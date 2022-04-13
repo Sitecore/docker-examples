@@ -144,6 +144,8 @@ services:
       - "traefik.http.routers.cd-secure.entrypoints=websecure"
       - "traefik.http.routers.cd-secure.rule=Host(`${CD_HOST}`)"
       - "traefik.http.routers.cd-secure.tls=true"
+      - "traefik.http.middlewares.stripForwardedHostHeader.headers.customrequestheaders.X-Forwarded-Host="
+      - "traefik.http.routers.cd-secure.middlewares=stripForwardedHostHeader"
   cm:
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-cm:${SITECORE_VERSION}
@@ -206,7 +208,8 @@ services:
       - "traefik.http.routers.cm-secure.entrypoints=websecure"
       - "traefik.http.routers.cm-secure.rule=Host(`${CM_HOST}`)"
       - "traefik.http.routers.cm-secure.tls=true"
-      - "traefik.http.routers.cm-secure.middlewares=force-STS-Header"
+      - "traefik.http.routers.cm-secure.middlewares=force-STS-Header, stripForwardedHostHeader"
+      - "traefik.http.middlewares.stripForwardedHostHeader.headers.customrequestheaders.X-Forwarded-Host="
   prc:
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-prc:${SITECORE_VERSION}
