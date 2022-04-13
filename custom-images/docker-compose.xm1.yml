@@ -11,8 +11,8 @@ services:
       - "--entryPoints.websecure.address=:443"
       - "--entryPoints.websecure.forwardedHeaders.insecure"
     ports:
-      - "443:443"
-      - "8079:8080"
+      - "${HTTPS_PORT}:443"
+      - "${TRAEFIK_MANAGEMENT_PORT}:8080"
     healthcheck:
       test: ["CMD", "traefik", "healthcheck", "--ping"]
     volumes:
@@ -37,7 +37,7 @@ services:
       SA_PASSWORD: ${SQL_SA_PASSWORD}
       ACCEPT_EULA: "Y"
     ports:
-      - "14330:1433"
+      - "${MSSQL_PORT}:1433"
     volumes:
       - type: bind
         source: .\mssql-data
@@ -62,7 +62,7 @@ services:
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}nonproduction/solr:8.8.2-${SITECORE_VERSION}
     ports:
-      - "8984:8983"
+      - "${SOLR_PORT}:8983"
     volumes:
       - type: bind
         source: .\solr-data
