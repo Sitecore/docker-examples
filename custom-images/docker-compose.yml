@@ -144,7 +144,8 @@ services:
       - "traefik.http.routers.cm-secure.entrypoints=websecure"
       - "traefik.http.routers.cm-secure.rule=Host(`${CM_HOST}`)"
       - "traefik.http.routers.cm-secure.tls=true"
-      - "traefik.http.routers.cm-secure.middlewares=force-STS-Header"
+      - "traefik.http.routers.cm-secure.middlewares=force-STS-Header, stripForwardedHostHeader"
+      - "traefik.http.middlewares.stripForwardedHostHeader.headers.customrequestheaders.X-Forwarded-Host="
   xconnect:
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp0-xconnect:${SITECORE_VERSION}
