@@ -1,7 +1,6 @@
 version: "2.4"
 
 services:
-
   solution:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
     build:
@@ -17,8 +16,8 @@ services:
       - ./docker/traefik:C:/etc/traefik
     depends_on:
       hrz:
-        condition: service_healthy  
-  
+        condition: service_healthy
+
   redis:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-redis:${VERSION:-latest}
     build:
@@ -38,7 +37,7 @@ services:
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-mssql-init:${SITECORE_VERSION}
         SPE_IMAGE: ${SITECORE_MODULE_REGISTRY}sitecore-spe-assets:${SPE_VERSION}
-  
+
   # Mount our Solr data folder
   solr:
     volumes:
@@ -59,7 +58,7 @@ services:
       context: ./docker/build/id
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-id6:${SITECORE_VERSION}
-    environment: 
+    environment:
       Sitecore_Sitecore__IdentityServer__Clients__DefaultClient__AllowedCorsOrigins__AllowedCorsOriginsGroup2: https://${HRZ_HOST}
 
   cd:
@@ -78,7 +77,7 @@ services:
       - ${LOCAL_DATA_PATH}\cd:C:\inetpub\wwwroot\App_Data\logs
     environment:
       SITECORE_DEVELOPMENT_PATCHES: CustomErrorsOff
-    entrypoint: powershell -Command "& C:\tools\entrypoints\iis\Development.ps1"
+    entrypoint: powershell -Command "& C:\\tools\\entrypoints\\iis\\Development.ps1"
 
   cm:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-cm:${VERSION:-latest}
@@ -99,7 +98,7 @@ services:
     environment:
       SITECORE_DEVELOPMENT_PATCHES: CustomErrorsOff
       Sitecore_Horizon_ClientHost: https://${HRZ_HOST}
-    entrypoint: powershell -Command "& C:\tools\entrypoints\iis\Development.ps1"
+    entrypoint: powershell -Command "& C:\\tools\\entrypoints\\iis\\Development.ps1"
 
   prc:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-prc:${VERSION:-latest}
@@ -210,13 +209,13 @@ services:
       Sitecore_FederatedUI__HostBaseUrl: http://hrz
       Sitecore_SitecorePlatform__ContentManagementUrl: https://${CM_HOST}
       Sitecore_SitecorePlatform__ContentManagementInternalUrl: http://cm
-      Sitecore_Sitecore__Authentication__OpenIdConnectOptions__RequireHttpsMetadata: 'false'
+      Sitecore_Sitecore__Authentication__OpenIdConnectOptions__RequireHttpsMetadata: "false"
       Sitecore_Sitecore__Authentication__OpenIdConnectOptions__Authority: https://${ID_HOST}
       Sitecore_Sitecore__Authentication__OpenIdConnectOptions__CallbackAuthority: https://${HRZ_HOST}
       Sitecore_Sitecore__Authentication__OpenIdConnectOptions__InternalAuthority: http://id
       Sitecore_Sitecore__Authentication__BearerAuthenticationOptions__Authority: https://${ID_HOST}
       Sitecore_Sitecore__Authentication__BearerAuthenticationOptions__InternalAuthority: http://id
-      Sitecore_Sitecore__Authentication__BearerAuthenticationOptions__RequireHttpsMetadata: 'false'
+      Sitecore_Sitecore__Authentication__BearerAuthenticationOptions__RequireHttpsMetadata: "false"
       Sitecore_Plugins__Filters__ExperienceAccelerator: +SXA
     depends_on:
       id:
