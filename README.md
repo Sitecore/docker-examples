@@ -22,3 +22,24 @@ Start with the [Sitecore Containers documentation](https://containers.doc.siteco
 Beyond that, for usage questions regarding Docker Examples installation or code, or general questions about Sitecore Containers, please utilize [Sitecore Stackexchange](https://sitecore.stackexchange.com/) or [#docker](https://sitecorechat.slack.com/messages/docker) on [Sitecore Community Slack](https://sitecore.chat/).
 
 You can use GitHub to submit [issues](https://github.com/Sitecore/docker-examples/issues/new) for Docker Examples, but please do not submit usage questions.
+
+## Steps to setup on the your local Windows machine:
+
+1. Download and install Docker Desktop for Windows: https://docs.docker.com/desktop/install/windows-install/
+	- See documentation to learn more: https://docs.docker.com/get-started/overview/
+2. Create a folder on your local drive, e.g. 'C:\Sitecore Headless'
+	- Open the folder 'C:\Sitecore Headless' in Windows File Explorer
+		- Open GitBash command prompt and execute the following git command:
+			- git clone https://github.com/Sitecore/docker-examples.git
+	- Open Windows Powershell as Administrator
+		- Execute the following powersell commands:
+			- cd "C:\Sitecore Headless"
+			- Copy-Item "C:\Sitecore Headless\docker-examples\GettingStartedSetup\SetupDependecies" "C:\Sitecore Headless" -Force;
+			- Copy-Item "C:\Sitecore Headless\docker-examples\GettingStartedSetup\SitecoreHeadless_WithContainers.ps1" "C:\Sitecore Headless" -Force;
+			- powershell.exe -executionpolicy bypass -file .\SitecoreHeadless_WithContainers.ps1 true true
+				- Note the first 'true' param in the above command is for a $cleanInstall, i.e. removes the 'MyProject' folder instance created from any previous installation.
+				- Note the second 'true' param the above command is for a $switchRunFolderSource (optional param), i.e. copies the content of the 'C:\Sitecore Headless\docker-examples\GettingStartedSetup\SetupDependecies\run' folder into 
+				the newly created 'MyProject' folder instance created from this installation.
+					- The $switchRunFolderSource param is only if you require custom 'run' folder scripts, 
+					i.e. any script commands changes from 'powershell.exe -Command "& C:\tools\entrypoints\iis\Development.ps1' to 'powershell.exe -Command "& C:/tools/entrypoints/iis/Development.ps1'
+						- Note this is only in instance when you windows instance an issue witht the backslashes in the script command.
