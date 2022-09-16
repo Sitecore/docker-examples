@@ -36,6 +36,7 @@ You can use GitHub to submit [issues](https://github.com/Sitecore/docker-example
 			- cd "C:\Sitecore Headless"
 			- Copy-Item "C:\Sitecore Headless\docker-examples\GettingStartedSetup\SetupDependecies" "C:\Sitecore Headless" -Force;
 			- Copy-Item "C:\Sitecore Headless\docker-examples\GettingStartedSetup\SitecoreHeadless_WithContainers.ps1" "C:\Sitecore Headless" -Force;
+				- Manually copy your company's own license file into the "C:\Sitecore Headless\SetupDependecies" folder.
 			- powershell.exe -executionpolicy bypass -file .\SitecoreHeadless_WithContainers.ps1 true true
 				- Note the first 'true' param in the above command is for a $cleanInstall, i.e. removes the 'MyProject' folder instance created from any previous installation.
 				- Note the second 'true' param the above command is for a $switchRunFolderSource (optional param), i.e. copies the content of the 'C:\Sitecore Headless\docker-examples\GettingStartedSetup\SetupDependecies\run' folder into 
