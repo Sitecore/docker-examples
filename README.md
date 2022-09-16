@@ -43,4 +43,4 @@ You can use GitHub to submit [issues](https://github.com/Sitecore/docker-example
 				the newly created 'MyProject' folder instance created from this installation.
 					- The $switchRunFolderSource param is only if you require custom 'run' folder scripts, 
 					i.e. any script commands changes from 'powershell.exe -Command "& C:\tools\entrypoints\iis\Development.ps1' to 'powershell.exe -Command "& C:/tools/entrypoints/iis/Development.ps1'
-						- Note this is only in instance when you windows instance an issue witht the backslashes in the script command.
+						- Note this is only in instance when you windows instance an issue with the backslashes in the script command.
