@@ -45,7 +45,7 @@ function SitecoreHeadless-Environment-Autotmation {
 	}
 	catch 
 	{
-		Quit ("An Exception error occured in the BachmansStoreFront-Environment-Autotmation method. {0}." -f $Error[0]);
+		Quit ("An Exception error occured in the SitecoreHeadless-Environment-Autotmation method. {0}." -f $Error[0]);
 	}
 }
 
