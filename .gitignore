@@ -30,3 +30,6 @@ _ReSharper*/
 .vs/
 .vscode/
 packages/
+# Device Detection Data files
+docker/devicedetection/*.lock
+docker/devicedetection/*.hash
