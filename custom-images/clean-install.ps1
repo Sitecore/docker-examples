@@ -42,7 +42,7 @@ Write-Host "`n`n6. Build/Compose Docker" -ForegroundColor Cyan
 Pop-Location
 
 
-if (-not$XM1) {
+if ($XM1 -ieq 'XM1') {
     Write-Host "Start Up script for XM1......" -ForegroundColor Cyan
     docker-compose -f docker-compose.xm1.yml -f docker-compose.xm1.override.yml up -d
 }
