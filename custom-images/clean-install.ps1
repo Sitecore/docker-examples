@@ -9,7 +9,7 @@ Write-Host "  2. Docker Prune -Remove all unused containers, networks, images (b
 Write-Host "  3. Stop IIS, Stop/Start Host Network Service (HNS)`n" -ForegroundColor DarkCyan
 Write-Host "  4. Run .\clean.ps1 from Sitecore > Docker`n" -ForegroundColor DarkCyan
 Write-Host "  5. Restore Sitecore CLI Tool`n" -ForegroundColor DarkCyan
-Write-Host "  6. Run .\up.ps1 from Sitecore`n" -ForegroundColor DarkCyan
+Write-Host "  6. Run docker compose up command`n" -ForegroundColor DarkCyan
 
 Write-Host "`n`n1. Stop all containers..." -ForegroundColor Cyan
 docker container stop $(docker container ls -q --filter name=docker-examples*);
@@ -25,6 +25,9 @@ if ($XM1 -ieq 'XM1') {
 }
 elseif ($XM1 -ieq 'XP1') {
     docker rmi $(docker images --format "{{.Repository}}:{{.Tag}}" | findstr "docker-examples-xp1")
+}
+else {
+    docker rmi $(docker images --format "{{.Repository}}:{{.Tag}}" | findstr "docker-examples-xp0")
 } 
 
 Write-Host "`n`n3. Stop IIS, Stop/Start Host Network Service (HNS)" -ForegroundColor Cyan
@@ -46,9 +49,13 @@ if ($XM1 -ieq 'XM1') {
     Write-Host "Start Up script for XM1......" -ForegroundColor Cyan
     docker-compose -f docker-compose.xm1.yml -f docker-compose.xm1.override.yml up -d
 }
-else {
+elseif ($XM1 -ieq 'XP1') {
     Write-Host "Start Up script for XP1......" -ForegroundColor Cyan
     docker-compose -f docker-compose.xp1.yml -f docker-compose.xp1.override.yml up -d
+}
+else {
+    Write-Host "Start Up script for XP0......" -ForegroundColor Cyan
+    docker-compose up -d
 }
 
 Write-Host "***Setup completed successfully***" -ForegroundColor Green
