@@ -17,7 +17,7 @@ Sitecore maintains the Sitecore Containers documentation and Docker Examples, bu
 
 ## How can I get help with Docker Examples?
 
-Start with the [Sitecore Containers documentation](https://containers.doc.sitecore.com/). For technical issues in particular, check out the [Troubleshooting guide](https://containers.doc.sitecore.com/docs/troubleshooting).
+Start with the [Sitecore Containers documentation](https://doc.sitecore.com/xp/en/developers/103/developer-tools/containers-in-sitecore-development.html). For technical issues in particular, check out the [Troubleshooting guide](https://doc.sitecore.com/xp/en/developers/103/developer-tools/troubleshooting-docker.html).
 
 Beyond that, for usage questions regarding Docker Examples installation or code, or general questions about Sitecore Containers, please utilize [Sitecore Stackexchange](https://sitecore.stackexchange.com/) or [#docker](https://sitecorechat.slack.com/messages/docker) on [Sitecore Community Slack](https://sitecore.chat/).
 
