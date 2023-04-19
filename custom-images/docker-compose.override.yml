@@ -67,7 +67,7 @@ services:
       - ${LOCAL_DATA_PATH}\devicedetection:C:\inetpub\wwwroot\App_Data\DeviceDetection
     environment:
       SITECORE_DEVELOPMENT_PATCHES: CustomErrorsOff
-    entrypoint: powershell -Command "& C:\tools\entrypoints\iis\Development.ps1"
+    entrypoint: powershell -Command "& C:\\tools\\entrypoints\\iis\\Development.ps1"
 
   xconnect:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp0-xconnect:${VERSION:-latest}
