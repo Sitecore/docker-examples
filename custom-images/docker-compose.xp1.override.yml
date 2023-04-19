@@ -14,16 +14,14 @@ services:
   traefik:
     volumes:
       - ./docker/traefik:C:/etc/traefik
-    depends_on:
-      hrz:
-        condition: service_healthy
 
   redis:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-redis:${VERSION:-latest}
     build:
       context: ./docker/build/redis
       args:
-        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-redis:${SITECORE_VERSION}
+        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}redis:3.2.100-${EXTERNAL_IMAGE_TAG_SUFFIX}
+
 
   mssql:
     mem_limit: 2GB
@@ -57,9 +55,7 @@ services:
     build:
       context: ./docker/build/id
       args:
-        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-id6:${SITECORE_VERSION}
-    environment:
-      Sitecore_Sitecore__IdentityServer__Clients__DefaultClient__AllowedCorsOrigins__AllowedCorsOriginsGroup2: https://${HRZ_HOST}
+        BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-id7:${SITECORE_VERSION}
 
   cd:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-cd:${VERSION:-latest}
@@ -75,6 +71,7 @@ services:
     volumes:
       - ${LOCAL_DEPLOY_PATH}\website:C:\deploy
       - ${LOCAL_DATA_PATH}\cd:C:\inetpub\wwwroot\App_Data\logs
+      - ${LOCAL_DATA_PATH}\devicedetection:C:\inetpub\wwwroot\App_Data\DeviceDetection
     environment:
       SITECORE_DEVELOPMENT_PATCHES: CustomErrorsOff
     entrypoint: powershell -Command "& C:\\tools\\entrypoints\\iis\\Development.ps1"
@@ -89,7 +86,6 @@ services:
         SXA_IMAGE: ${SITECORE_MODULE_REGISTRY}sitecore-sxa-xp1-assets:${SXA_VERSION}
         TOOLING_IMAGE: ${SITECORE_TOOLS_REGISTRY}sitecore-docker-tools-assets:${TOOLS_VERSION}
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
-        HORIZON_RESOURCES_IMAGE: ${SITECORE_MODULE_REGISTRY}horizon-integration-xp1-assets:${HORIZON_ASSET_VERSION}
     depends_on:
       - solution
     volumes:
@@ -97,8 +93,7 @@ services:
       - ${LOCAL_DATA_PATH}\cm:C:\inetpub\wwwroot\App_Data\logs
     environment:
       SITECORE_DEVELOPMENT_PATCHES: CustomErrorsOff
-      Sitecore_Horizon_ClientHost: https://${HRZ_HOST}
-    entrypoint: powershell -Command "& C:\\tools\\entrypoints\\iis\\Development.ps1"
+    entrypoint: powershell -Command "& C:\tools\entrypoints\iis\Development.ps1"
 
   prc:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-prc:${VERSION:-latest}
@@ -197,37 +192,3 @@ services:
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
     depends_on:
       - solution
-
-  hrz:
-    image: ${SITECORE_MODULE_REGISTRY}sitecore-horizon:${HORIZON_VERSION}
-    isolation: ${ISOLATION}
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/healthz/live"]
-      timeout: 300s
-    environment:
-      Sitecore_License: ${SITECORE_LICENSE}
-      Sitecore_FederatedUI__HostBaseUrl: http://hrz
-      Sitecore_SitecorePlatform__ContentManagementUrl: https://${CM_HOST}
-      Sitecore_SitecorePlatform__ContentManagementInternalUrl: http://cm
-      Sitecore_Sitecore__Authentication__OpenIdConnectOptions__RequireHttpsMetadata: "false"
-      Sitecore_Sitecore__Authentication__OpenIdConnectOptions__Authority: https://${ID_HOST}
-      Sitecore_Sitecore__Authentication__OpenIdConnectOptions__CallbackAuthority: https://${HRZ_HOST}
-      Sitecore_Sitecore__Authentication__OpenIdConnectOptions__InternalAuthority: http://id
-      Sitecore_Sitecore__Authentication__BearerAuthenticationOptions__Authority: https://${ID_HOST}
-      Sitecore_Sitecore__Authentication__BearerAuthenticationOptions__InternalAuthority: http://id
-      Sitecore_Sitecore__Authentication__BearerAuthenticationOptions__RequireHttpsMetadata: "false"
-      Sitecore_Plugins__Filters__ExperienceAccelerator: +SXA
-    depends_on:
-      id:
-        condition: service_started
-      cm:
-        condition: service_started
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.middlewares.force-STS-Header.headers.forceSTSHeader=true"
-      - "traefik.http.middlewares.force-STS-Header.headers.stsSeconds=31536000"
-      - "traefik.http.routers.sh-secure.entrypoints=websecure"
-      - "traefik.http.routers.sh-secure.rule=Host(`${HRZ_HOST}`)"
-      - "traefik.http.routers.sh-secure.tls=true"
-      - "traefik.http.routers.sh-secure.middlewares=force-STS-Header"
-      - "traefik.http.services.sh.loadbalancer.server.port=80"

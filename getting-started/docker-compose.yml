@@ -27,7 +27,7 @@ services:
         condition: service_healthy
   mssql:
     isolation: ${ISOLATION}
-    image: ${SITECORE_DOCKER_REGISTRY}nonproduction/mssql-developer:2017-${SITECORE_VERSION}
+    image: ${SITECORE_DOCKER_REGISTRY}nonproduction/mssql-developer:2017-${EXTERNAL_IMAGE_TAG_SUFFIX}
     environment:
       SA_PASSWORD: ${SQL_SA_PASSWORD}
       ACCEPT_EULA: "Y"
@@ -44,6 +44,8 @@ services:
       SQL_SERVER: ${SQL_SERVER}
       SQL_ADMIN_LOGIN: ${SQL_SA_LOGIN}
       SQL_ADMIN_PASSWORD: ${SQL_SA_PASSWORD}
+      SQL_DATABASE_PREFIX: ${SQL_DATABASE_PREFIX}
+      SQL_CUSTOM_DATABASE_PREFIX_UPDATE_FROM: ${SQL_CUSTOM_DATABASE_PREFIX_UPDATE_FROM}
       SITECORE_ADMIN_PASSWORD: ${SITECORE_ADMIN_PASSWORD}
       POST_DEPLOYMENT_WAIT_PERIOD: 300
     healthcheck:
@@ -61,7 +63,7 @@ services:
         condition: service_healthy
   solr:
     isolation: ${ISOLATION}
-    image: ${SITECORE_DOCKER_REGISTRY}nonproduction/solr:8.8.2-${SITECORE_VERSION}
+    image: ${SITECORE_DOCKER_REGISTRY}nonproduction/solr:8.11.2-${EXTERNAL_IMAGE_TAG_SUFFIX}
     ports:
       - "${SOLR_PORT}:8983"
     volumes:
@@ -90,9 +92,9 @@ services:
         condition: service_healthy
   id:
     isolation: ${ISOLATION}
-    image: ${SITECORE_DOCKER_REGISTRY}sitecore-id6:${SITECORE_VERSION}
+    image: ${SITECORE_DOCKER_REGISTRY}sitecore-id7:${SITECORE_VERSION}
     environment:
-      Sitecore_Sitecore__IdentityServer__SitecoreMemberShipOptions__ConnectionString: Data Source=${SQL_SERVER};Initial Catalog=Sitecore.Core;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
+      Sitecore_Sitecore__IdentityServer__SitecoreMemberShipOptions__ConnectionString: Data Source=${SQL_SERVER};Initial Catalog=${SQL_DATABASE_PREFIX}.Core;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
       Sitecore_Sitecore__IdentityServer__AccountOptions__PasswordRecoveryUrl: https://${CM_HOST}/sitecore/login?rc=1
       Sitecore_Sitecore__IdentityServer__Clients__PasswordClient__ClientSecrets__ClientSecret1: ${SITECORE_IDSECRET}
       Sitecore_Sitecore__IdentityServer__Clients__DefaultClient__AllowedCorsOrigins__AllowedCorsOriginsGroup1: https://${CM_HOST}
@@ -120,17 +122,17 @@ services:
       xconnect:
         condition: service_started
     environment:
-      Sitecore_ConnectionStrings_Core: Data Source=${SQL_SERVER};Initial Catalog=Sitecore.Core;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
-      Sitecore_ConnectionStrings_Security: Data Source=${SQL_SERVER};Initial Catalog=Sitecore.Core;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
-      Sitecore_ConnectionStrings_Master: Data Source=${SQL_SERVER};Initial Catalog=Sitecore.Master;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
-      Sitecore_ConnectionStrings_Web: Data Source=${SQL_SERVER};Initial Catalog=Sitecore.Web;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
-      Sitecore_ConnectionStrings_Messaging: Data Source=${SQL_SERVER};Initial Catalog=Sitecore.Messaging;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
-      Sitecore_ConnectionStrings_Xdb.Processing.Pools: Data Source=${SQL_SERVER};Initial Catalog=Sitecore.Processing.pools;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
-      Sitecore_ConnectionStrings_Xdb.Referencedata: Data Source=${SQL_SERVER};Initial Catalog=Sitecore.Referencedata;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
-      Sitecore_ConnectionStrings_Xdb.Processing.Tasks: Data Source=${SQL_SERVER};Initial Catalog=Sitecore.Processing.tasks;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
-      Sitecore_ConnectionStrings_ExperienceForms: Data Source=${SQL_SERVER};Initial Catalog=Sitecore.ExperienceForms;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
-      Sitecore_ConnectionStrings_Exm.Master: Data Source=${SQL_SERVER};Initial Catalog=Sitecore.Exm.master;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
-      Sitecore_ConnectionStrings_Reporting: Data Source=${SQL_SERVER};Initial Catalog=Sitecore.Reporting;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
+      Sitecore_ConnectionStrings_Core: Data Source=${SQL_SERVER};Initial Catalog=${SQL_DATABASE_PREFIX}.Core;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
+      Sitecore_ConnectionStrings_Security: Data Source=${SQL_SERVER};Initial Catalog=${SQL_DATABASE_PREFIX}.Core;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
+      Sitecore_ConnectionStrings_Master: Data Source=${SQL_SERVER};Initial Catalog=${SQL_DATABASE_PREFIX}.Master;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
+      Sitecore_ConnectionStrings_Web: Data Source=${SQL_SERVER};Initial Catalog=${SQL_DATABASE_PREFIX}.Web;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
+      Sitecore_ConnectionStrings_Messaging: Data Source=${SQL_SERVER};Initial Catalog=${SQL_DATABASE_PREFIX}.Messaging;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
+      Sitecore_ConnectionStrings_Xdb.Processing.Pools: Data Source=${SQL_SERVER};Initial Catalog=${SQL_DATABASE_PREFIX}.Processing.pools;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
+      Sitecore_ConnectionStrings_Xdb.Referencedata: Data Source=${SQL_SERVER};Initial Catalog=${SQL_DATABASE_PREFIX}.Referencedata;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
+      Sitecore_ConnectionStrings_Xdb.Processing.Tasks: Data Source=${SQL_SERVER};Initial Catalog=${SQL_DATABASE_PREFIX}.Processing.tasks;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
+      Sitecore_ConnectionStrings_ExperienceForms: Data Source=${SQL_SERVER};Initial Catalog=${SQL_DATABASE_PREFIX}.ExperienceForms;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
+      Sitecore_ConnectionStrings_Exm.Master: Data Source=${SQL_SERVER};Initial Catalog=${SQL_DATABASE_PREFIX}.Exm.master;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
+      Sitecore_ConnectionStrings_Reporting: Data Source=${SQL_SERVER};Initial Catalog=${SQL_DATABASE_PREFIX}.Reporting;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
       Sitecore_ConnectionStrings_Sitecore.Reporting.Client: http://xconnect
       Sitecore_ConnectionStrings_Cortex.Processing.Engine: http://xconnect
       Sitecore_ConnectionStrings_Solr.Search: http://solr:8983/solr;solrCloud=true
@@ -140,6 +142,9 @@ services:
       Sitecore_ConnectionStrings_Xdb.MarketingAutomation.Reporting.Client: http://xconnect
       Sitecore_ConnectionStrings_Xdb.ReferenceData.Client: http://xconnect
       Sitecore_License: ${SITECORE_LICENSE}
+      Sitecore_GraphQL_Enabled: ${SITECORE_GRAPHQL_ENABLED}
+      Sitecore_GraphQL_ExposePlayground: ${SITECORE_GRAPHQL_EXPOSEPLAYGROUND}
+      Sitecore_GraphQL_UploadMediaOptions_EncryptionKey: ${SITECORE_GRAPHQL_UPLOADMEDIAOPTIONS_ENCRYPTIONKEY}
       Sitecore_Identity_Server_Authority: https://${ID_HOST}
       Sitecore_Identity_Server_InternalAuthority: http://id
       Sitecore_Identity_Server_CallbackAuthority: https://${CM_HOST}
@@ -147,6 +152,7 @@ services:
       Sitecore_Analytics_Forwarded_Request_Http_Header: X-Forwarded-For
       SOLR_CORE_PREFIX_NAME: ${SOLR_CORE_PREFIX_NAME}
       MEDIA_REQUEST_PROTECTION_SHARED_SECRET: ${MEDIA_REQUEST_PROTECTION_SHARED_SECRET}
+      LOG_LEVEL_VALUE: ${LOG_LEVEL_VALUE}
     healthcheck:
       test: ["CMD", "powershell", "-command", "C:/Healthchecks/Healthcheck.ps1"]
       timeout: 300s
@@ -158,6 +164,10 @@ services:
       - "traefik.http.routers.cm-secure.rule=Host(`${CM_HOST}`)"
       - "traefik.http.routers.cm-secure.tls=true"
       - "traefik.http.routers.cm-secure.middlewares=force-STS-Header"
+    volumes:
+      - type: bind
+        source: .\device-detection-data
+        target: C:\inetpub\wwwroot\App_Data\DeviceDetection
   xconnect:
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp0-xconnect:${SITECORE_VERSION}
@@ -170,14 +180,14 @@ services:
         condition: service_started
     environment:
       Sitecore_License: ${SITECORE_LICENSE}
-      Sitecore_ConnectionStrings_Messaging: Data Source=${SQL_SERVER};Initial Catalog=Sitecore.Messaging;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
-      Sitecore_ConnectionStrings_Processing.Engine.Storage: Data Source=${SQL_SERVER};Initial Catalog=Sitecore.Processing.Engine.Storage;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
-      Sitecore_ConnectionStrings_Processing.Engine.Tasks: Data Source=${SQL_SERVER};Initial Catalog=Sitecore.Processing.Engine.Tasks;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
-      Sitecore_ConnectionStrings_Reporting: Data Source=${SQL_SERVER};Initial Catalog=Sitecore.Reporting;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
-      Sitecore_ConnectionStrings_Xdb.Marketingautomation: Data Source=${SQL_SERVER};Initial Catalog=Sitecore.Marketingautomation;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
-      Sitecore_ConnectionStrings_Xdb.Processing.Pools: Data Source=${SQL_SERVER};Initial Catalog=Sitecore.Processing.pools;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
-      Sitecore_ConnectionStrings_Xdb.Referencedata: Data Source=${SQL_SERVER};Initial Catalog=Sitecore.Referencedata;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
-      Sitecore_ConnectionStrings_Collection: Data Source=${SQL_SERVER};Initial Catalog=Sitecore.Xdb.Collection.ShardMapManager;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
+      Sitecore_ConnectionStrings_Messaging: Data Source=${SQL_SERVER};Initial Catalog=${SQL_DATABASE_PREFIX}.Messaging;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
+      Sitecore_ConnectionStrings_Processing.Engine.Storage: Data Source=${SQL_SERVER};Initial Catalog=${SQL_DATABASE_PREFIX}.Processing.Engine.Storage;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
+      Sitecore_ConnectionStrings_Processing.Engine.Tasks: Data Source=${SQL_SERVER};Initial Catalog=${SQL_DATABASE_PREFIX}.Processing.Engine.Tasks;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
+      Sitecore_ConnectionStrings_Reporting: Data Source=${SQL_SERVER};Initial Catalog=${SQL_DATABASE_PREFIX}.Reporting;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
+      Sitecore_ConnectionStrings_Xdb.Marketingautomation: Data Source=${SQL_SERVER};Initial Catalog=${SQL_DATABASE_PREFIX}.Marketingautomation;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
+      Sitecore_ConnectionStrings_Xdb.Processing.Pools: Data Source=${SQL_SERVER};Initial Catalog=${SQL_DATABASE_PREFIX}.Processing.pools;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
+      Sitecore_ConnectionStrings_Xdb.Referencedata: Data Source=${SQL_SERVER};Initial Catalog=${SQL_DATABASE_PREFIX}.Referencedata;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
+      Sitecore_ConnectionStrings_Collection: Data Source=${SQL_SERVER};Initial Catalog=${SQL_DATABASE_PREFIX}.Xdb.Collection.ShardMapManager;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
       Sitecore_ConnectionStrings_SolrCore: http://solr:8983/solr/${SOLR_CORE_PREFIX_NAME}_xdb;solrCloud=true
       Sitecore_Sitecore:XConnect:CollectionSearch:Services:Solr.SolrReaderSettings:Options:RequireHttps: "false"
       Sitecore_Sitecore:XConnect:CollectionSearch:Services:XConnectSolrHealthCheckServicesConfiguration:Options:RequireHttps: "false"
@@ -194,7 +204,7 @@ services:
         condition: service_healthy
     restart: unless-stopped
     environment:
-      Sitecore_ConnectionStrings_Collection: Data Source=${SQL_SERVER};Initial Catalog=Sitecore.Xdb.Collection.ShardMapManager;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
+      Sitecore_ConnectionStrings_Collection: Data Source=${SQL_SERVER};Initial Catalog=${SQL_DATABASE_PREFIX}.Xdb.Collection.ShardMapManager;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
       Sitecore_ConnectionStrings_SolrCore: http://solr:8983/solr/${SOLR_CORE_PREFIX_NAME}_xdb;solrCloud=true
       Sitecore_License: ${SITECORE_LICENSE}
       Sitecore_Sitecore:XConnect:SearchIndexer:Services:Solr.SolrReaderSettings:Options:RequireHttps: "false"
@@ -218,9 +228,9 @@ services:
     restart: unless-stopped
     environment:
       Sitecore_ConnectionStrings_XConnect.Collection: http://xconnect
-      Sitecore_ConnectionStrings_Xdb.Marketingautomation: Data Source=${SQL_SERVER};Initial Catalog=Sitecore.Marketingautomation;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
-      Sitecore_ConnectionStrings_Xdb.Referencedata: Data Source=${SQL_SERVER};Initial Catalog=Sitecore.Referencedata;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
-      Sitecore_ConnectionStrings_Messaging: Data Source=${SQL_SERVER};Initial Catalog=Sitecore.Messaging;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
+      Sitecore_ConnectionStrings_Xdb.Marketingautomation: Data Source=${SQL_SERVER};Initial Catalog=${SQL_DATABASE_PREFIX}.Marketingautomation;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
+      Sitecore_ConnectionStrings_Xdb.Referencedata: Data Source=${SQL_SERVER};Initial Catalog=${SQL_DATABASE_PREFIX}.Referencedata;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
+      Sitecore_ConnectionStrings_Messaging: Data Source=${SQL_SERVER};Initial Catalog=${SQL_DATABASE_PREFIX}.Messaging;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
       Sitecore_License: ${SITECORE_LICENSE}
     healthcheck:
       test:
@@ -239,12 +249,12 @@ services:
         condition: service_healthy
     restart: unless-stopped
     environment:
-      Sitecore_ConnectionStrings_Processing.Engine.Storage: Data Source=${SQL_SERVER};Initial Catalog=Sitecore.Processing.Engine.Storage;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
-      Sitecore_ConnectionStrings_Processing.Engine.Tasks: Data Source=${SQL_SERVER};Initial Catalog=Sitecore.Processing.Engine.Tasks;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
+      Sitecore_ConnectionStrings_Processing.Engine.Storage: Data Source=${SQL_SERVER};Initial Catalog=${SQL_DATABASE_PREFIX}.Processing.Engine.Storage;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
+      Sitecore_ConnectionStrings_Processing.Engine.Tasks: Data Source=${SQL_SERVER};Initial Catalog=${SQL_DATABASE_PREFIX}.Processing.Engine.Tasks;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
       Sitecore_ConnectionStrings_XConnect.Collection: http://xconnect
       Sitecore_ConnectionStrings_XConnect.Configuration: http://xconnect
       Sitecore_ConnectionStrings_XConnect.Search: http://xconnect
-      Sitecore_ConnectionStrings_Reporting: Data Source=${SQL_SERVER};Initial Catalog=Sitecore.Reporting;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
+      Sitecore_ConnectionStrings_Reporting: Data Source=${SQL_SERVER};Initial Catalog=${SQL_DATABASE_PREFIX}.Reporting;User ID=${SQL_SA_LOGIN};Password=${SQL_SA_PASSWORD}
       Sitecore_License: ${SITECORE_LICENSE}
     healthcheck:
       test:
