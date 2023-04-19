@@ -1,7 +1,6 @@
 version: "2.4"
 
 services:
-
   solution:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
     build:
@@ -35,7 +34,7 @@ services:
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xm1-mssql-init:${SITECORE_VERSION}
         SPE_IMAGE: ${SITECORE_MODULE_REGISTRY}sitecore-spe-assets:${SPE_VERSION}
-  
+
   # Mount our Solr data folder
   solr:
     volumes:
@@ -74,7 +73,7 @@ services:
       - ${LOCAL_DATA_PATH}\devicedetection:C:\inetpub\wwwroot\App_Data\DeviceDetection
     environment:
       SITECORE_DEVELOPMENT_PATCHES: CustomErrorsOff
-    entrypoint: powershell -Command "& C:\tools\entrypoints\iis\Development.ps1"
+    entrypoint: powershell -Command "& C:\\tools\\entrypoints\\iis\\Development.ps1"
 
   cm:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xm1-cm:${VERSION:-latest}
