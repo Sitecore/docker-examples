@@ -15,7 +15,7 @@ services:
     volumes:
       - ./docker/traefik:C:/etc/traefik
 
-  redis:
+redis:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-redis:${VERSION:-latest}
     build:
       context: ./docker/build/redis
