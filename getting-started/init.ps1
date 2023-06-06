@@ -57,10 +57,10 @@ Set-EnvFileVariable "SITECORE_ADMIN_PASSWORD" -Value $SitecoreAdminPassword
 Set-EnvFileVariable "SQL_SA_PASSWORD" -Value $SqlSaPassword
 
 # TELERIK_ENCRYPTION_KEY = random 64-128 chars
-Set-EnvFileVariable "TELERIK_ENCRYPTION_KEY" -Value (Get-SitecoreRandomString 128)
+Set-EnvFileVariable "TELERIK_ENCRYPTION_KEY" -Value "'(Get-SitecoreRandomString 128)'"
 
 # MEDIA_REQUEST_PROTECTION_SHARED_SECRET
-Set-EnvFileVariable "MEDIA_REQUEST_PROTECTION_SHARED_SECRET" -Value (Get-SitecoreRandomString 64)
+Set-EnvFileVariable "MEDIA_REQUEST_PROTECTION_SHARED_SECRET" -Value "'(Get-SitecoreRandomString 64)'"
 
 # SITECORE_IDSECRET = random 64 chars
 Set-EnvFileVariable "SITECORE_IDSECRET" -Value (Get-SitecoreRandomString 64 -DisallowSpecial)
