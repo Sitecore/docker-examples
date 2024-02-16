@@ -28,6 +28,10 @@ if (-not (Test-Path $LicenseXmlPath -PathType Leaf)) {
     throw "$LicenseXmlPath is not a file"
 }
 
+    # We actually want the folder that it's in for mounting
+    $LicenseXmlFolderPath = (Get-Item $LicenseXmlPath).Directory.FullName
+
+
 # Check for Sitecore Gallery
 Import-Module PowerShellGet
 $SitecoreGallery = Get-PSRepository | Where-Object { $_.SourceLocation -eq "https://nuget.sitecore.com/resources/v2/" }
@@ -53,6 +57,9 @@ Write-SitecoreDockerWelcome
 
 Write-Host "Populating required .env file variables..." -ForegroundColor Green
 
+# HOST_LICENSE_FOLDER
+Set-EnvFileVariable "HOST_LICENSE_FOLDER" -Value $LicenseXmlFolderPath
+
 # SITECORE_ADMIN_PASSWORD
 Set-EnvFileVariable "SITECORE_ADMIN_PASSWORD" -Value $SitecoreAdminPassword
 
@@ -67,9 +74,6 @@ Set-EnvFileVariable "CM_HOST" -Value "cm.$($HostName).localhost"
 
 # ID_HOST
 Set-EnvFileVariable "ID_HOST" -Value "id.$($HostName).localhost"
-
-# HRZ_HOST
-Set-EnvFileVariable "HRZ_HOST" -Value "hrz.$($HostName).localhost"
 
 # REPORTING_API_KEY = random 64-128 chars
 Set-EnvFileVariable "REPORTING_API_KEY" -Value (Get-SitecoreRandomString 64 -DisallowSpecial)
@@ -91,8 +95,8 @@ Set-EnvFileVariable "SITECORE_ID_CERTIFICATE" -Value (Get-SitecoreCertificateAsB
 Set-EnvFileVariable "SITECORE_ID_CERTIFICATE_PASSWORD" -Value $idCertPassword
 
 # SITECORE_LICENSE
-Set-EnvFileVariable "SITECORE_LICENSE" -Value (ConvertTo-CompressedBase64String -Path $LicenseXmlPath)
-
+#Set-EnvFileVariable "SITECORE_LICENSE" -Value (ConvertTo-CompressedBase64String -Path $LicenseXmlPath)
+Write-Host 
 ##################################
 # Configure TLS/HTTPS certificates
 ##################################

@@ -15,13 +15,12 @@ services:
     volumes:
       - ./docker/traefik:C:/etc/traefik
 
-redis:
+  redis:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-redis:${VERSION:-latest}
     build:
       context: ./docker/build/redis
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}redis:3.2.100-${EXTERNAL_IMAGE_TAG_SUFFIX}
-
 
   mssql:
     mem_limit: 2GB
@@ -56,6 +55,10 @@ redis:
       context: ./docker/build/id
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-id7:${SITECORE_VERSION}
+    volumes:
+      - ${HOST_LICENSE_FOLDER}:c:\license
+    environment:
+      SITECORE_LICENSE_LOCATION: c:\license\license.xml
 
   cd:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-cd:${VERSION:-latest}
@@ -72,8 +75,10 @@ redis:
       - ${LOCAL_DEPLOY_PATH}\website:C:\deploy
       - ${LOCAL_DATA_PATH}\cd:C:\inetpub\wwwroot\App_Data\logs
       - ${LOCAL_DATA_PATH}\devicedetection:C:\inetpub\wwwroot\App_Data\DeviceDetection
+      - ${HOST_LICENSE_FOLDER}:c:\license
     environment:
       SITECORE_DEVELOPMENT_PATCHES: CustomErrorsOff
+      SITECORE_LICENSE_LOCATION: c:\license\license.xml
     entrypoint: powershell -Command "& C:\\tools\\entrypoints\\iis\\Development.ps1"
 
   cm:
@@ -91,8 +96,10 @@ redis:
     volumes:
       - ${LOCAL_DEPLOY_PATH}\website:C:\deploy
       - ${LOCAL_DATA_PATH}\cm:C:\inetpub\wwwroot\App_Data\logs
+      - ${HOST_LICENSE_FOLDER}:c:\license
     environment:
       SITECORE_DEVELOPMENT_PATCHES: CustomErrorsOff
+      SITECORE_LICENSE_LOCATION: c:\license\license.xml
     entrypoint: powershell -Command "& C:\\tools\\entrypoints\\iis\\Development.ps1"
 
   prc:
@@ -102,6 +109,10 @@ redis:
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-prc:${SITECORE_VERSION}
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
+    volumes:
+      - ${HOST_LICENSE_FOLDER}:c:\license
+    environment:
+      SITECORE_LICENSE_LOCATION: c:\license\license.xml      
     depends_on:
       - solution
 
@@ -112,6 +123,10 @@ redis:
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-xdbcollection:${SITECORE_VERSION}
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
+    volumes:
+      - ${HOST_LICENSE_FOLDER}:c:\license
+    environment:
+      SITECORE_LICENSE_LOCATION: c:\license\
     depends_on:
       - solution
 
@@ -122,6 +137,10 @@ redis:
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-xdbsearch:${SITECORE_VERSION}
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
+    volumes:
+      - ${HOST_LICENSE_FOLDER}:c:\license
+    environment:
+      SITECORE_LICENSE_LOCATION: c:\license\
     depends_on:
       - solution
 
@@ -132,6 +151,10 @@ redis:
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-xdbautomation:${SITECORE_VERSION}
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
+    volumes:
+      - ${HOST_LICENSE_FOLDER}:c:\license
+    environment:
+      SITECORE_LICENSE_LOCATION: c:\license\
     depends_on:
       - solution
 
@@ -141,6 +164,10 @@ redis:
       context: ./docker/build/xdbautomationrpt
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-xdbautomationrpt:${SITECORE_VERSION}
+    volumes:
+      - ${HOST_LICENSE_FOLDER}:c:\license
+    environment:
+      SITECORE_LICENSE_LOCATION: c:\license\
 
   cortexprocessing:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-cortexprocessing:${VERSION:-latest}
@@ -148,6 +175,10 @@ redis:
       context: ./docker/build/cortexprocessing
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-cortexprocessing:${SITECORE_VERSION}
+    volumes:
+      - ${HOST_LICENSE_FOLDER}:c:\license
+    environment:
+      SITECORE_LICENSE_LOCATION: c:\license\
 
   cortexreporting:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-cortexreporting:${VERSION:-latest}
@@ -155,6 +186,10 @@ redis:
       context: ./docker/build/cortexreporting
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-cortexreporting:${SITECORE_VERSION}
+    volumes:
+      - ${HOST_LICENSE_FOLDER}:c:\license
+    environment:
+      SITECORE_LICENSE_LOCATION: c:\license\
 
   xdbrefdata:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-xdbrefdata:${VERSION:-latest}
@@ -162,6 +197,10 @@ redis:
       context: ./docker/build/xdbrefdata
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-xdbrefdata:${SITECORE_VERSION}
+    volumes:
+      - ${HOST_LICENSE_FOLDER}:c:\license
+    environment:
+      SITECORE_LICENSE_LOCATION: c:\license\
 
   xdbsearchworker:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp1-xdbsearchworker:${VERSION:-latest}
@@ -170,6 +209,10 @@ redis:
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-xdbsearchworker:${SITECORE_VERSION}
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
+    volumes:
+      - ${HOST_LICENSE_FOLDER}:c:\license
+    environment:
+      SITECORE_LICENSE_LOCATION: c:\license\
     depends_on:
       - solution
 
@@ -180,6 +223,10 @@ redis:
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-xdbautomationworker:${SITECORE_VERSION}
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
+    volumes:
+      - ${HOST_LICENSE_FOLDER}:c:\license
+    environment:
+      SITECORE_LICENSE_LOCATION: c:\license\
     depends_on:
       - solution
 
@@ -190,5 +237,9 @@ redis:
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp1-cortexprocessingworker:${SITECORE_VERSION}
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
+    volumes:
+      - ${HOST_LICENSE_FOLDER}:c:\license
+    environment:
+      SITECORE_LICENSE_LOCATION: c:\license\
     depends_on:
       - solution

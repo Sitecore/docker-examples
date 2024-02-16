@@ -55,7 +55,11 @@ services:
       context: ./docker/build/id
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-id7:${SITECORE_VERSION}
-        
+    volumes:
+      - ${HOST_LICENSE_FOLDER}:c:\license
+    environment:
+      SITECORE_LICENSE_LOCATION: c:\license\license.xml
+
   cd:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xm1-cd:${VERSION:-latest}
     build:
@@ -71,8 +75,10 @@ services:
       - ${LOCAL_DEPLOY_PATH}\website:C:\deploy
       - ${LOCAL_DATA_PATH}\cd:C:\inetpub\wwwroot\App_Data\logs
       - ${LOCAL_DATA_PATH}\devicedetection:C:\inetpub\wwwroot\App_Data\DeviceDetection
+      - ${HOST_LICENSE_FOLDER}:c:\license      
     environment:
       SITECORE_DEVELOPMENT_PATCHES: CustomErrorsOff
+      SITECORE_LICENSE_LOCATION: c:\license\license.xml      
     entrypoint: powershell -Command "& C:\\tools\\entrypoints\\iis\\Development.ps1"
 
   cm:
@@ -90,6 +96,8 @@ services:
     volumes:
       - ${LOCAL_DEPLOY_PATH}\website:C:\deploy
       - ${LOCAL_DATA_PATH}\cm:C:\inetpub\wwwroot\App_Data\logs
+      - ${HOST_LICENSE_FOLDER}:c:\license
     environment:
       SITECORE_DEVELOPMENT_PATCHES: CustomErrorsOff
+      SITECORE_LICENSE_LOCATION: c:\license\license.xml      
     entrypoint: powershell -Command "& C:\\tools\\entrypoints\\iis\\Development.ps1"
