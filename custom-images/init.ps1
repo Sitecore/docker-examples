@@ -94,7 +94,6 @@ Set-EnvFileVariable "SITECORE_ID_CERTIFICATE" -Value (Get-SitecoreCertificateAsB
 # SITECORE_ID_CERTIFICATE_PASSWORD
 Set-EnvFileVariable "SITECORE_ID_CERTIFICATE_PASSWORD" -Value $idCertPassword
 
-Write-Host 
 ##################################
 # Configure TLS/HTTPS certificates
 ##################################
