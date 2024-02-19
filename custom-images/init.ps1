@@ -135,6 +135,5 @@ Write-Host "Adding Windows hosts file entries..." -ForegroundColor Green
 Add-HostsEntry "cd.$($HostName).localhost"
 Add-HostsEntry "cm.$($HostName).localhost"
 Add-HostsEntry "id.$($HostName).localhost"
-Add-HostsEntry "hrz.$($HostName).localhost"
 
 Write-Host "Done!" -ForegroundColor Green
