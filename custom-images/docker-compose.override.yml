@@ -48,7 +48,11 @@ services:
       context: ./docker/build/id
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-id7:${SITECORE_VERSION}
-        
+    volumes:
+      - ${HOST_LICENSE_FOLDER}:c:\license
+    environment:
+      SITECORE_LICENSE_LOCATION: c:\license\license.xml
+
   cm:
     image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp0-cm:${VERSION:-latest}
     build:
@@ -65,8 +69,10 @@ services:
       - ${LOCAL_DEPLOY_PATH}\website:C:\deploy
       - ${LOCAL_DATA_PATH}\cm:C:\inetpub\wwwroot\App_Data\logs
       - ${LOCAL_DATA_PATH}\devicedetection:C:\inetpub\wwwroot\App_Data\DeviceDetection
+      - ${HOST_LICENSE_FOLDER}:c:\license      
     environment:
       SITECORE_DEVELOPMENT_PATCHES: CustomErrorsOff
+      SITECORE_LICENSE_LOCATION: c:\license\license.xml      
     entrypoint: powershell -Command "& C:\\tools\\entrypoints\\iis\\Development.ps1"
 
   xconnect:
@@ -81,6 +87,9 @@ services:
       - solution
     volumes:
       - ${LOCAL_DEPLOY_PATH}\xconnect:C:\deploy
+      - ${HOST_LICENSE_FOLDER}:c:\license
+    environment:
+      SITECORE_LICENSE_LOCATION: c:\license\            
     entrypoint: powershell -Command "& C:\\tools\\entrypoints\\iis\\Development.ps1"
 
   xdbsearchworker:
@@ -90,6 +99,10 @@ services:
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp0-xdbsearchworker:${SITECORE_VERSION}
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
+    volumes:
+      - ${HOST_LICENSE_FOLDER}:c:\license
+    environment:
+      SITECORE_LICENSE_LOCATION: c:\license\        
     depends_on:
       - solution
 
@@ -100,6 +113,10 @@ services:
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp0-xdbautomationworker:${SITECORE_VERSION}
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
+    volumes:
+      - ${HOST_LICENSE_FOLDER}:c:\license
+    environment:
+      SITECORE_LICENSE_LOCATION: c:\license\        
     depends_on:
       - solution
 
@@ -110,5 +127,9 @@ services:
       args:
         BASE_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp0-cortexprocessingworker:${SITECORE_VERSION}
         SOLUTION_IMAGE: ${REGISTRY}${COMPOSE_PROJECT_NAME}-solution:${VERSION:-latest}
+    volumes:
+      - ${HOST_LICENSE_FOLDER}:c:\license
+    environment:
+      SITECORE_LICENSE_LOCATION: c:\license\        
     depends_on:
       - solution
