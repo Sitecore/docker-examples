@@ -28,8 +28,8 @@ if (-not (Test-Path $LicenseXmlPath -PathType Leaf)) {
     throw "$LicenseXmlPath is not a file"
 }
 
-    # We actually want the folder that it's in for mounting
-    $LicenseXmlFolderPath = (Get-Item $LicenseXmlPath).Directory.FullName
+# We actually want the folder that it's in for mounting
+$LicenseXmlFolderPath = (Get-Item $LicenseXmlPath).Directory.FullName
 
 
 # Check for Sitecore Gallery
@@ -94,8 +94,6 @@ Set-EnvFileVariable "SITECORE_ID_CERTIFICATE" -Value (Get-SitecoreCertificateAsB
 # SITECORE_ID_CERTIFICATE_PASSWORD
 Set-EnvFileVariable "SITECORE_ID_CERTIFICATE_PASSWORD" -Value $idCertPassword
 
-# SITECORE_LICENSE
-#Set-EnvFileVariable "SITECORE_LICENSE" -Value (ConvertTo-CompressedBase64String -Path $LicenseXmlPath)
 Write-Host 
 ##################################
 # Configure TLS/HTTPS certificates
