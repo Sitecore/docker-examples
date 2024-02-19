@@ -32,7 +32,7 @@ services:
     image: ${SITECORE_DOCKER_REGISTRY}redis:3.2.100-${EXTERNAL_IMAGE_TAG_SUFFIX}
   mssql:
     isolation: ${ISOLATION}
-    image: ${SITECORE_DOCKER_REGISTRY}nonproduction/mssql-developer:2017-${EXTERNAL_IMAGE_TAG_SUFFIX}
+    image: ${SITECORE_DOCKER_REGISTRY}nonproduction/mssql-developer:2022-${EXTERNAL_IMAGE_TAG_SUFFIX}
     environment:
       SA_PASSWORD: ${SQL_SA_PASSWORD}
       ACCEPT_EULA: "Y"
