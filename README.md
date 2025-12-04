@@ -7,6 +7,7 @@ Briefly, here's what you'll find in this repo:
 * Example for running an out of the box Sitecore instance (see `getting-started`).
 * Example solution for creating custom Sitecore images, with recommended folder structure for container development (see `custom-images`).
 * Sample PowerShell scripts for container-based Sitecore instance preparation (`init.ps1`) and cleanup (`clean.ps1`).
+* Docker compose file for running side-by-site XP0 instances with different versions of Sitecore (see `sitecore-compare`).
 * Docker compose files for building Sitecore instances in various topologies (see `custom-images`).
 
 Please refer to the [Sitecore Containers documentation](https://doc.sitecore.com/xp/en/developers/latest/developer-tools/containers-in-sitecore-development.html) for complete details, including running the examples and recommended usage.

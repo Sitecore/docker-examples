@@ -1,0 +1,10 @@
+tls:
+  certificates:
+    - certFile: C:\etc\traefik\certs\##CM_HOST_1##.crt
+      keyFile: C:\etc\traefik\certs\##CM_HOST_1##.key
+    - certFile: C:\etc\traefik\certs\##ID_HOST_1##.crt
+      keyFile: C:\etc\traefik\certs\##ID_HOST_1##.key
+    - certFile: C:\etc\traefik\certs\##CM_HOST_2##.crt
+      keyFile: C:\etc\traefik\certs\##CM_HOST_2##.key
+    - certFile: C:\etc\traefik\certs\##ID_HOST_2##.crt
+      keyFile: C:\etc\traefik\certs\##ID_HOST_2##.key

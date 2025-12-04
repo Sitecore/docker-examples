@@ -1,0 +1,13 @@
+/mssql-data/*
+!/mssql-data/.gitkeep
+/solr-data/*
+!/solr-data/.gitkeep
+
+/traefik/certs/*
+!/traefik/certs/.gitkeep
+
+/device-detection-data_1/*
+!/device-detection-data_1/.gitkeep
+
+/device-detection-data_2/*
+!/device-detection-data_2/.gitkeep
