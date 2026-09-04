@@ -27,7 +27,7 @@ services:
         condition: service_healthy
   mssql:
     isolation: ${ISOLATION}
-    image: ${SITECORE_DOCKER_REGISTRY}nonproduction/mssql-developer:2022-${EXTERNAL_IMAGE_TAG_SUFFIX}
+    image: ${SITECORE_DOCKER_REGISTRY}nonproduction/mssql-developer:2025-${EXTERNAL_IMAGE_TAG_SUFFIX}
     environment:
       SA_PASSWORD: ${SQL_SA_PASSWORD}
       ACCEPT_EULA: "Y"
@@ -63,7 +63,7 @@ services:
         condition: service_healthy
   solr:
     isolation: ${ISOLATION}
-    image: ${SITECORE_DOCKER_REGISTRY}nonproduction/solr:8.11.2-${EXTERNAL_IMAGE_TAG_SUFFIX}
+    image: ${SITECORE_DOCKER_REGISTRY}nonproduction/solr:10.0.0-${EXTERNAL_IMAGE_TAG_SUFFIX}
     ports:
       - "${SOLR_PORT}:8983"
     volumes:
@@ -85,7 +85,9 @@ services:
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}sitecore-xp0-solr-init:${SITECORE_VERSION}
     environment:
-      SITECORE_SOLR_CONNECTION_STRING: http://solr:8983/solr
+      SITECORE_SOLR_CONNECTION_STRING: http://${SOLR_ADMIN_USERNAME}:${SOLR_ADMIN_PASSWORD}@solr:8983/solr
+      SOLR_CONNECTION_USERNAME: ${SOLR_CONNECTION_USERNAME}
+      SOLR_CONNECTION_PASSWORD: ${SOLR_CONNECTION_PASSWORD}
       SOLR_CORE_PREFIX_NAME: ${SOLR_CORE_PREFIX_NAME}
     depends_on:
       solr:
