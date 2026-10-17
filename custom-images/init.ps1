@@ -16,12 +16,12 @@ Param (
     # We do not need to use [SecureString] here since the value will be stored unencrypted in .env,
     # and used only for transient local example environment.
     [string]
-    $SqlSaPassword = "Password12345"
+    $SqlSaPassword = "Password12345",
 
     # We do not need to use [SecureString] here since the value will be stored unencrypted in .env,
     # and used only for transient local example environment.
     [string]
-    $SolrAdminPassword = "Password12345"
+    $SolrAdminPassword = "Password12345",
 
     # We do not need to use [SecureString] here since the value will be stored unencrypted in .env,
     # and used only for transient local example environment.

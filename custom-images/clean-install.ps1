@@ -35,29 +35,21 @@ iisreset /stop; net stop hns; net start hns
 Write-Host "`n`n4. Clean all previous build artifacts" -ForegroundColor Cyan
 Push-Location docker
 .\clean.ps1
-
-Write-Host "`n`n5. Build/Compose Docker" -ForegroundColor Cyan
 Pop-Location
 
-# Build all containers in the Sitecore instance
-Write-Host "Building containers..." -ForegroundColor Green
-docker compose build
-if ($LASTEXITCODE -ne 0) {
-    Write-Error "Container build failed, see errors above."
-}
-
+Write-Host "`n`n5. Build/Compose Docker" -ForegroundColor Cyan
 
 if ($XM1 -ieq 'XM1') {
     Write-Host "Start Up script for XM1......" -ForegroundColor Cyan
-    docker-compose -f docker-compose.xm1.yml -f docker-compose.xm1.override.yml up -d
+    docker-compose -f docker-compose.xm1.yml -f docker-compose.xm1.override.yml up -d --build
 }
 elseif ($XM1 -ieq 'XP1') {
     Write-Host "Start Up script for XP1......" -ForegroundColor Cyan
-    docker-compose -f docker-compose.xp1.yml -f docker-compose.xp1.override.yml up -d
+    docker-compose -f docker-compose.xp1.yml -f docker-compose.xp1.override.yml up -d --build
 }
 else {
     Write-Host "Start Up script for XP0......" -ForegroundColor Cyan
-    docker-compose up -d
+    docker-compose up -d --build
 }
 
 # Wait for Traefik to expose CM route
