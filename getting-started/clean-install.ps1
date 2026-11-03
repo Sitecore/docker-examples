@@ -1,4 +1,3 @@
-,
 $Topology="XP0"
 Write-Host $Topology
 Write-Host "The purpose of this script to start setup from scratch`n" -ForegroundColor Magenta
@@ -6,8 +5,7 @@ Write-Host "  1. Stop all containers`n" -ForegroundColor DarkCyan
 Write-Host "  2. Docker Prune -Remove all unused containers, networks, images (both dangling and unreferenced), and optionally, volumes`n" -ForegroundColor DarkCyan
 Write-Host "  3. Stop IIS, Stop/Start Host Network Service (HNS)`n" -ForegroundColor DarkCyan
 Write-Host "  4. Run .\clean.ps1 from Sitecore > Docker`n" -ForegroundColor DarkCyan
-Write-Host "  5. Restore Sitecore CLI Tool`n" -ForegroundColor DarkCyan
-Write-Host "  6. Run .\up.ps1 from Sitecore`n" -ForegroundColor DarkCyan
+Write-Host "  5. Run docker compose up command`n" -ForegroundColor DarkCyan
 
 Write-Host "`n`n1. Stop all containers..." -ForegroundColor Cyan
 
@@ -54,8 +52,5 @@ if (-not $status.status -eq "enabled") {
     $status
     Write-Error "Timeout waiting for Sitecore CM to become available via Traefik proxy. Check CM container logs."
 }
-
-# Execute the Sitecore Identity Server 8 upgrade script
-.\execute-mssql-script.ps1 -filePath ".env"
 
 Write-Host "***Setup completed successfully***" -ForegroundColor Green
